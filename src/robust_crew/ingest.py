@@ -87,9 +87,18 @@ def download_bts_month(year: int, month: int, dest_dir: Path = config.BTS_RAW_DI
         return out
     url = config.BTS_URL.format(year=year, month=month)
     tmp = out.with_suffix(".part")
-    head = requests.head(url, timeout=60, headers={"User-Agent": config.USER_AGENT})
-    head.raise_for_status()
-    total = int(head.headers.get("Content-Length", 0))
+    total = 0
+    for attempt in range(1, 11):  # survive DNS/network blips, not just dropped streams
+        try:
+            head = requests.head(url, timeout=60, headers={"User-Agent": config.USER_AGENT})
+            head.raise_for_status()
+            total = int(head.headers.get("Content-Length", 0))
+            break
+        except requests.RequestException as exc:
+            if attempt == 10:
+                raise
+            log.warning("HEAD %s failed (%s); retry %d", url, exc, attempt)
+            time.sleep(min(120, 10 * attempt))
     # The BTS server drops long transfers; resume from where we stopped.
     for attempt in range(1, 11):
         have = tmp.stat().st_size if tmp.exists() else 0
