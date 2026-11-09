@@ -11,6 +11,7 @@ dependencies = [
     "requests>=2.31",
     "airportsdata>=20240316",
     "matplotlib>=3.8",
+    "pytz>=2026.6",
 ]
 
 [dependency-groups]

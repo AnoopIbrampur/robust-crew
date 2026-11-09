@@ -1,0 +1,26 @@
+{
+  "rotations": {
+    "flights": 1778804,
+    "tails": 954,
+    "first_leg_share": 0.0005363154119284643,
+    "discontinuity_share": 0.021887110836122284,
+    "median_sched_turn_min": 66.0,
+    "overlap_share": 0.01809263998650055
+  },
+  "sample_days": [
+    {
+      "date": "2022-11-16",
+      "legs": 676,
+      "hub_departures": 338,
+      "connections": 21754,
+      "same_tail_connections": 445
+    },
+    {
+      "date": "2023-03-08",
+      "legs": 649,
+      "hub_departures": 325,
+      "connections": 19853,
+      "same_tail_connections": 423
+    }
+  ]
+}

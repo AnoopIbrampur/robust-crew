@@ -57,7 +57,9 @@ _DOUBLE_COLS = [
 def connect(path: Path = config.DB_PATH) -> duckdb.DuckDBPyConnection:
     """Open the project DuckDB database, creating its directory if needed."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    return duckdb.connect(str(path))
+    con = duckdb.connect(str(path))
+    con.execute("SET TimeZone = 'UTC'")  # timestamps come back to Python in UTC
+    return con
 
 
 def _get(url: str, *, params: dict | None = None, stream: bool = False, tries: int = 4) -> requests.Response:
