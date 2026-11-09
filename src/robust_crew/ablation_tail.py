@@ -1,7 +1,9 @@
 """Sensitivity: planning model without tail-derived features (BTS tail = actual, not planned).
 
 Usage: uv run python -m robust_crew.ablation_tail  (after delay_model train)
-import json, logging
+"""
+import json
+
 import pandas as pd
 from robust_crew import config
 from robust_crew.ingest import connect
