@@ -15,7 +15,9 @@ import duckdb
 from robust_crew import config
 
 # table name -> date column. Filled in as later phases create training tables.
-TRAINING_TABLES: dict[str, str] = {}
+TRAINING_TABLES: dict[str, str] = {
+    "route_month_stats": "max_date",  # historical route delay stats (delay_model.py)
+}
 
 
 def max_date(con: duckdb.DuckDBPyConnection, table: str, date_col: str) -> date | None:

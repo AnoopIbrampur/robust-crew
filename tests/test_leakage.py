@@ -45,3 +45,4 @@ def test_registered_training_tables_have_no_future_dates(table, date_col):
         assert_no_dates_after(con, table, date_col)
     finally:
         con.close()
+
