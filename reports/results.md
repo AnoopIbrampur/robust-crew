@@ -1,3 +1,12 @@
+- **test summer** (62 days): with no repair, the selected soft-robust plan cuts crew-caused delay from 2568 to 2202 min/day (-14%) and broken connections from 45.3 to 38.5 for +0.1 crews/day. Reactive repair alone takes the baseline to 729 min/day; robust planning plus repair reaches 446 (paired Δ vs repair alone -283 [-492, -121] min/day).
+- **test winter** (61 days): with no repair, the selected soft-robust plan cuts crew-caused delay from 1022 to 847 min/day (-17%) and broken connections from 26.5 to 20.8 for +0.3 crews/day. Reactive repair alone takes the baseline to 208 min/day; robust planning plus repair reaches 179 (paired Δ vs repair alone -30 [-45, -16] min/day).
+
+![Trade-off curve](reports/figures/tradeoff.png)
+
+![Worst-weather days](reports/figures/worst_days.png)
+
+<details><summary>Full tables with confidence intervals</summary>
+
 Selected on CALIB days: soft λ = 2 (largest delay reduction with cost ≤ +2%); hard θ = 0.5.
 
 Means per day with 95% bootstrap intervals over days in brackets; (Δ ...) is the paired difference vs the no-repair baseline on the same days, with its 95% interval. Hard robust is evaluated only on days it was feasible (its mean is over those days). Repair = reactive repair (idle-crew swaps + up to 4 reserves); reserves called count as crews used. Intervals over very few days are unreliable.
@@ -49,6 +58,8 @@ Days: 10; hard feasible on 3 (30%).
 | Duty-limit violations | 10.1 [6.3, 14.9] | 10.7 (+0.6 [+0.0, +1.2]) | 11.0 (+0.0 [-1.0, +1.0]) | 8.9 (-1.2 [-2.3, -0.3]) | 9.2 (-0.9 [-1.8, -0.1]) |
 
 Days: 10; hard feasible on 2 (20%).
+
+</details>
 
 **Does robust planning add anything once repair exists?** Best soft + repair minus baseline + repair, paired by day (crew-caused delay, min/day; broken connections/day):
 

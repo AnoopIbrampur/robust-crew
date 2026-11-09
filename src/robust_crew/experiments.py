@@ -181,10 +181,34 @@ def fmt(cell: dict, signed: bool = False) -> str:
     return f"{cell['mean']:.1f} [{cell['ci'][0]:.1f}, {cell['ci'][1]:.1f}]"
 
 
+def headline(res: dict) -> list[str]:
+    """One bullet per test window with the key generated numbers."""
+    out = []
+    for split, rows in res["all_days"].items():
+        b, s = rows["baseline"], rows["soft"]
+        br, sr = rows["baseline_repair"], rows["soft_repair"]
+        d = rows["soft_repair_vs_baseline_repair"]
+        pct = lambda x, y: 100 * (x - y) / y  # noqa: E731
+        out.append(
+            f"- **{split.replace('_', ' ')}** ({b['days']} days): with no repair, the selected soft-robust plan cuts "
+            f"crew-caused delay from {b['crew_delay_min']['mean']:.0f} to {s['crew_delay_min']['mean']:.0f} min/day "
+            f"({pct(s['crew_delay_min']['mean'], b['crew_delay_min']['mean']):+.0f}%) and broken connections from "
+            f"{b['broken_connections']['mean']:.1f} to {s['broken_connections']['mean']:.1f} "
+            f"for {s['crews_used']['diff_vs_baseline']:+.1f} crews/day. Reactive repair alone takes the baseline to "
+            f"{br['crew_delay_min']['mean']:.0f} min/day; robust planning plus repair reaches "
+            f"{sr['crew_delay_min']['mean']:.0f} (paired Δ vs repair alone {d['crew_delay_min']['diff_vs_baseline']:+.0f} "
+            f"[{d['crew_delay_min']['diff_ci'][0]:+.0f}, {d['crew_delay_min']['diff_ci'][1]:+.0f}] min/day)."
+        )
+    return out
+
+
 def results_markdown(res: dict) -> str:
     """Markdown tables of the main comparison for each test window."""
     sel = res["selection"]
-    lines = [
+    lines = headline(res) + ["", "![Trade-off curve](reports/figures/tradeoff.png)", "",
+                             "![Worst-weather days](reports/figures/worst_days.png)", "",
+                             "<details><summary>Full tables with confidence intervals</summary>", ""]
+    lines += [
         f"Selected on CALIB days: soft λ = {sel['best_soft_lambda']:g} "
         f"(largest delay reduction with cost ≤ +{MAX_COST_INCREASE:.0%}); "
         + (f"hard θ = {sel['best_hard_theta']:g}." if sel["best_hard_theta"] is not None else "no hard θ qualified."),
@@ -208,6 +232,7 @@ def results_markdown(res: dict) -> str:
             hd = rows.get("hard")
             lines += ["", f"Days: {rows['baseline']['days']}"
                       + (f"; hard feasible on {hd['days']} ({rows['hard_feasible_share']:.0%})." if hd else ".") , ""]
+    lines += ["</details>", ""]
     lines += ["**Does robust planning add anything once repair exists?** Best soft + repair minus baseline + repair, "
               "paired by day (crew-caused delay, min/day; broken connections/day):", "",
               "| Window | Days | Δ delay | Δ broken connections | Δ crews used |", "|---|---|---|---|---|"]
