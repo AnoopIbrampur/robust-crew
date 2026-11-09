@@ -192,7 +192,11 @@ def headline(res: dict) -> list[str]:
         out.append(
             f"- **{split.replace('_', ' ')}** ({b['days']} days): with no repair, the selected soft-robust plan cuts "
             f"crew-caused delay from {b['crew_delay_min']['mean']:.0f} to {s['crew_delay_min']['mean']:.0f} min/day "
-            f"({pct(s['crew_delay_min']['mean'], b['crew_delay_min']['mean']):+.0f}%) and broken connections from "
+            f"({pct(s['crew_delay_min']['mean'], b['crew_delay_min']['mean']):+.0f}%; paired Δ "
+            f"{s['crew_delay_min']['diff_vs_baseline']:+.0f} [{s['crew_delay_min']['diff_ci'][0]:+.0f}, "
+            f"{s['crew_delay_min']['diff_ci'][1]:+.0f}]"
+            f"{', interval includes zero' if s['crew_delay_min']['diff_ci'][0] <= 0 <= s['crew_delay_min']['diff_ci'][1] else ''}"
+            f") and broken connections from "
             f"{b['broken_connections']['mean']:.1f} to {s['broken_connections']['mean']:.1f} "
             f"for {s['crews_used']['diff_vs_baseline']:+.1f} crews/day. Reactive repair alone takes the baseline to "
             f"{br['crew_delay_min']['mean']:.0f} min/day; robust planning plus repair reaches "
@@ -202,10 +206,39 @@ def headline(res: dict) -> list[str]:
     return out
 
 
+def extra_findings(res: dict) -> list[str]:
+    """Generated sentences for secondary findings and robustness checks."""
+    out = []
+    ops = res.get("ops_model_auc_gain", {})
+    if ops:
+        gains = ", ".join(f"{k.replace('_', ' ')} {v:+.3f}" for k, v in ops.items())
+        out.append(f"- **Operations features barely help.** The morning-of model's AUC gain over the planning model: {gains}.")
+    for split, r in res.get("morning_resolve_effect", {}).items():
+        out.append(
+            f"- **Morning re-solve ({split.replace('_', ' ')})**, the one repair step that uses operations "
+            f"probabilities: Δ crew-caused delay vs no re-solve {fmt(r['baseline'], True)} min/day on the baseline plan "
+            f"and {fmt(r['soft'], True)} on the selected soft plan (each without reactive repair). "
+            "Reactive repair, which drives the headline effect, does not use the model's probabilities.")
+    for split, r in res.get("excluding_thanksgiving", {}).items():
+        out.append(
+            f"- **Excluding Thanksgiving ({split.replace('_', ' ')}, {r['days']} days):** soft vs baseline Δ delay "
+            f"{fmt(r['soft'], True)}; soft + repair vs baseline + repair {fmt(r['soft_repair'], True)} min/day.")
+    tb = res.get("tiebreak")
+    if tb:
+        for split, w in tb["windows"].items():
+            out.append(
+                f"- **Baseline tie-breaking ({split.replace('_', ' ')}):** re-solving the baseline with {tb['n_seeds']} "
+                f"different choices among cost-tied optima gives mean crew-caused delay between {w['min']:.0f} and "
+                f"{w['max']:.0f} min/day (selected soft plan: "
+                f"{res['all_days'][split]['soft']['crew_delay_min']['mean']:.0f}). Part of the cheap low-λ gain is "
+                "choosing well among schedules that cost the same.")
+    return out
+
+
 def results_markdown(res: dict) -> str:
     """Markdown tables of the main comparison for each test window."""
     sel = res["selection"]
-    lines = headline(res) + ["", "![Trade-off curve](reports/figures/tradeoff.png)", "",
+    lines = headline(res) + [""] + extra_findings(res) + ["", "![Trade-off curve](reports/figures/tradeoff.png)", "",
                              "![Worst-weather days](reports/figures/worst_days.png)", "",
                              "<details><summary>Full tables with confidence intervals</summary>", ""]
     lines += [
@@ -216,7 +249,8 @@ def results_markdown(res: dict) -> str:
         "Means per day with 95% bootstrap intervals over days in brackets; (Δ ...) is the paired difference vs "
         "the no-repair baseline on the same days, with its 95% interval. Hard robust is evaluated only on days "
         "it was feasible (its mean is over those days). Repair = reactive repair (idle-crew swaps + up to "
-        "4 reserves); reserves called count as crews used. Intervals over very few days are unreliable.",
+        "4 reserves); reserves called count as crews used, but the cost column excludes reserve pay (reserves are "
+        "on standby payroll either way). Intervals over very few days are unreliable.",
         "",
     ]
     for block, title in [("all_days", "All test days"), ("worst_days", f"{N_WORST} worst-weather days")]:
@@ -291,6 +325,31 @@ def main() -> None:
                     "swaps": round(float(v.swaps.mean()), 2), "reserves_used": round(float(v.reserves_used.mean()), 2),
                 }
         res["repair_effect"][split] = modes
+
+    # Operations-model AUC gain (Phase 4) and the morning re-solve effect (Phase 7).
+    p4 = json.loads((config.REPORTS_DIR / "phase4_delay_model.json").read_text())["metrics"]
+    res["ops_model_auc_gain"] = {
+        s: round(p4[s]["operations_model"]["auc"] - p4[s]["planning_model"]["auc"], 3) for s in config.TEST_WINDOWS}
+    res["morning_resolve_effect"] = {}
+    res["excluding_thanksgiving"] = {}
+    for split in config.TEST_WINDOWS:
+        g = rep[rep.split == split]
+        res["morning_resolve_effect"][split] = {
+            "baseline": describe(variant(g, "baseline", None, "morning"), variant(g, "baseline", None, "none"), rng)["crew_delay_min"],
+            "soft": describe(variant(g, "soft", lam, "morning"), variant(g, "soft", lam, "none"), rng)["crew_delay_min"],
+        }
+        hol = [d for d in g.date.unique() if d.month == 11 and 22 <= d.day <= 28 and d.weekday() == 3]
+        if hol:
+            gg = g[~g.date.isin(hol)]
+            base, brep = variant(gg, "baseline", None, "none"), variant(gg, "baseline", None, "reactive")
+            res["excluding_thanksgiving"][split] = {
+                "excluded": [str(d) for d in hol], "days": int(gg.date.nunique()),
+                "soft": describe(variant(gg, "soft", lam, "none"), base, rng)["crew_delay_min"],
+                "soft_repair": describe(variant(gg, "soft", lam, "reactive"), brep, rng)["crew_delay_min"],
+            }
+    tb_path = config.REPORTS_DIR / "tiebreak_sensitivity.json"
+    if tb_path.exists():
+        res["tiebreak"] = json.loads(tb_path.read_text())
 
     config.FIGURES_DIR.mkdir(parents=True, exist_ok=True)
     plot_tradeoff({s: res["tradeoff"][s] for s in config.TEST_WINDOWS},

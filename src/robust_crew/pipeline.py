@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import logging
 
-from robust_crew import ablation_tail, delay_model, experiments, ingest, network, optimize, pairings, quality, repair, simulate
+from robust_crew import (
+    ablation_tail, delay_model, experiments, ingest, network, optimize, pairings, quality, repair, simulate, tiebreak,
+)
 
 
 def main() -> None:
@@ -32,6 +34,7 @@ def main() -> None:
     optimize.main()  # Phase 5
     simulate.main()  # Phase 6
     repair.main()  # Phase 7
+    tiebreak.main()  # baseline tie-break sensitivity
     experiments.main()  # Phase 8: figures, tables, README results block
 
 

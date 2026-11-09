@@ -194,7 +194,7 @@ def _solver(time_limit_s: float, seed: int):
     s = cp_model.CpSolver()
     s.parameters.max_time_in_seconds = time_limit_s
     s.parameters.random_seed = seed
-    s.parameters.num_workers = 8
+    s.parameters.num_workers = 1  # deterministic
     return s
 
 

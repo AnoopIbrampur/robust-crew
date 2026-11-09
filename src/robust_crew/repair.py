@@ -112,7 +112,10 @@ def replay_with_repair(
             return False
         if not suffix:
             return True
-        block = sum(by_id[x].actual_block for x in legs)
+        # Flown legs use their actual block; future legs only their scheduled block
+        # (the dispatcher cannot know future airborne times).
+        block = sum(by_id[x].actual_block for x in done) + sum(
+            (by_id[x].sched_arr - by_id[x].sched_dep).total_seconds() / 60 for x in suffix)
         if block > rules.max_flight_time_min(c_report):
             return False
         end = by_id[suffix[-1]].sched_arr + delay_min * m
