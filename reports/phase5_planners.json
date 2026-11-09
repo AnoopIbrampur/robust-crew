@@ -32,11 +32,12 @@
         "days_optimal": 61,
         "mean_crews": 106.38,
         "mean_cost": 1129.32,
-        "mean_exp_breaks": 49.08,
-        "mean_risk": 84.544,
+        "mean_exp_breaks": 49.094,
+        "mean_risk": 84.583,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.176,
-        "max_seconds": 2.011
+        "mean_seconds": 0.089,
+        "max_seconds": 0.155
       },
       {
         "planner": "soft",
@@ -47,10 +48,11 @@
         "mean_crews": 106.38,
         "mean_cost": 1129.49,
         "mean_exp_breaks": 43.883,
-        "mean_risk": 72.823,
+        "mean_risk": 72.822,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.163,
-        "max_seconds": 1.496
+        "mean_seconds": 0.083,
+        "max_seconds": 0.129
       },
       {
         "planner": "soft",
@@ -60,11 +62,12 @@
         "days_optimal": 61,
         "mean_crews": 106.41,
         "mean_cost": 1129.88,
-        "mean_exp_breaks": 43.696,
-        "mean_risk": 72.306,
+        "mean_exp_breaks": 43.695,
+        "mean_risk": 72.305,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.16,
-        "max_seconds": 0.727
+        "mean_seconds": 0.084,
+        "max_seconds": 0.223
       },
       {
         "planner": "soft",
@@ -73,12 +76,13 @@
         "days_feasible": 61,
         "days_optimal": 61,
         "mean_crews": 107.25,
-        "mean_cost": 1133.95,
-        "mean_exp_breaks": 42.658,
-        "mean_risk": 69.61,
+        "mean_cost": 1133.96,
+        "mean_exp_breaks": 42.66,
+        "mean_risk": 69.609,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.18,
-        "max_seconds": 2.171
+        "mean_seconds": 0.086,
+        "max_seconds": 0.184
       },
       {
         "planner": "soft",
@@ -87,12 +91,13 @@
         "days_feasible": 61,
         "days_optimal": 61,
         "mean_crews": 110.84,
-        "mean_cost": 1151.56,
-        "mean_exp_breaks": 40.519,
-        "mean_risk": 63.764,
+        "mean_cost": 1151.57,
+        "mean_exp_breaks": 40.517,
+        "mean_risk": 63.762,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.153,
-        "max_seconds": 1.403
+        "mean_seconds": 0.083,
+        "max_seconds": 0.136
       },
       {
         "planner": "soft",
@@ -104,9 +109,10 @@
         "mean_cost": 1191.58,
         "mean_exp_breaks": 38.193,
         "mean_risk": 56.593,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.134,
-        "max_seconds": 0.606
+        "mean_seconds": 0.076,
+        "max_seconds": 0.149
       },
       {
         "planner": "soft",
@@ -118,9 +124,10 @@
         "mean_cost": 1276.6,
         "mean_exp_breaks": 36.458,
         "mean_risk": 49.26,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.101,
-        "max_seconds": 0.4
+        "mean_seconds": 0.058,
+        "max_seconds": 0.099
       },
       {
         "planner": "soft",
@@ -132,9 +139,10 @@
         "mean_cost": 1515.83,
         "mean_exp_breaks": 34.932,
         "mean_risk": 39.047,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.067,
-        "max_seconds": 0.223
+        "mean_seconds": 0.04,
+        "max_seconds": 0.061
       },
       {
         "planner": "soft",
@@ -146,79 +154,85 @@
         "mean_cost": 1699.43,
         "mean_exp_breaks": 34.385,
         "mean_risk": 34.504,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.052,
-        "max_seconds": 0.148
+        "mean_seconds": 0.035,
+        "max_seconds": 0.052
       },
       {
         "planner": "hard",
         "param": 0.5,
         "days": 61,
-        "days_feasible": 1,
-        "days_optimal": 1,
-        "mean_crews": 95.0,
-        "mean_cost": 970.85,
-        "mean_exp_breaks": 32.894,
-        "mean_risk": 57.012,
+        "days_feasible": 35,
+        "days_optimal": 35,
+        "mean_crews": 105.37,
+        "mean_cost": 1114.0,
+        "mean_exp_breaks": 46.505,
+        "mean_risk": 80.109,
+        "mean_exempt_legs": 9.67,
         "max_gap": 0.0,
-        "mean_seconds": 0.007,
-        "max_seconds": 0.075
+        "mean_seconds": 0.058,
+        "max_seconds": 0.17
       },
       {
         "planner": "hard",
         "param": 0.4,
         "days": 61,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.006,
-        "max_seconds": 0.035
+        "days_feasible": 23,
+        "days_optimal": 23,
+        "mean_crews": 107.04,
+        "mean_cost": 1113.15,
+        "mean_exp_breaks": 43.702,
+        "mean_risk": 73.795,
+        "mean_exempt_legs": 14.18,
+        "max_gap": 0.0,
+        "mean_seconds": 0.041,
+        "max_seconds": 0.13
       },
       {
         "planner": "hard",
         "param": 0.3,
         "days": 61,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.005,
-        "max_seconds": 0.03
+        "days_feasible": 9,
+        "days_optimal": 9,
+        "mean_crews": 110.33,
+        "mean_cost": 1140.81,
+        "mean_exp_breaks": 44.191,
+        "mean_risk": 74.175,
+        "mean_exempt_legs": 38.89,
+        "max_gap": 0.0,
+        "mean_seconds": 0.025,
+        "max_seconds": 0.073
       },
       {
         "planner": "hard",
         "param": 0.25,
         "days": 61,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.003,
-        "max_seconds": 0.016
+        "days_feasible": 1,
+        "days_optimal": 1,
+        "mean_crews": 97.0,
+        "mean_cost": 990.83,
+        "mean_exp_breaks": 33.201,
+        "mean_risk": 58.99,
+        "mean_exempt_legs": 68.2,
+        "max_gap": 0.0,
+        "mean_seconds": 0.016,
+        "max_seconds": 0.062
       },
       {
         "planner": "hard",
         "param": 0.2,
         "days": 61,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.006,
-        "max_seconds": 0.17
+        "days_feasible": 1,
+        "days_optimal": 1,
+        "mean_crews": 97.0,
+        "mean_cost": 991.53,
+        "mean_exp_breaks": 32.615,
+        "mean_risk": 57.516,
+        "mean_exempt_legs": 79.31,
+        "max_gap": 0.0,
+        "mean_seconds": 0.016,
+        "max_seconds": 0.055
       },
       {
         "planner": "hard",
@@ -230,9 +244,10 @@
         "mean_cost": null,
         "mean_exp_breaks": null,
         "mean_risk": null,
+        "mean_exempt_legs": 131.84,
         "max_gap": null,
-        "mean_seconds": 0.001,
-        "max_seconds": 0.007
+        "mean_seconds": 0.013,
+        "max_seconds": 0.026
       },
       {
         "planner": "hard",
@@ -244,9 +259,10 @@
         "mean_cost": null,
         "mean_exp_breaks": null,
         "mean_risk": null,
+        "mean_exempt_legs": 188.77,
         "max_gap": null,
-        "mean_seconds": 0.001,
-        "max_seconds": 0.003
+        "mean_seconds": 0.011,
+        "max_seconds": 0.021
       }
     ],
     "test_summer": [
@@ -258,11 +274,12 @@
         "days_optimal": 62,
         "mean_crews": 111.35,
         "mean_cost": 1176.93,
-        "mean_exp_breaks": 49.48,
-        "mean_risk": 82.348,
+        "mean_exp_breaks": 49.505,
+        "mean_risk": 82.405,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.08,
-        "max_seconds": 0.105
+        "mean_seconds": 0.079,
+        "max_seconds": 0.12
       },
       {
         "planner": "soft",
@@ -272,11 +289,12 @@
         "days_optimal": 62,
         "mean_crews": 111.35,
         "mean_cost": 1177.13,
-        "mean_exp_breaks": 45.256,
-        "mean_risk": 72.647,
+        "mean_exp_breaks": 45.255,
+        "mean_risk": 72.644,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.074,
-        "max_seconds": 0.097
+        "mean_seconds": 0.075,
+        "max_seconds": 0.204
       },
       {
         "planner": "soft",
@@ -286,11 +304,12 @@
         "days_optimal": 62,
         "mean_crews": 111.35,
         "mean_cost": 1177.54,
-        "mean_exp_breaks": 45.026,
+        "mean_exp_breaks": 45.027,
         "mean_risk": 72.082,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.074,
-        "max_seconds": 0.097
+        "mean_seconds": 0.075,
+        "max_seconds": 0.112
       },
       {
         "planner": "soft",
@@ -300,11 +319,12 @@
         "days_optimal": 62,
         "mean_crews": 111.47,
         "mean_cost": 1179.14,
-        "mean_exp_breaks": 44.636,
+        "mean_exp_breaks": 44.632,
         "mean_risk": 71.008,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
         "mean_seconds": 0.074,
-        "max_seconds": 0.092
+        "max_seconds": 0.105
       },
       {
         "planner": "soft",
@@ -316,9 +336,10 @@
         "mean_cost": 1198.81,
         "mean_exp_breaks": 42.277,
         "mean_risk": 64.497,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.075,
-        "max_seconds": 0.101
+        "mean_seconds": 0.073,
+        "max_seconds": 0.1
       },
       {
         "planner": "soft",
@@ -330,9 +351,10 @@
         "mean_cost": 1243.06,
         "mean_exp_breaks": 39.769,
         "mean_risk": 56.724,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
         "mean_seconds": 0.068,
-        "max_seconds": 0.089
+        "max_seconds": 0.122
       },
       {
         "planner": "soft",
@@ -344,9 +366,10 @@
         "mean_cost": 1327.11,
         "mean_exp_breaks": 37.73,
         "mean_risk": 49.448,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.053,
-        "max_seconds": 0.072
+        "mean_seconds": 0.052,
+        "max_seconds": 0.087
       },
       {
         "planner": "soft",
@@ -358,9 +381,10 @@
         "mean_cost": 1543.25,
         "mean_exp_breaks": 36.246,
         "mean_risk": 40.144,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.036,
-        "max_seconds": 0.044
+        "mean_seconds": 0.035,
+        "max_seconds": 0.053
       },
       {
         "planner": "soft",
@@ -372,79 +396,85 @@
         "mean_cost": 1720.22,
         "mean_exp_breaks": 35.724,
         "mean_risk": 35.894,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.031,
-        "max_seconds": 0.037
+        "mean_seconds": 0.03,
+        "max_seconds": 0.038
       },
       {
         "planner": "hard",
         "param": 0.5,
         "days": 62,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.004,
-        "max_seconds": 0.005
+        "days_feasible": 32,
+        "days_optimal": 32,
+        "mean_crews": 111.66,
+        "mean_cost": 1179.16,
+        "mean_exp_breaks": 48.43,
+        "mean_risk": 80.878,
+        "mean_exempt_legs": 13.34,
+        "max_gap": 0.0,
+        "mean_seconds": 0.048,
+        "max_seconds": 0.109
       },
       {
         "planner": "hard",
         "param": 0.4,
         "days": 62,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.003,
-        "max_seconds": 0.004
+        "days_feasible": 28,
+        "days_optimal": 28,
+        "mean_crews": 111.54,
+        "mean_cost": 1178.02,
+        "mean_exp_breaks": 48.244,
+        "mean_risk": 80.33,
+        "mean_exempt_legs": 18.45,
+        "max_gap": 0.0,
+        "mean_seconds": 0.043,
+        "max_seconds": 0.109
       },
       {
         "planner": "hard",
         "param": 0.3,
         "days": 62,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.003,
-        "max_seconds": 0.004
+        "days_feasible": 19,
+        "days_optimal": 19,
+        "mean_crews": 111.37,
+        "mean_cost": 1173.02,
+        "mean_exp_breaks": 45.595,
+        "mean_risk": 75.858,
+        "mean_exempt_legs": 45.15,
+        "max_gap": 0.0,
+        "mean_seconds": 0.032,
+        "max_seconds": 0.124
       },
       {
         "planner": "hard",
         "param": 0.25,
         "days": 62,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.002,
-        "max_seconds": 0.003
+        "days_feasible": 7,
+        "days_optimal": 7,
+        "mean_crews": 112.86,
+        "mean_cost": 1193.1,
+        "mean_exp_breaks": 46.317,
+        "mean_risk": 77.713,
+        "mean_exempt_legs": 74.84,
+        "max_gap": 0.0,
+        "mean_seconds": 0.021,
+        "max_seconds": 0.129
       },
       {
         "planner": "hard",
         "param": 0.2,
         "days": 62,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.002,
-        "max_seconds": 0.017
+        "days_feasible": 3,
+        "days_optimal": 3,
+        "mean_crews": 109.67,
+        "mean_cost": 1135.24,
+        "mean_exp_breaks": 42.55,
+        "mean_risk": 71.198,
+        "mean_exempt_legs": 84.48,
+        "max_gap": 0.0,
+        "mean_seconds": 0.015,
+        "max_seconds": 0.082
       },
       {
         "planner": "hard",
@@ -456,9 +486,10 @@
         "mean_cost": null,
         "mean_exp_breaks": null,
         "mean_risk": null,
+        "mean_exempt_legs": 128.4,
         "max_gap": null,
-        "mean_seconds": 0.001,
-        "max_seconds": 0.001
+        "mean_seconds": 0.011,
+        "max_seconds": 0.035
       },
       {
         "planner": "hard",
@@ -470,9 +501,10 @@
         "mean_cost": null,
         "mean_exp_breaks": null,
         "mean_risk": null,
+        "mean_exempt_legs": 192.24,
         "max_gap": null,
-        "mean_seconds": 0.0,
-        "max_seconds": 0.015
+        "mean_seconds": 0.01,
+        "max_seconds": 0.017
       }
     ],
     "test_winter": [
@@ -484,11 +516,12 @@
         "days_optimal": 61,
         "mean_crews": 106.02,
         "mean_cost": 1136.56,
-        "mean_exp_breaks": 39.241,
-        "mean_risk": 67.39,
+        "mean_exp_breaks": 39.272,
+        "mean_risk": 67.455,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.062,
-        "max_seconds": 0.129
+        "mean_seconds": 0.071,
+        "max_seconds": 0.192
       },
       {
         "planner": "soft",
@@ -498,11 +531,12 @@
         "days_optimal": 61,
         "mean_crews": 106.02,
         "mean_cost": 1136.81,
-        "mean_exp_breaks": 35.394,
-        "mean_risk": 58.969,
+        "mean_exp_breaks": 35.392,
+        "mean_risk": 58.964,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.057,
-        "max_seconds": 0.119
+        "mean_seconds": 0.067,
+        "max_seconds": 0.273
       },
       {
         "planner": "soft",
@@ -514,9 +548,10 @@
         "mean_cost": 1137.27,
         "mean_exp_breaks": 35.142,
         "mean_risk": 58.272,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.056,
-        "max_seconds": 0.113
+        "mean_seconds": 0.069,
+        "max_seconds": 0.372
       },
       {
         "planner": "soft",
@@ -527,10 +562,11 @@
         "mean_crews": 106.34,
         "mean_cost": 1139.33,
         "mean_exp_breaks": 34.644,
-        "mean_risk": 56.969,
+        "mean_risk": 56.97,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.057,
-        "max_seconds": 0.109
+        "mean_seconds": 0.067,
+        "max_seconds": 0.293
       },
       {
         "planner": "soft",
@@ -542,9 +578,10 @@
         "mean_cost": 1152.32,
         "mean_exp_breaks": 33.198,
         "mean_risk": 52.696,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.056,
-        "max_seconds": 0.114
+        "mean_seconds": 0.065,
+        "max_seconds": 0.278
       },
       {
         "planner": "soft",
@@ -555,10 +592,11 @@
         "mean_crews": 114.97,
         "mean_cost": 1185.99,
         "mean_exp_breaks": 31.332,
-        "mean_risk": 46.78,
+        "mean_risk": 46.779,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.052,
-        "max_seconds": 0.108
+        "mean_seconds": 0.058,
+        "max_seconds": 0.163
       },
       {
         "planner": "soft",
@@ -570,9 +608,10 @@
         "mean_cost": 1259.81,
         "mean_exp_breaks": 29.815,
         "mean_risk": 40.458,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.043,
-        "max_seconds": 0.09
+        "mean_seconds": 0.048,
+        "max_seconds": 0.112
       },
       {
         "planner": "soft",
@@ -584,9 +623,10 @@
         "mean_cost": 1456.47,
         "mean_exp_breaks": 28.682,
         "mean_risk": 32.033,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.03,
-        "max_seconds": 0.057
+        "mean_seconds": 0.033,
+        "max_seconds": 0.082
       },
       {
         "planner": "soft",
@@ -598,93 +638,100 @@
         "mean_cost": 1600.77,
         "mean_exp_breaks": 28.261,
         "mean_risk": 28.468,
+        "mean_exempt_legs": 0.0,
         "max_gap": 0.0,
-        "mean_seconds": 0.025,
-        "max_seconds": 0.048
+        "mean_seconds": 0.028,
+        "max_seconds": 0.07
       },
       {
         "planner": "hard",
         "param": 0.5,
         "days": 61,
-        "days_feasible": 2,
-        "days_optimal": 2,
-        "mean_crews": 68.0,
-        "mean_cost": 713.78,
-        "mean_exp_breaks": 18.877,
-        "mean_risk": 33.14,
+        "days_feasible": 27,
+        "days_optimal": 27,
+        "mean_crews": 105.67,
+        "mean_cost": 1120.34,
+        "mean_exp_breaks": 34.385,
+        "mean_risk": 59.035,
+        "mean_exempt_legs": 7.66,
         "max_gap": 0.0,
-        "mean_seconds": 0.005,
-        "max_seconds": 0.107
+        "mean_seconds": 0.04,
+        "max_seconds": 0.16
       },
       {
         "planner": "hard",
         "param": 0.4,
         "days": 61,
-        "days_feasible": 2,
-        "days_optimal": 2,
-        "mean_crews": 68.0,
-        "mean_cost": 713.78,
-        "mean_exp_breaks": 18.786,
-        "mean_risk": 32.932,
+        "days_feasible": 25,
+        "days_optimal": 25,
+        "mean_crews": 105.92,
+        "mean_cost": 1122.28,
+        "mean_exp_breaks": 34.108,
+        "mean_risk": 58.482,
+        "mean_exempt_legs": 10.52,
         "max_gap": 0.0,
-        "mean_seconds": 0.005,
-        "max_seconds": 0.109
+        "mean_seconds": 0.036,
+        "max_seconds": 0.142
       },
       {
         "planner": "hard",
         "param": 0.3,
         "days": 61,
-        "days_feasible": 1,
-        "days_optimal": 1,
-        "mean_crews": 18.0,
-        "mean_cost": 165.65,
-        "mean_exp_breaks": 1.64,
-        "mean_risk": 1.918,
+        "days_feasible": 11,
+        "days_optimal": 11,
+        "mean_crews": 104.64,
+        "mean_cost": 1096.45,
+        "mean_exp_breaks": 33.661,
+        "mean_risk": 57.667,
+        "mean_exempt_legs": 20.93,
         "max_gap": 0.0,
-        "mean_seconds": 0.003,
-        "max_seconds": 0.019
+        "mean_seconds": 0.024,
+        "max_seconds": 0.126
       },
       {
         "planner": "hard",
         "param": 0.25,
         "days": 61,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.002,
-        "max_seconds": 0.017
+        "days_feasible": 4,
+        "days_optimal": 4,
+        "mean_crews": 108.5,
+        "mean_cost": 1140.64,
+        "mean_exp_breaks": 35.614,
+        "mean_risk": 60.889,
+        "mean_exempt_legs": 38.31,
+        "max_gap": 0.0,
+        "mean_seconds": 0.016,
+        "max_seconds": 0.082
       },
       {
         "planner": "hard",
         "param": 0.2,
         "days": 61,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.002,
-        "max_seconds": 0.004
+        "days_feasible": 2,
+        "days_optimal": 2,
+        "mean_crews": 110.0,
+        "mean_cost": 1150.99,
+        "mean_exp_breaks": 34.477,
+        "mean_risk": 58.223,
+        "mean_exempt_legs": 49.07,
+        "max_gap": 0.0,
+        "mean_seconds": 0.014,
+        "max_seconds": 0.065
       },
       {
         "planner": "hard",
         "param": 0.15,
         "days": 61,
-        "days_feasible": 0,
-        "days_optimal": 0,
-        "mean_crews": null,
-        "mean_cost": null,
-        "mean_exp_breaks": null,
-        "mean_risk": null,
-        "max_gap": null,
-        "mean_seconds": 0.001,
-        "max_seconds": 0.002
+        "days_feasible": 1,
+        "days_optimal": 1,
+        "mean_crews": 100.0,
+        "mean_cost": 1025.28,
+        "mean_exp_breaks": 20.796,
+        "mean_risk": 34.442,
+        "mean_exempt_legs": 89.44,
+        "max_gap": 0.0,
+        "mean_seconds": 0.013,
+        "max_seconds": 0.133
       },
       {
         "planner": "hard",
@@ -696,9 +743,10 @@
         "mean_cost": null,
         "mean_exp_breaks": null,
         "mean_risk": null,
+        "mean_exempt_legs": 149.98,
         "max_gap": null,
-        "mean_seconds": 0.001,
-        "max_seconds": 0.002
+        "mean_seconds": 0.01,
+        "max_seconds": 0.032
       }
     ]
   }

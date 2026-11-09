@@ -54,7 +54,26 @@ def test_hard_forbids_risky_pairings():
     assert covered(sol, prob) == [0, 1, 2, 3]
 
 
-def test_hard_reports_infeasible_instead_of_relaxing():
+def test_hard_exempts_forced_legs_and_logs_them():
     prob = problem()
-    sol = solve(prob, "hard", 0.1)  # every pairing has max_p >= 0.1
-    assert sol.status == "INFEASIBLE" and sol.chosen == [] and sol.crews is None
+    sol = solve(prob, "hard", 0.1)  # every pairing has max_p >= 0.1: all 4 legs forced
+    assert sol.exempt_legs == 4
+    # Each forced leg keeps only its least risky pairings (k1, k2 at 0.2), not k0 or k3.
+    assert sol.status == "OPTIMAL" and sorted(sol.chosen) == [1, 2]
+
+
+def test_hard_only_exempts_legs_without_alternatives():
+    prob = problem()
+    sol = solve(prob, "hard", 0.3)  # k1, k2 below 0.3: nothing forced
+    assert sol.exempt_legs == 0 and sorted(sol.chosen) == [1, 2]
+
+
+def test_hard_reports_infeasible_instead_of_relaxing_further():
+    # Exemption re-allows both pairings, but no exact cover exists: covering
+    # legs 0 and 1 needs both pairings, which would cover leg 2 twice.
+    legs = LEGS[:3]
+    pairings = [Pairing((0, 2), 100, 100, 9.0), Pairing((1, 2), 100, 100, 9.0)]
+    prob = DayProblem(date(2023, 7, 12), legs, [0, 1, 2], pairings,
+                      risk=[0.5, 0.5], max_p=[0.5, 0.5], exp_breaks=[0.5, 0.5])
+    sol = solve(prob, "hard", 0.3)
+    assert sol.status == "INFEASIBLE" and sol.exempt_legs == 3 and sol.crews is None

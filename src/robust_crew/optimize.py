@@ -11,8 +11,13 @@ flight must be covered exactly once.
   flying; ``legs_after`` is that count. ``lambda`` is in pay hours per expected
   disrupted leg, swept over ``LAMBDAS``.
 - HARD ROBUST: forbid every pairing with a connection whose p_break >= theta,
-  swept over ``THETAS``. If no exact cover remains, the day is reported
-  INFEASIBLE; constraints are never silently relaxed.
+  swept over ``THETAS``. As specified this was infeasible on nearly every day:
+  a few legs per day (typically out-and-backs with a single possible return)
+  have no pairing below theta, and one such leg breaks the exact cover. So,
+  by explicit decision, a *forced* leg (no pairing below theta) is exempt: the
+  pairings covering it whose largest p_break equals that leg's minimum are
+  re-allowed. The number of exempt legs is logged for every day and theta. If
+  the cover is still infeasible, the day is reported INFEASIBLE.
 
 Probabilities are the calibrated PLANNING-feature model only.
 
@@ -75,6 +80,7 @@ class Solution:
     crews: int | None = None
     cost: float | None = None
     risk: float | None = None
+    exempt_legs: int = 0
     exp_breaks: float | None = None
     objective: float | None = None
     bound: float | None = None
@@ -114,8 +120,9 @@ def solve(problem: DayProblem, planner: str, param: float | None = None) -> Solu
     """Solve one planner variant. ``planner`` in {'baseline', 'soft', 'hard'}."""
     t0 = time.perf_counter()
     allowed = list(range(len(problem.pairings)))
+    exempt = 0
     if planner == "hard":
-        allowed = [k for k in allowed if problem.max_p[k] < param]
+        allowed, exempt = hard_allowed(problem, param)
     lam = param if planner == "soft" else 0.0
 
     model = cp_model.CpModel()
@@ -125,7 +132,8 @@ def solve(problem: DayProblem, planner: str, param: float | None = None) -> Solu
         for i in problem.pairings[k].legs:
             rows[i].append(x[k])
     if any(not v for v in rows.values()):
-        return Solution(problem.day, planner, param, "INFEASIBLE", seconds=time.perf_counter() - t0)
+        return Solution(problem.day, planner, param, "INFEASIBLE", exempt_legs=exempt,
+                        seconds=time.perf_counter() - t0)
     for v in rows.values():
         model.AddExactlyOne(v)
     weight = {k: round(COST_SCALE * (problem.pairings[k].cost + lam * problem.risk[k])) for k in allowed}
@@ -136,7 +144,8 @@ def solve(problem: DayProblem, planner: str, param: float | None = None) -> Solu
     solver.parameters.random_seed = SEED
     solver.parameters.num_workers = NUM_WORKERS
     st = solver.Solve(model)
-    sol = Solution(problem.day, planner, param, solver.StatusName(st), seconds=time.perf_counter() - t0)
+    sol = Solution(problem.day, planner, param, solver.StatusName(st), exempt_legs=exempt,
+                   seconds=time.perf_counter() - t0)
     if st in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         chosen = [k for k in allowed if solver.Value(x[k])]
         sol.chosen = chosen
@@ -148,6 +157,23 @@ def solve(problem: DayProblem, planner: str, param: float | None = None) -> Solu
         sol.bound = solver.BestObjectiveBound() / COST_SCALE
         sol.gap = round((sol.objective - sol.bound) / max(abs(sol.objective), 1e-9), 6)
     return sol
+
+
+def hard_allowed(problem: DayProblem, theta: float) -> tuple[list[int], int]:
+    """Pairings allowed under threshold ``theta``, with forced legs exempted.
+
+    Returns (allowed pairing indices, number of exempt legs).
+    """
+    allowed = {k for k in range(len(problem.pairings)) if problem.max_p[k] < theta}
+    best: dict[int, float] = {}
+    for k, p in enumerate(problem.pairings):
+        for i in p.legs:
+            best[i] = min(best.get(i, 1.0), problem.max_p[k])
+    forced = {i for i in problem.plannable if best.get(i, 1.0) >= theta}
+    for k, p in enumerate(problem.pairings):
+        if any(i in forced and problem.max_p[k] <= best[i] for i in p.legs):
+            allowed.add(k)
+    return sorted(allowed), len(forced)
 
 
 def planner_grid() -> list[tuple[str, float | None]]:
@@ -166,7 +192,7 @@ def run_days(days: list[date]) -> tuple[pd.DataFrame, pd.DataFrame]:
             logs.append({
                 "date": day, "split": config.split_of(day), "planner": planner, "param": param,
                 "status": sol.status, "crews": sol.crews, "cost": sol.cost, "risk": sol.risk,
-                "exp_breaks": sol.exp_breaks, "gap": sol.gap, "seconds": round(sol.seconds, 3),
+                "exp_breaks": sol.exp_breaks, "exempt_legs": sol.exempt_legs, "gap": sol.gap, "seconds": round(sol.seconds, 3),
                 "plannable_legs": len(prob.plannable), "pairings": len(prob.pairings),
             })
             for crew, k in enumerate(sol.chosen):
@@ -204,6 +230,7 @@ def summarize(logs: pd.DataFrame) -> dict:
                 "mean_cost": round(float(ok.cost.mean()), 2) if len(ok) else None,
                 "mean_exp_breaks": round(float(ok.exp_breaks.mean()), 3) if len(ok) else None,
                 "mean_risk": round(float(ok.risk.mean()), 3) if len(ok) else None,
+                "mean_exempt_legs": round(float(h.exempt_legs.mean()), 2),
                 "max_gap": float(ok.gap.max()) if len(ok) else None,
                 "mean_seconds": round(float(h.seconds.mean()), 3),
                 "max_seconds": round(float(h.seconds.max()), 3),
