@@ -1,0 +1,116 @@
+{
+  "rules": {
+    "base": "CLT",
+    "base_tz": "America/New_York",
+    "min_connect_same_tail_min": 30,
+    "min_connect_change_tail_min": 45,
+    "report_buffer_min": 60,
+    "release_buffer_min": 30,
+    "max_legs": 6,
+    "max_sit_min": 240,
+    "max_duty_min": null
+  },
+  "cost": {
+    "pay_guarantee_hours": 5.0,
+    "crew_fixed_cost_hours": 4.0
+  },
+  "max_pairings_cap": 2000000,
+  "all_days": {
+    "days": 730,
+    "mean_legs": 610.99,
+    "mean_pairings": 2404.279,
+    "min_pairings": 28,
+    "max_pairings": 4407,
+    "mean_legs_in_some_pairing": 349.548,
+    "mean_legs_plannable": 337.51,
+    "mean_plannable_share": 0.548,
+    "mean_enumerate_seconds": 0.019,
+    "max_enumerate_seconds": 0.035,
+    "mean_select_seconds": 0.179,
+    "days_capped": 0,
+    "days_not_optimal": 0
+  },
+  "by_split": {
+    "train": {
+      "days": 485,
+      "mean_legs": 590.48,
+      "mean_pairings": 2261.186,
+      "min_pairings": 28,
+      "max_pairings": 3935,
+      "mean_legs_in_some_pairing": 335.276,
+      "mean_legs_plannable": 322.598,
+      "mean_plannable_share": 0.542,
+      "mean_enumerate_seconds": 0.018,
+      "max_enumerate_seconds": 0.035,
+      "mean_select_seconds": 0.172,
+      "days_capped": 0,
+      "days_not_optimal": 0
+    },
+    "calib": {
+      "days": 61,
+      "mean_legs": 655.984,
+      "mean_pairings": 3042.656,
+      "min_pairings": 1437,
+      "max_pairings": 4407,
+      "mean_legs_in_some_pairing": 384.279,
+      "mean_legs_plannable": 373.902,
+      "mean_plannable_share": 0.569,
+      "mean_enumerate_seconds": 0.021,
+      "max_enumerate_seconds": 0.032,
+      "mean_select_seconds": 0.221,
+      "days_capped": 0,
+      "days_not_optimal": 0
+    },
+    "test_summer": {
+      "days": 62,
+      "mean_legs": 663.452,
+      "mean_pairings": 2625.887,
+      "min_pairings": 473,
+      "max_pairings": 3006,
+      "mean_legs_in_some_pairing": 385.871,
+      "mean_legs_plannable": 377.903,
+      "mean_plannable_share": 0.568,
+      "mean_enumerate_seconds": 0.021,
+      "max_enumerate_seconds": 0.033,
+      "mean_select_seconds": 0.189,
+      "days_capped": 0,
+      "days_not_optimal": 0
+    },
+    "gap": {
+      "days": 61,
+      "mean_legs": 650.869,
+      "mean_pairings": 2820.984,
+      "min_pairings": 304,
+      "max_pairings": 3614,
+      "mean_legs_in_some_pairing": 375.902,
+      "mean_legs_plannable": 365.279,
+      "mean_plannable_share": 0.557,
+      "mean_enumerate_seconds": 0.021,
+      "max_enumerate_seconds": 0.034,
+      "mean_select_seconds": 0.205,
+      "days_capped": 0,
+      "days_not_optimal": 0
+    },
+    "test_winter": {
+      "days": 61,
+      "mean_legs": 635.869,
+      "mean_pairings": 2261.672,
+      "min_pairings": 31,
+      "max_pairings": 3940,
+      "mean_legs_in_some_pairing": 365.016,
+      "mean_legs_plannable": 350.852,
+      "mean_plannable_share": 0.545,
+      "mean_enumerate_seconds": 0.019,
+      "max_enumerate_seconds": 0.034,
+      "mean_select_seconds": 0.162,
+      "days_capped": 0,
+      "days_not_optimal": 0
+    }
+  },
+  "dropped_leg_reasons_total": {
+    "arrives at base but no legal feeder from base (crew would have overnighted at spoke)": 82956,
+    "departs base but no legal connecting return (e.g. evening departure, overnight at spoke)": 81998,
+    "every route through this leg breaks the duty, block or leg limits": 25899,
+    "in some legal pairing, but no exact cover of the day can include it": 8788
+  }
+}

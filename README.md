@@ -25,3 +25,13 @@ uv run python -m robust_crew.quality
 | test_winter | 2023-11-01 to 2023-12-31 | planning + replay (originally planned window) |
 
 The original plan had a single Nov-Dec 2023 test window. Phase 1 showed it was unusually calm for AA (see the data quality report), so a summer window was added, chosen by season rather than by its observed delays. The original window is kept and reported, so this change cannot hide an unfavourable result.
+
+## Modeling decisions (so far)
+
+- **Planning flight set.** AA flights departing from or arriving at CLT on a local date. Spoke-to-spoke flights belong to other bases. Cancelled flights stay in the plan (a planner cannot know them in advance); the replay drops them on the day.
+- **Crew rules.** `rules.py` uses the FAA Part 117 Table A (flight time) and Table B (flight duty period) values keyed by report time in Eastern time; connection minimums (30 min same aircraft, 45 min aircraft change), the 1 h report / 30 min release buffers, max 6 legs and max 4 h sit are planning conventions. Not a legal-compliance claim.
+- **One-day pairings leave many flights uncovered.** Evening departures from CLT and early-morning arrivals into CLT need an overnight at the spoke, and long flights break the duty limits. Each day's dropped flights and their reasons are in `reports/phase3_pairings.json`.
+- **Plannable set.** Being in some legal pairing does not guarantee an exact cover exists (every one-day pairing flies as many legs out of CLT as into it). Each day's plannable set is the largest set of flights that some set of pairings covers exactly once (CP-SAT set packing, cost as tie-break). Every planner covers exactly this set, so schedules are compared on the same flights.
+- **Pairing enumeration** is a depth-first search with forward checking; a brute-force test confirms it finds exactly the legal pairings on small instances. Per-day counts and timings: `reports/phase3_pairings_by_day.csv`.
+- **Thanksgiving** (2022-11-24, 2023-11-23) shows only morning CLT departures in BTS, so very few pairings close; flagged as outliers in evaluation.
+- **Same-aircraft flag** uses BTS `Tail_Number`, which is the aircraft that actually flew (including day-of swaps); no public source has the planned tail.
