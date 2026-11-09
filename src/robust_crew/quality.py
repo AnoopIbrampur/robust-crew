@@ -105,7 +105,7 @@ def collect(con: duckdb.DuckDBPyConnection) -> dict:
 
     if con.execute("SELECT count(*) FROM information_schema.tables WHERE table_name='weather_obs'").fetchall()[0][0]:
         stations = _rows(con, """
-            SELECT station, count(*) AS obs, min(valid_utc)::DATE AS first, max(valid_utc)::DATE AS last,
+            SELECT station, count(*) AS obs, min(valid_utc AT TIME ZONE 'UTC')::DATE AS first, max(valid_utc AT TIME ZONE 'UTC')::DATE AS last,
                    count(DISTINCT date_trunc('hour', valid_utc)) AS hours_covered
             FROM weather_obs GROUP BY station ORDER BY obs DESC""")
         total_hours = ((config.DATA_END - config.DATA_START).days + 1) * 24

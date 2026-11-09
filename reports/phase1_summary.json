@@ -1,0 +1,301 @@
+{
+  "carrier": "AA",
+  "hub": "CLT",
+  "splits": {
+    "train": [
+      "2022-01-01",
+      "2023-06-30"
+    ],
+    "calib": [
+      "2023-07-01",
+      "2023-10-31"
+    ],
+    "test": [
+      "2023-11-01",
+      "2023-12-31"
+    ]
+  },
+  "ingest": {
+    "months_loaded": 24,
+    "months_expected": 24,
+    "raw_rows_total": 13577024,
+    "kept_rows_total": 2142436,
+    "parity_failures": []
+  },
+  "flights": {
+    "rows": 2142436,
+    "date_min": "2022-01-01",
+    "date_max": "2023-12-31",
+    "carrier_rows": 1814676,
+    "carrier_hub_rows": 446023,
+    "other_carrier_hub_rows": 327760,
+    "duplicate_flight_ids": 0,
+    "unknown_origin_tz": 0,
+    "unknown_dest_tz": 0,
+    "arr_clock_mismatch": 7
+  },
+  "daily_hub_departures": [
+    {
+      "split": "train",
+      "days": 546,
+      "mean": 298.9,
+      "min": 147,
+      "max": 346,
+      "cancelled_pct": 2.0
+    },
+    {
+      "split": "calib",
+      "days": 123,
+      "mean": 328.6,
+      "min": 233,
+      "max": 352,
+      "cancelled_pct": 1.19
+    },
+    {
+      "split": "test",
+      "days": 61,
+      "mean": 318.0,
+      "min": 131,
+      "max": 389,
+      "cancelled_pct": 0.03
+    }
+  ],
+  "outcomes_by_split": [
+    {
+      "split": "train",
+      "flights": 326398,
+      "cancelled_pct": 2.04,
+      "diverted_pct": 0.203,
+      "mean_dep_delay_min": 14.6,
+      "arr_del15_pct": 22.2
+    },
+    {
+      "split": "calib",
+      "flights": 80837,
+      "cancelled_pct": 1.22,
+      "diverted_pct": 0.224,
+      "mean_dep_delay_min": 20.4,
+      "arr_del15_pct": 24.5
+    },
+    {
+      "split": "test",
+      "flights": 38788,
+      "cancelled_pct": 0.04,
+      "diverted_pct": 0.134,
+      "mean_dep_delay_min": 10.1,
+      "arr_del15_pct": 16.7
+    }
+  ],
+  "missing_pct_carrier_hub": {
+    "Tail_Number": {
+      "all_flights": 0.023,
+      "operated": 0.0
+    },
+    "CRSDepTime": {
+      "all_flights": 0.0,
+      "operated": 0.0
+    },
+    "CRSArrTime": {
+      "all_flights": 0.0,
+      "operated": 0.0
+    },
+    "CRSElapsedTime": {
+      "all_flights": 0.0,
+      "operated": 0.0
+    },
+    "DepTime": {
+      "all_flights": 1.667,
+      "operated": 0.0
+    },
+    "DepDelay": {
+      "all_flights": 1.667,
+      "operated": 0.0
+    },
+    "ArrTime": {
+      "all_flights": 1.721,
+      "operated": 0.0
+    },
+    "ArrDelay": {
+      "all_flights": 1.915,
+      "operated": 0.0
+    },
+    "TaxiOut": {
+      "all_flights": 1.71,
+      "operated": 0.0
+    },
+    "TaxiIn": {
+      "all_flights": 1.721,
+      "operated": 0.0
+    },
+    "WheelsOff": {
+      "all_flights": 1.71,
+      "operated": 0.0
+    },
+    "WheelsOn": {
+      "all_flights": 1.721,
+      "operated": 0.0
+    },
+    "AirTime": {
+      "all_flights": 1.915,
+      "operated": 0.0
+    },
+    "Distance": {
+      "all_flights": 0.0,
+      "operated": 0.0
+    },
+    "CarrierDelay": {
+      "all_flights": 78.27,
+      "operated": 77.846
+    },
+    "LateAircraftDelay": {
+      "all_flights": 78.27,
+      "operated": 77.846
+    }
+  },
+  "delay_cause_note": "BTS fills delay-cause columns only for flights arriving 15+ minutes late; nulls elsewhere are expected.",
+  "weather": {
+    "rows": 325611,
+    "stations": [
+      {
+        "station": "PHL",
+        "obs": 22084,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17517,
+        "hour_coverage_pct": 99.98
+      },
+      {
+        "station": "ORD",
+        "obs": 21750,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17517,
+        "hour_coverage_pct": 99.98
+      },
+      {
+        "station": "DCA",
+        "obs": 21495,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17506,
+        "hour_coverage_pct": 99.92
+      },
+      {
+        "station": "BOS",
+        "obs": 21275,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17512,
+        "hour_coverage_pct": 99.95
+      },
+      {
+        "station": "LGA",
+        "obs": 20460,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17515,
+        "hour_coverage_pct": 99.97
+      },
+      {
+        "station": "LAX",
+        "obs": 20254,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17516,
+        "hour_coverage_pct": 99.98
+      },
+      {
+        "station": "DFW",
+        "obs": 20252,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17517,
+        "hour_coverage_pct": 99.98
+      },
+      {
+        "station": "MIA",
+        "obs": 20210,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17516,
+        "hour_coverage_pct": 99.98
+      },
+      {
+        "station": "MCO",
+        "obs": 20190,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17514,
+        "hour_coverage_pct": 99.97
+      },
+      {
+        "station": "TPA",
+        "obs": 20137,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17515,
+        "hour_coverage_pct": 99.97
+      },
+      {
+        "station": "CLT",
+        "obs": 20009,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17395,
+        "hour_coverage_pct": 99.29
+      },
+      {
+        "station": "EWR",
+        "obs": 19877,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17516,
+        "hour_coverage_pct": 99.98
+      },
+      {
+        "station": "RIC",
+        "obs": 19829,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17499,
+        "hour_coverage_pct": 99.88
+      },
+      {
+        "station": "RDU",
+        "obs": 19790,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17515,
+        "hour_coverage_pct": 99.97
+      },
+      {
+        "station": "FLL",
+        "obs": 19772,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17486,
+        "hour_coverage_pct": 99.81
+      },
+      {
+        "station": "PHX",
+        "obs": 18227,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17511,
+        "hour_coverage_pct": 99.95
+      }
+    ],
+    "missing_pct": {
+      "tmpf": 0.02,
+      "sknt": 0.13,
+      "gust": 86.38,
+      "vsby": 0.02,
+      "p01i": 0.15,
+      "skyc1": 0.02,
+      "ceiling_ft": 43.39,
+      "wxcodes": 83.22
+    },
+    "missing_note": "gust, ceiling_ft and wxcodes are null when no gust / no ceiling / no weather is reported"
+  },
+  "generated": "2026-11-09"
+}
