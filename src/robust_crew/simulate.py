@@ -184,7 +184,7 @@ def replay(
             if done:
                 report = rules.report_time(by_id[p[0]].sched_dep)
                 fdp = (sim_arr[done[-1]] - report).total_seconds() / 60
-                if fdp > rules.max_fdp_min(report, len(p)):
+                if fdp > rules.max_fdp_min(report, len(done)):
                     duty += 1
     return ReplayResult(sim_dep, sim_arr, crew_delay, broken, duty, orphaned)
 
