@@ -18,7 +18,7 @@
         "cost": 1129.32,
         "crew_delay_min": 1669.61,
         "broken_connections": 39.43,
-        "duty_violations": 7.89,
+        "duty_violations": 7.87,
         "flights_crew_delayed": 12.43,
         "legs_orphaned": 0.59
       },
@@ -30,7 +30,7 @@
         "cost": 1129.49,
         "crew_delay_min": 1356.11,
         "broken_connections": 32.69,
-        "duty_violations": 8.36,
+        "duty_violations": 8.34,
         "flights_crew_delayed": 7.56,
         "legs_orphaned": 0.57
       },
@@ -42,7 +42,7 @@
         "cost": 1129.88,
         "crew_delay_min": 1371.23,
         "broken_connections": 32.13,
-        "duty_violations": 8.51,
+        "duty_violations": 8.49,
         "flights_crew_delayed": 7.28,
         "legs_orphaned": 0.57
       },
@@ -54,7 +54,7 @@
         "cost": 1133.96,
         "crew_delay_min": 1281.59,
         "broken_connections": 31.31,
-        "duty_violations": 8.3,
+        "duty_violations": 8.28,
         "flights_crew_delayed": 6.84,
         "legs_orphaned": 0.56
       },
@@ -233,7 +233,7 @@
         "cost": 1176.93,
         "crew_delay_min": 2567.94,
         "broken_connections": 45.31,
-        "duty_violations": 11.79,
+        "duty_violations": 11.74,
         "flights_crew_delayed": 13.24,
         "legs_orphaned": 0.81
       },
@@ -245,7 +245,7 @@
         "cost": 1177.13,
         "crew_delay_min": 2309.74,
         "broken_connections": 39.6,
-        "duty_violations": 11.76,
+        "duty_violations": 11.69,
         "flights_crew_delayed": 9.03,
         "legs_orphaned": 0.79
       },
@@ -257,7 +257,7 @@
         "cost": 1177.54,
         "crew_delay_min": 2230.92,
         "broken_connections": 38.82,
-        "duty_violations": 11.82,
+        "duty_violations": 11.77,
         "flights_crew_delayed": 8.76,
         "legs_orphaned": 0.81
       },
@@ -269,7 +269,7 @@
         "cost": 1179.14,
         "crew_delay_min": 2201.76,
         "broken_connections": 38.55,
-        "duty_violations": 12.21,
+        "duty_violations": 12.13,
         "flights_crew_delayed": 8.68,
         "legs_orphaned": 0.79
       },
@@ -281,7 +281,7 @@
         "cost": 1198.81,
         "crew_delay_min": 1883.19,
         "broken_connections": 35.9,
-        "duty_violations": 11.44,
+        "duty_violations": 11.34,
         "flights_crew_delayed": 7.26,
         "legs_orphaned": 0.68
       },
@@ -293,7 +293,7 @@
         "cost": 1243.06,
         "crew_delay_min": 1639.66,
         "broken_connections": 32.53,
-        "duty_violations": 10.84,
+        "duty_violations": 10.77,
         "flights_crew_delayed": 5.74,
         "legs_orphaned": 0.45
       },
@@ -305,7 +305,7 @@
         "cost": 1327.11,
         "crew_delay_min": 1192.84,
         "broken_connections": 30.05,
-        "duty_violations": 8.48,
+        "duty_violations": 8.45,
         "flights_crew_delayed": 4.29,
         "legs_orphaned": 0.34
       },
@@ -341,7 +341,7 @@
         "cost": 1179.16,
         "crew_delay_min": 2454.44,
         "broken_connections": 42.0,
-        "duty_violations": 10.88,
+        "duty_violations": 10.81,
         "flights_crew_delayed": 12.41,
         "legs_orphaned": 0.53,
         "paired_baseline": {
@@ -349,7 +349,7 @@
           "cost": 1178.37,
           "crew_delay_min": 2437.0,
           "broken_connections": 41.84,
-          "duty_violations": 10.84,
+          "duty_violations": 10.81,
           "flights_crew_delayed": 12.69,
           "legs_orphaned": 0.53
         }
@@ -383,7 +383,7 @@
         "cost": 1173.02,
         "crew_delay_min": 3004.0,
         "broken_connections": 35.68,
-        "duty_violations": 10.16,
+        "duty_violations": 10.11,
         "flights_crew_delayed": 10.89,
         "legs_orphaned": 0.53,
         "paired_baseline": {
@@ -448,7 +448,7 @@
         "cost": 1136.56,
         "crew_delay_min": 1021.51,
         "broken_connections": 26.48,
-        "duty_violations": 4.69,
+        "duty_violations": 4.67,
         "flights_crew_delayed": 9.89,
         "legs_orphaned": 0.28
       },
@@ -564,7 +564,7 @@
           "cost": 1119.9,
           "crew_delay_min": 1097.22,
           "broken_connections": 21.07,
-          "duty_violations": 3.78,
+          "duty_violations": 3.74,
           "flights_crew_delayed": 8.89,
           "legs_orphaned": 0.11
         }
@@ -585,7 +585,7 @@
           "cost": 1121.75,
           "crew_delay_min": 1163.44,
           "broken_connections": 21.2,
-          "duty_violations": 3.96,
+          "duty_violations": 3.92,
           "flights_crew_delayed": 8.84,
           "legs_orphaned": 0.12
         }
@@ -606,7 +606,7 @@
           "cost": 1093.44,
           "crew_delay_min": 1998.18,
           "broken_connections": 22.36,
-          "duty_violations": 4.55,
+          "duty_violations": 4.45,
           "flights_crew_delayed": 9.09,
           "legs_orphaned": 0.18
         }
@@ -627,7 +627,7 @@
           "cost": 1134.97,
           "crew_delay_min": 4737.25,
           "broken_connections": 22.25,
-          "duty_violations": 4.25,
+          "duty_violations": 4.0,
           "flights_crew_delayed": 10.25,
           "legs_orphaned": 0.0
         }
