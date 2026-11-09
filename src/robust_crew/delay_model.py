@@ -28,6 +28,7 @@ Usage::
 
     uv run python -m robust_crew.delay_model connections   # build labelled connections
     uv run python -m robust_crew.delay_model train         # fit, calibrate, evaluate
+    uv run python -m robust_crew.delay_model predict       # score every connection -> conn_risk
 """
 
 from __future__ import annotations
@@ -431,11 +432,34 @@ def plot_calibration(report: dict) -> None:
     plt.close(fig)
 
 
+def predict_risk() -> int:
+    """Table ``conn_risk``: calibrated planning and operations break probabilities per connection.
+
+    Scored for every connection, including those whose flights were later
+    cancelled (a planner does not know cancellations in advance).
+    """
+    with open(MODEL_DIR / "break_models.pkl", "rb") as fh:
+        models = pickle.load(fh)
+    con = connect()
+    df = load_features(con)
+    out = pd.DataFrame({
+        "FlightDate": df.FlightDate, "split": df.split, "i_id": df.i_id, "j_id": df.j_id,
+        "p_plan": models["planning"].predict_proba(df),
+        "p_ops": models["operations"].predict_proba(df),
+    })
+    con.execute("DROP TABLE IF EXISTS conn_risk")
+    con.register("risk_df", out)
+    con.execute("CREATE TABLE conn_risk AS SELECT * FROM risk_df")
+    con.unregister("risk_df")
+    con.close()
+    return len(out)
+
+
 def main() -> None:
     """Command-line entry point."""
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("step", choices=["connections", "train", "all"])
+    ap.add_argument("step", choices=["connections", "train", "predict", "all"])
     args = ap.parse_args()
     if args.step in ("connections", "all"):
         con = connect()
@@ -444,6 +468,8 @@ def main() -> None:
     if args.step in ("train", "all"):
         rep = train_and_evaluate()
         print(json.dumps({k: rep[k] for k in ("rows", "break_rate", "metrics", "arrival_delay_regressor")}, indent=2))
+    if args.step in ("predict", "all"):
+        log.info("conn_risk: %d rows", predict_risk())
 
 
 if __name__ == "__main__":
