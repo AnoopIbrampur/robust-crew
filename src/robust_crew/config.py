@@ -15,14 +15,28 @@ HUB = "CLT"  # crew base; every pairing starts and ends here
 
 # --- Time splits (inclusive, local scheduled departure date) ------------------
 # Train: model fitting + historical route stats. Calib: probability calibration
-# and validation. Test: planning + replay evaluation. Nothing from CALIB or TEST
-# may reach training tables; nothing from TEST may reach planning inputs.
+# and validation. Test windows: planning + replay evaluation only.
+#
+# Two test windows, chosen by season:
+#   test_summer  Jul-Aug 2023: convective-thunderstorm season, CLT's main
+#                delay driver; the regime where robustness should pay.
+#   test_winter  Nov-Dec 2023: the originally planned window. It turned out
+#                unusually calm for AA (Phase 1 report), so it measures what
+#                robustness costs when little goes wrong.
+# The two-window design was adopted AFTER Phase 1 showed Nov-Dec 2023 was calm;
+# the original window is kept so that choice cannot hide an unfavourable result.
+# Sep-Oct 2023 is an unused gap. One model (trained on TRAIN, calibrated on
+# CALIB) is frozen and used for both test windows.
 TRAIN_START = date(2022, 1, 1)
-TRAIN_END = date(2023, 6, 30)
-CALIB_START = date(2023, 7, 1)
-CALIB_END = date(2023, 10, 31)
-TEST_START = date(2023, 11, 1)
-TEST_END = date(2023, 12, 31)
+TRAIN_END = date(2023, 4, 30)
+CALIB_START = date(2023, 5, 1)
+CALIB_END = date(2023, 6, 30)
+TEST_WINDOWS: dict[str, tuple[date, date]] = {
+    "test_summer": (date(2023, 7, 1), date(2023, 8, 31)),
+    "test_winter": (date(2023, 11, 1), date(2023, 12, 31)),
+}
+TEST_START = min(a for a, _ in TEST_WINDOWS.values())  # nothing on/after this may train or calibrate
+TEST_END = max(b for _, b in TEST_WINDOWS.values())
 
 DATA_START = TRAIN_START
 DATA_END = TEST_END
@@ -42,14 +56,22 @@ MONTHS = months_in_range(DATA_START, DATA_END)
 
 
 def split_of(d: date) -> str:
-    """Name of the split a date belongs to: 'train', 'calib', 'test' or 'none'."""
+    """Split a date belongs to: 'train', 'calib', a TEST_WINDOWS key, 'gap' or 'none'."""
     if TRAIN_START <= d <= TRAIN_END:
         return "train"
     if CALIB_START <= d <= CALIB_END:
         return "calib"
-    if TEST_START <= d <= TEST_END:
-        return "test"
+    for name, (a, b) in TEST_WINDOWS.items():
+        if a <= d <= b:
+            return name
+    if CALIB_END < d < TEST_END:
+        return "gap"
     return "none"
+
+
+def is_test(split: str) -> bool:
+    """True for any test-window split name."""
+    return split in TEST_WINDOWS
 
 
 # --- Paths ---------------------------------------------------------------------

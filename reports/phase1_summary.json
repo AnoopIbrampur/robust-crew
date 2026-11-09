@@ -4,13 +4,17 @@
   "splits": {
     "train": [
       "2022-01-01",
-      "2023-06-30"
+      "2023-04-30"
     ],
     "calib": [
-      "2023-07-01",
-      "2023-10-31"
+      "2023-05-01",
+      "2023-06-30"
     ],
-    "test": [
+    "test_summer": [
+      "2023-07-01",
+      "2023-08-31"
+    ],
+    "test_winter": [
       "2023-11-01",
       "2023-12-31"
     ]
@@ -37,22 +41,38 @@
   "daily_hub_departures": [
     {
       "split": "train",
-      "days": 546,
-      "mean": 298.9,
+      "days": 485,
+      "mean": 295.2,
       "min": 147,
       "max": 346,
-      "cancelled_pct": 2.0
+      "cancelled_pct": 2.22
     },
     {
       "split": "calib",
-      "days": 123,
-      "mean": 328.6,
-      "min": 233,
-      "max": 352,
-      "cancelled_pct": 1.19
+      "days": 61,
+      "mean": 328.0,
+      "min": 271,
+      "max": 345,
+      "cancelled_pct": 0.45
     },
     {
-      "split": "test",
+      "split": "test_summer",
+      "days": 62,
+      "mean": 331.7,
+      "min": 243,
+      "max": 344,
+      "cancelled_pct": 2.03
+    },
+    {
+      "split": "gap",
+      "days": 61,
+      "mean": 325.4,
+      "min": 233,
+      "max": 352,
+      "cancelled_pct": 0.33
+    },
+    {
+      "split": "test_winter",
       "days": 61,
       "mean": 318.0,
       "min": 131,
@@ -63,22 +83,38 @@
   "outcomes_by_split": [
     {
       "split": "train",
-      "flights": 326398,
-      "cancelled_pct": 2.04,
-      "diverted_pct": 0.203,
-      "mean_dep_delay_min": 14.6,
-      "arr_del15_pct": 22.2
+      "flights": 286383,
+      "cancelled_pct": 2.25,
+      "diverted_pct": 0.193,
+      "mean_dep_delay_min": 13.8,
+      "arr_del15_pct": 21.9
     },
     {
       "split": "calib",
-      "flights": 80837,
-      "cancelled_pct": 1.22,
-      "diverted_pct": 0.224,
-      "mean_dep_delay_min": 20.4,
-      "arr_del15_pct": 24.5
+      "flights": 40015,
+      "cancelled_pct": 0.5,
+      "diverted_pct": 0.272,
+      "mean_dep_delay_min": 20.1,
+      "arr_del15_pct": 24.7
     },
     {
-      "split": "test",
+      "split": "test_summer",
+      "flights": 41134,
+      "cancelled_pct": 2.06,
+      "diverted_pct": 0.292,
+      "mean_dep_delay_min": 28.9,
+      "arr_del15_pct": 30.8
+    },
+    {
+      "split": "gap",
+      "flights": 39703,
+      "cancelled_pct": 0.34,
+      "diverted_pct": 0.154,
+      "mean_dep_delay_min": 11.8,
+      "arr_del15_pct": 18.2
+    },
+    {
+      "split": "test_winter",
       "flights": 38788,
       "cancelled_pct": 0.04,
       "diverted_pct": 0.134,
@@ -154,7 +190,7 @@
   },
   "delay_cause_note": "BTS fills delay-cause columns only for flights arriving 15+ minutes late; nulls elsewhere are expected.",
   "weather": {
-    "rows": 325611,
+    "rows": 325793,
     "stations": [
       {
         "station": "PHL",
@@ -237,6 +273,14 @@
         "hour_coverage_pct": 99.97
       },
       {
+        "station": "AUS",
+        "obs": 20011,
+        "first": "2022-01-01",
+        "last": "2023-12-31",
+        "hours_covered": 17509,
+        "hour_coverage_pct": 99.94
+      },
+      {
         "station": "CLT",
         "obs": 20009,
         "first": "2022-01-01",
@@ -251,14 +295,6 @@
         "last": "2023-12-31",
         "hours_covered": 17516,
         "hour_coverage_pct": 99.98
-      },
-      {
-        "station": "RIC",
-        "obs": 19829,
-        "first": "2022-01-01",
-        "last": "2023-12-31",
-        "hours_covered": 17499,
-        "hour_coverage_pct": 99.88
       },
       {
         "station": "RDU",
@@ -288,12 +324,12 @@
     "missing_pct": {
       "tmpf": 0.02,
       "sknt": 0.13,
-      "gust": 86.38,
+      "gust": 85.86,
       "vsby": 0.02,
       "p01i": 0.15,
       "skyc1": 0.02,
-      "ceiling_ft": 43.39,
-      "wxcodes": 83.22
+      "ceiling_ft": 43.88,
+      "wxcodes": 83.52
     },
     "missing_note": "gust, ceiling_ft and wxcodes are null when no gust / no ceiling / no weather is reported"
   },

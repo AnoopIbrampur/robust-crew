@@ -45,7 +45,7 @@ def collect(con: duckdb.DuckDBPyConnection) -> dict:
     s: dict = {"carrier": c, "hub": h, "splits": {
         "train": [str(config.TRAIN_START), str(config.TRAIN_END)],
         "calib": [str(config.CALIB_START), str(config.CALIB_END)],
-        "test": [str(config.TEST_START), str(config.TEST_END)],
+        **{k: [str(a), str(b)] for k, (a, b) in config.TEST_WINDOWS.items()},
     }}
 
     log = _rows(con, "SELECT * FROM ingest_log WHERE source='bts' ORDER BY year, month")
@@ -138,8 +138,9 @@ def plot_daily(con: duckdb.DuckDBPyConnection) -> str:
     ax.plot(days, [r[1] for r in rows], lw=0.9, label="scheduled departures")
     ax.plot(days, [r[2] for r in rows], lw=0.9, alpha=0.7, label="scheduled arrivals")
     ax.bar(days, [r[3] for r in rows], width=1.0, color="tab:red", label="cancelled departures")
-    for name, a, b, col in [("calib", config.CALIB_START, config.CALIB_END, "tab:orange"),
-                            ("test", config.TEST_START, config.TEST_END, "tab:green")]:
+    windows = [("calib", config.CALIB_START, config.CALIB_END, "tab:orange")] + [
+        (k, a, b, "tab:green") for k, (a, b) in config.TEST_WINDOWS.items()]
+    for name, a, b, col in windows:
         ax.axvspan(a, b, color=col, alpha=0.12, label=f"{name} window")
     ax.set_title(f"{config.CARRIER} daily flights at {config.HUB}")
     ax.set_ylabel("flights per day")
