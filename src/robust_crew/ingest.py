@@ -198,13 +198,36 @@ def load_bts_month(con: duckdb.DuckDBPyConnection, year: int, month: int, zip_pa
         shutil.rmtree(work, ignore_errors=True)
 
 
-def ingest_bts(months: list[tuple[int, int]] = config.MONTHS) -> None:
-    """Download and load every configured month."""
+def _loaded_months(con: duckdb.DuckDBPyConnection) -> set[tuple[int, int]]:
+    """Months already in ``ingest_log`` with a passing row-count parity check."""
+    exists = con.execute(
+        "SELECT count(*) FROM information_schema.tables WHERE table_name = 'ingest_log'"
+    ).fetchall()[0][0]
+    if not exists:
+        return set()
+    rows = con.execute(
+        "SELECT year, month FROM ingest_log WHERE source = 'bts' AND raw_rows = file_lines"
+    ).fetchall()
+    return {(y, m) for y, m in rows}
+
+
+def ingest_bts(months: list[tuple[int, int]] = config.MONTHS, force: bool = False) -> None:
+    """Download and load every configured month, skipping months already loaded.
+
+    Unless ``config.KEEP_RAW_ZIPS`` is set, each zip is deleted once its month
+    is loaded (they are re-downloadable; this keeps peak disk use near 300 MB).
+    """
     con = connect()
+    done = set() if force else _loaded_months(con)
     for year, month in months:
+        if (year, month) in done:
+            log.info("bts %d-%02d: already loaded, skipping", year, month)
+            continue
         zp = download_bts_month(year, month)
         info = load_bts_month(con, year, month, zp)
         log.info("bts %d-%02d: %d raw rows, %d kept", year, month, info["raw_rows"], info["kept_rows"])
+        if not config.KEEP_RAW_ZIPS:
+            zp.unlink()
     con.close()
 
 

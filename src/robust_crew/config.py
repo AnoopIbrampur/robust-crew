@@ -68,6 +68,9 @@ BTS_URL = (
     "On_Time_Reporting_Carrier_On_Time_Performance_1987_present_{year}_{month}.zip"
 )
 
+# Delete each monthly zip after it is loaded (re-downloadable; saves ~650 MB).
+KEEP_RAW_ZIPS = False
+
 # Columns kept from the ~110 in the raw file. Beyond the identifiers and times,
 # the delay-cause, taxi and elapsed-time columns are kept so that the replay
 # simulator (Phase 6) can separate a flight's own delay from delay it inherited
