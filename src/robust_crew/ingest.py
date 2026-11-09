@@ -86,15 +86,31 @@ def download_bts_month(year: int, month: int, dest_dir: Path = config.BTS_RAW_DI
     if out.exists() and zipfile.is_zipfile(out):
         return out
     url = config.BTS_URL.format(year=year, month=month)
-    log.info("downloading %s", url)
-    r = _get(url, stream=True)
-    expected = int(r.headers.get("Content-Length", 0))
     tmp = out.with_suffix(".part")
-    with open(tmp, "wb") as fh:
-        for chunk in r.iter_content(chunk_size=1 << 20):
-            fh.write(chunk)
-    if expected and tmp.stat().st_size != expected:
-        raise IOError(f"{url}: got {tmp.stat().st_size} bytes, expected {expected}")
+    head = requests.head(url, timeout=60, headers={"User-Agent": config.USER_AGENT})
+    head.raise_for_status()
+    total = int(head.headers.get("Content-Length", 0))
+    # The BTS server drops long transfers; resume from where we stopped.
+    for attempt in range(1, 11):
+        have = tmp.stat().st_size if tmp.exists() else 0
+        if total and have >= total:
+            break
+        headers = {"User-Agent": config.USER_AGENT}
+        if have:
+            headers["Range"] = f"bytes={have}-"
+        log.info("downloading %s (attempt %d, from byte %d of %d)", url, attempt, have, total)
+        try:
+            with requests.get(url, headers=headers, stream=True, timeout=120) as r:
+                r.raise_for_status()
+                mode = "ab" if have and r.status_code == 206 else "wb"
+                with open(tmp, mode) as fh:
+                    for chunk in r.iter_content(chunk_size=1 << 20):
+                        fh.write(chunk)
+        except requests.RequestException as exc:
+            log.warning("transfer interrupted (%s)", exc)
+            time.sleep(min(60, 5 * attempt))
+    if not tmp.exists() or (total and tmp.stat().st_size != total) or not zipfile.is_zipfile(tmp):
+        raise IOError(f"{url}: incomplete download after retries")
     tmp.rename(out)
     return out
 
