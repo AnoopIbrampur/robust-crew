@@ -14,12 +14,12 @@ def test_app_runs_in_both_seasons_with_and_without_repair():
     at = AppTest.from_file(str(config.ROOT / "app" / "streamlit_app.py"), default_timeout=180).run()
     assert not at.exception
     page = " ".join(m.value for m in at.markdown)
-    assert "Broken connections" in page and "Reserves called" not in page
+    assert "broken crew connections" in page and "reserve crews called" not in page
 
-    at.session_state["mode"] = "With repair"
+    at.session_state["mode"] = "With day-of repair"
     at.run()
     assert not at.exception
-    assert "Reserves called" in " ".join(m.value for m in at.markdown)
+    assert "reserve crews called" in " ".join(m.value for m in at.markdown)
 
     at.session_state["season"] = "Winter"
     at.session_state["view"] = "Cheapest plan"

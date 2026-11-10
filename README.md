@@ -137,7 +137,7 @@ uv sync --extra app
 uv run streamlit run app/streamlit_app.py
 ```
 
-Pick a season, a day (worst first) and whether day-of repair runs; the robustness weight λ sits under Settings. The app replays that day live, compares the robust plan with the cheapest plan in metric cards and one plain-language summary, and shows each crew's day as a timeline: grey is the schedule, colour the replay, by crew-caused delay including knock-on through the aircraft. A list shows every flight that waited for a late crew. Run it from the repository root so `.streamlit/config.toml` (light theme) applies; it needs the local database built by the pipeline.
+Styled after [DrugSupply Watch](https://anoopibrampur.github.io/drugsupply-watch/) (Newsreader and Public Sans, paper-and-ink palette, light and dark). Pick a season, a day (worst first) and whether day-of repair runs; the robustness weight λ sits under Settings. The app replays that day live, compares the robust plan with the cheapest plan in metric cards and one plain-language summary, and shows each crew's day as a timeline: grey is the schedule, colour the replay, by crew-caused delay including knock-on through the aircraft. A list shows every flight that waited for a late crew. Run it from the repository root so `.streamlit/config.toml` (light theme) applies; it needs the local database built by the pipeline.
 
 ## Evaluation design
 
@@ -159,6 +159,7 @@ The original plan had one Nov-Dec 2023 test window. Phase 1 showed it was unusua
 - **Probabilities drift with the season.** Calibrated on May-June, the model under-predicts breaks in the stormy summer and over-predicts in the calm winter; ranking holds up.
 - **The hard-robust planner mostly fails.** Forbidding risky connections outright leaves no exact cover on most days, even after exempting legs that have no low-risk option; it is evaluated only on its feasible days, where it gains little. Soft penalties are the better tool here.
 - **No passenger connections, no cancellations decisions, one hub.** Delay is measured in flight minutes, not passenger minutes; cancelled flights are taken as given.
+- **A crew waits for its inbound however late it is.** Without repair, a crew whose inbound flight carries an extreme real delay (BTS has a few delays of a day or more) holds its next flight just as long; a real airline would replace that crew. A handful of such legs can dominate a day's crew-caused delay total, one reason those intervals are wide. Broken-connection counts are not affected this way.
 - **Repair knows the inbound's arrival** when it decides (the aircraft is airborne), and repairs only at the hub.
 - **Thanksgiving** shows only morning CLT departures in BTS, so very few pairings close on those days.
 

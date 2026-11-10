@@ -1,10 +1,42 @@
-[theme]
-base = "light"
-primaryColor = "#0071e3"
-backgroundColor = "#f5f5f7"
-secondaryBackgroundColor = "#ffffff"
-textColor = "#1d1d1f"
-font = "sans serif"
+# Crew Explorer theme: the DrugSupply Watch bulletin style (paper and ink, serif headings,
+# colour reserved for disruption). Follows the system light/dark setting.
+[server]
+enableStaticServing = true
 
 [client]
 toolbarMode = "minimal"
+
+[theme]
+font = "Public Sans, system-ui, -apple-system, Segoe UI, sans-serif"
+headingFont = "Newsreader, Georgia, Times New Roman, serif"
+headingFontWeights = 600
+baseRadius = "4px"
+showWidgetBorder = true
+
+[[theme.fontFaces]]
+family = "Public Sans"
+url = "app/static/fonts/public-sans-latin-wght-normal.woff2"
+weight = "100 900"
+
+[[theme.fontFaces]]
+family = "Newsreader"
+url = "app/static/fonts/newsreader-latin-opsz-normal.woff2"
+weight = "200 800"
+
+[theme.light]
+backgroundColor = "#f8f7f3"
+secondaryBackgroundColor = "#f1eee6"
+textColor = "#18202b"
+primaryColor = "#0a5a8c"
+linkColor = "#0a5a8c"
+borderColor = "#bdb9ad"
+dataframeBorderColor = "#dedbd1"
+
+[theme.dark]
+backgroundColor = "#12161c"
+secondaryBackgroundColor = "#1b2129"
+textColor = "#e9eae6"
+primaryColor = "#8fc6ef"
+linkColor = "#8fc6ef"
+borderColor = "#47515e"
+dataframeBorderColor = "#2f3742"

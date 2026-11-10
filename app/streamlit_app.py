@@ -1,6 +1,11 @@
-"""robust-crew explorer: baseline vs robust crew schedules on a real test day.
+"""Crew Explorer: replay a real day of crew operations through two crew schedules.
 
-Run after the pipeline has built data/robust_crew.duckdb:
+Visual style follows DrugSupply Watch: a bulletin in paper and ink. Structure comes from
+type, space and hairlines rather than boxes; colour is reserved for disruption and every
+colour has a text label beside it. Light and dark follow the system setting
+(.streamlit/config.toml).
+
+Run from the repository root after the pipeline has built data/robust_crew.duckdb:
 
     uv sync --extra app
     uv run streamlit run app/streamlit_app.py
@@ -23,57 +28,126 @@ from robust_crew.repair import replay_with_repair
 from robust_crew.simulate import crew_caused_delay, load_day_flights, replay
 
 ET = ZoneInfo("America/New_York")
-FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+REPO = "https://github.com/AnoopIbrampur/robust-crew"
+SANS = "Public Sans, system-ui, -apple-system, Segoe UI, sans-serif"
 
-# Apple system colours (light appearance). One accent; the delay ramp reads calm -> urgent.
-GRAY = "#86868b"
-IMPACT = {"On time": "#0a84ff", "1–15 min": "#ffcc00", "16–60 min": "#ff9500", "Over 60 min": "#ff3b30"}
+# Disruption bands, low to high. Mid-tone fills read on both paper and ink backgrounds.
+BANDS = [("None", 0, "#8d96a3"), ("Minor", 15, "#c9971a"), ("Moderate", 60, "#d0662a"), ("Severe", 10_000, "#c22d36")]
+BAND_CLASS = {"None": "typical", "Minor": "moderate", "Moderate": "elevated", "Severe": "high"}
 
-st.set_page_config(page_title="Crew Explorer · robust-crew", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Crew Explorer", page_icon="✈", layout="wide",
+                   initial_sidebar_state="collapsed")
 
 st.markdown(
-    f"""
+    """
 <style>
-:root {{
-  --text: #1d1d1f; --secondary: #6e6e73; --tertiary: #86868b;
-  --surface: #ffffff; --canvas: #f5f5f7; --hairline: rgba(0,0,0,0.08);
-  --green: #248a3d; --red: #d70015;
-}}
-.stApp, .stApp *:not([data-testid="stIconMaterial"]):not(.material-symbols-rounded) {{ font-family: {FONT} !important; }}
-[data-testid="stIconMaterial"], .material-symbols-rounded {{ font-family: "Material Symbols Rounded" !important; }}
-.stApp {{ background: var(--canvas); color: var(--text); }}
-#MainMenu, footer, header [data-testid="stToolbar"], [data-testid="stDecoration"] {{ display: none !important; }}
-header[data-testid="stHeader"] {{ background: transparent; height: 0; }}
-.block-container {{ max-width: 1180px; padding: 2.4rem 2rem 4rem; }}
+:root {
+  --bg: #f8f7f3; --tint: #f1eee6; --ink: #18202b; --muted: #535d6b;
+  --line: #dedbd1; --line-strong: #bdb9ad; --accent: #0a5a8c;
+  --typical: #55606e; --moderate: #7d5700; --elevated: #ad440c; --high: #ad1420;
+  --typical-bg: #eceef0; --moderate-bg: #fbf0d2; --elevated-bg: #fce6d6; --high-bg: #fbe1e1;
+  --better: #1f6b3a;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s6: 1.5rem; --s8: 2rem; --s12: 3rem;
+  --t-xs: 0.8125rem; --t-sm: 0.875rem; --t-md: 1rem; --t-lg: 1.125rem; --t-xl: 1.5rem;
+  --t-2xl: 2rem; --t-3xl: 3.5rem; --radius: 4px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161c; --tint: #1b2129; --ink: #e9eae6; --muted: #a6afba;
+    --line: #2f3742; --line-strong: #47515e; --accent: #8fc6ef;
+    --typical: #aeb7c2; --moderate: #e8c25e; --elevated: #f6a56a; --high: #ff9090;
+    --typical-bg: #28303a; --moderate-bg: #3a2f10; --elevated-bg: #40291a; --high-bg: #431f22;
+    --better: #7fd19b;
+  }
+}
 
-.eyebrow {{ font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-            color: var(--tertiary); margin: 0 0 0.35rem; }}
-.title {{ font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.05; letter-spacing: -0.025em;
-          font-weight: 700; margin: 0; color: var(--text); padding: 0; }}
-.lede {{ font-size: 1.05rem; line-height: 1.45; color: var(--secondary); margin: 0.6rem 0 1.6rem; max-width: 46rem; }}
-.section {{ font-size: 1.35rem !important; line-height: 1.2; font-weight: 600; letter-spacing: -0.015em; margin: 2.2rem 0 0.25rem; color: var(--text); }}
-.note {{ font-size: 0.85rem !important; line-height: 1.45; color: var(--tertiary); margin: 0.2rem 0 0; }}
+/* Streamlit chrome off; one measured column like the bulletin */
+#MainMenu, footer, [data-testid="stToolbar"], [data-testid="stDecoration"] { display: none !important; }
+header[data-testid="stHeader"] { background: transparent; height: 0; }
+.block-container { max-width: 70rem; padding: 0 var(--s6) var(--s8) !important; }
+.stApp a { color: var(--accent); text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
+.stApp a:hover { text-decoration-thickness: 2px; }
+.stApp a:active { opacity: 0.6; }
 
-.cards {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 1.1rem; }}
-.card {{ background: var(--surface); border-radius: 16px; padding: 16px 18px 14px;
-         box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 0 0 1px var(--hairline); }}
-.card .label {{ font-size: 0.8rem; font-weight: 500; color: var(--secondary); white-space: nowrap;
-                overflow: hidden; text-overflow: ellipsis; }}
-.card .value {{ font-size: 1.9rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: var(--text);
-                margin-top: 4px; font-variant-numeric: tabular-nums; }}
-.card .unit {{ font-size: 0.95rem; font-weight: 500; color: var(--tertiary); margin-left: 3px; letter-spacing: 0; }}
-.card .delta {{ font-size: 0.8rem; font-weight: 500; margin-top: 6px; color: var(--tertiary);
-                font-variant-numeric: tabular-nums; }}
-.delta.better {{ color: var(--green); }} .delta.worse {{ color: var(--red); }}
+/* Masthead and disclaimer */
+/* Full-bleed bands whose text stays aligned to the column */
+.masthead, .disclaimer { box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax); }
+.masthead { --band: var(--bg); display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s8);
+  min-height: 2.75rem; border-bottom: 1px solid var(--line); margin: 0; padding: var(--s1) 0 0; }
+.brand { display: inline-flex; align-items: center; gap: var(--s2); color: var(--ink) !important;
+  text-decoration: none !important; font: 600 var(--t-xl)/1 var(--serif); letter-spacing: -0.01em; }
+.brand svg { width: var(--s6); height: var(--s6); color: var(--high); }
+.masthead nav { display: flex; flex-wrap: wrap; margin-left: auto; }
+.masthead nav a { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 var(--s3);
+  color: var(--muted) !important; text-decoration: none !important; font-size: var(--t-sm); }
+.masthead nav a:hover { color: var(--ink) !important; }
+.masthead nav a[aria-current] { color: var(--ink) !important; font-weight: 600; box-shadow: inset 0 -2px 0 var(--ink); }
+.disclaimer { --band: var(--tint); background: var(--tint); margin: 0 0 var(--s4); padding: var(--s2) 0;
+  font-size: var(--t-xs); line-height: 1.45; color: var(--muted); }
+.disclaimer strong { color: var(--ink); }
 
-.insight {{ background: var(--surface); border-radius: 16px; padding: 14px 18px; margin-top: 12px; color: var(--text);
-            box-shadow: 0 0 0 1px var(--hairline); font-size: 0.98rem; line-height: 1.45; }}
+/* Type: tight and close when large, open when small */
+.dateline, .note, .foot { font-size: var(--t-sm); line-height: 1.5; letter-spacing: 0.005em; color: var(--muted); }
+.dateline { margin: var(--s8) 0 var(--s1); }
+h1.title { font: 600 clamp(var(--t-2xl), 1.6rem + 2vw, var(--t-3xl))/1.08 var(--serif) !important;
+  letter-spacing: -0.02em; margin: 0 0 var(--s3) !important; padding: 0 !important; color: var(--ink); }
+.lede { font-size: var(--t-lg); line-height: 1.5; max-width: 60ch; color: var(--ink); margin: 0; }
+h2.sec { font: 600 var(--t-xl)/1.2 var(--serif) !important; letter-spacing: -0.01em;
+  margin: var(--s12) 0 var(--s2) !important; padding: 0 !important; color: var(--ink); }
+.note { margin: 0 0 var(--s3); }
 
-[data-testid="stExpander"] {{ border-radius: 14px; border: 1px solid var(--hairline); background: var(--surface); }}
-[data-testid="stVegaLiteChart"] {{ background: var(--surface); border-radius: 16px; padding: 14px 10px 6px;
-                                   box-shadow: 0 0 0 1px var(--hairline); }}
+/* Key numbers: a line of type between 2 rules */
+.stats { list-style: none; padding: var(--s3) 0; margin: var(--s6) 0 var(--s4); display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: var(--s3) var(--s6);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stats li { font-size: var(--t-sm); color: var(--muted); line-height: 1.35; margin: 0; }
+.stats strong { display: block; font: 600 var(--t-xl)/1.2 var(--serif); color: var(--ink);
+  font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stats .chg { display: block; font-size: var(--t-xs); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.chg.better { color: var(--better); } .chg.worse { color: var(--high); }
 
-@media (prefers-reduced-motion: reduce) {{ * {{ transition: none !important; animation: none !important; }} }}
+/* What changed: two columns of plain sentences */
+.changes { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); margin: var(--s4) 0 0; }
+.changes > div { flex: 1 1 15rem; }
+.changes h3 { font: 600 var(--t-md)/1.3 var(--sans); margin: 0 0 var(--s1); color: var(--ink); }
+.changes p { font-size: var(--t-sm); line-height: 1.5; margin: 0; color: var(--ink); }
+
+/* Disruption bands */
+.typical { --c: var(--typical); --c-bg: var(--typical-bg); }
+.moderate { --c: var(--moderate); --c-bg: var(--moderate-bg); }
+.elevated { --c: var(--elevated); --c-bg: var(--elevated-bg); }
+.high { --c: var(--high); --c-bg: var(--high-bg); }
+.badge { display: inline-block; padding: 0 var(--s2); border-radius: var(--radius); white-space: nowrap;
+  font-size: var(--t-xs); font-weight: 600; color: var(--c); background: var(--c-bg); }
+.scale { list-style: none; padding: 0; margin: var(--s2) 0 var(--s3); display: flex; flex-wrap: wrap; gap: var(--s2) var(--s6); }
+.scale li { font-size: var(--t-xs); color: var(--muted); margin: 0; }
+.scale .badge { margin-right: var(--s1); }
+
+/* Tables: rules only */
+.table-wrap { overflow-x: auto; }
+table.rules { border-collapse: collapse; width: 100%; font-size: var(--t-sm); line-height: 1.4; }
+.rules th, .rules td { text-align: left; padding: var(--s2) var(--s3); border: 0; border-bottom: 1px solid var(--line);
+  vertical-align: baseline; color: var(--ink); background: transparent; }
+.rules th:first-child, .rules td:first-child { padding-left: 0; }
+.rules th:last-child, .rules td:last-child { padding-right: 0; }
+.rules th { font-size: var(--t-xs); font-weight: 500; color: var(--muted); white-space: nowrap;
+  border-bottom-color: var(--line-strong); }
+.rules .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Widgets: labels like the bulletin's form labels */
+[data-testid="stWidgetLabel"] p { font-size: var(--t-sm) !important; font-weight: 600 !important; color: var(--ink); }
+[data-testid="stVegaLiteChart"] { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: var(--s3) 0; }
+[data-testid="stExpander"] details { border: 0 !important; border-top: 1px solid var(--line) !important; border-radius: 0 !important; }
+[data-testid="stExpander"] summary { padding-left: 0 !important; color: var(--accent); }
+[data-testid="stExpander"] summary p { font-size: var(--t-sm) !important; }
+
+.foot { margin-top: var(--s12); box-shadow: 0 -1px 0 var(--line); padding-top: var(--s4); }
+.foot p { margin: 0 0 var(--s2); }
+
+@media (prefers-contrast: more) { :root { --line: var(--muted); --line-strong: var(--ink); } .note, .dateline, .foot { color: var(--ink); } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 """,
     unsafe_allow_html=True,
@@ -167,42 +241,45 @@ def run(day: date, pairings: list[list[str]], repair: bool):
 
 # --- Presentation helpers ------------------------------------------------------------
 
-def card(label: str, value: int, unit: str, base: int | None, lower_is_better: bool = True) -> str:
-    """A metric card; the delta line compares with the baseline."""
-    delta = ""
+def band(minutes: float) -> str:
+    """Disruption band for a crew-caused delay in minutes."""
+    if minutes <= 0:
+        return "None"
+    return next(name for name, hi, _ in BANDS[1:] if minutes <= hi)
+
+
+def stat(value: int, label: str, base: int | None = None, unit: str = "") -> str:
+    """One key number: figure, label, and the change against the cheapest plan in words."""
+    chg = ""
     if base is not None:
         d = value - base
         if d == 0:
-            delta = '<div class="delta">No change</div>'
+            chg = '<span class="chg">same as cheapest plan</span>'
         else:
-            better = (d < 0) == lower_is_better
-            arrow = "↓" if d < 0 else "↑"
-            delta = (f'<div class="delta {"better" if better else "worse"}">{arrow} {abs(d):,} '
-                     f'<span style="color:var(--tertiary)">vs {base:,}</span></div>')
-    return (f'<div class="card"><div class="label">{escape(label)}</div>'
-            f'<div class="value">{value:,}<span class="unit">{escape(unit)}</span></div>{delta}</div>')
+            cls = "better" if d < 0 else "worse"
+            chg = (f'<span class="chg {cls}">{"↓" if d < 0 else "↑"} {abs(d):,} '
+                   f'{"fewer" if d < 0 else "more"} than cheapest ({base:,})</span>')
+    return f"<li><strong>{value:,}{unit}</strong>{escape(label)}{chg}</li>"
 
 
-def insight(b: dict, s: dict, lam: float, repair: bool) -> str:
-    """One plain sentence that says what changed."""
-    parts = []
-    dbk, dd = s["broken"] - b["broken"], s["delay"] - b["delay"]
-    if dbk < 0:
-        parts.append(f"<b>{-dbk} fewer broken connections</b>")
-    elif dbk > 0:
-        parts.append(f"<b>{dbk} more broken connections</b>")
-    if dd < 0:
-        parts.append(f"<b>{-dd:,} fewer minutes</b> of crew-caused delay")
-    elif dd > 0:
-        parts.append(f"<b>{dd:,} more minutes</b> of crew-caused delay")
-    crews = s["crews"] - b["crews"]
-    plural = lambda n: f"{n} crew{'s' if n != 1 else ''}"  # noqa: E731
-    cost = ("with the same number of crews" if crews == 0 else
-            f"using {plural(-crews)} fewer" if crews < 0 else f"for {plural(crews)} more")
-    what = " and ".join(parts) if parts else "no change in disruption"
-    ctx = ", with day-of repair on both" if repair else ""
-    return (f'<div class="insight">Against the cheapest plan, the robust plan (λ = {lam:g}) had {what}, '
-            f'{cost}{ctx}.</div>')
+def plural(n: int, word: str) -> str:
+    return f"{n:,} {word}{'s' if n != 1 else ''}"
+
+
+def change_sentences(b: dict, s: dict, repair: bool) -> tuple[str, str]:
+    """Two plain sentences: what the robust plan changed, and what it cost."""
+    dbk, dd, dc = s["broken"] - b["broken"], s["delay"] - b["delay"], s["crews"] - b["crews"]
+    bits = []
+    if dbk:
+        n = abs(dbk)
+        bits.append(f"{n} {'fewer' if dbk < 0 else 'more'} broken connection{'s' if n != 1 else ''}")
+    if dd:
+        bits.append(f"{abs(dd):,} {'fewer' if dd < 0 else 'more'} minutes of crew-caused delay")
+    effect = (" and ".join(bits) + " than the cheapest plan.") if bits else "No change in disruption."
+    cost = ("The same number of crews" if dc == 0 else
+            f"{abs(dc)} {'fewer' if dc < 0 else 'more'} crew{'s' if abs(dc) != 1 else ''}")
+    cost += ", with day-of repair running on both plans." if repair else ", before any day-of repair."
+    return effect[0].upper() + effect[1:], cost
 
 
 def gantt(legs: pd.DataFrame, only_affected: bool, day: date) -> tuple[alt.Chart, int]:
@@ -212,45 +289,69 @@ def gantt(legs: pd.DataFrame, only_affected: bool, day: date) -> tuple[alt.Chart
         hit = d.groupby("crew_row").crew_caused.max()
         d = d[d.crew_row.isin(hit[hit > 0].index)]
     if d.empty:
-        return alt.Chart(pd.DataFrame({"t": ["No crew-caused delay on this day."]})).mark_text(
-            size=15, font=FONT, color=GRAY).encode(text="t").properties(height=80), 0
-    d = d.assign(impact=pd.cut(d.crew_caused, [-1, 0, 15, 60, 10_000], labels=list(IMPACT)))
+        return alt.Chart(pd.DataFrame({"t": ["No crew caused any delay on this day."]})).mark_text(
+            size=14, font=SANS, color="#8d96a3").encode(text="t").properties(height=60), 0
+    d = d.assign(impact=d.crew_caused.map(band))
     lo = pd.Timestamp(datetime(day.year, day.month, day.day, 4), tz=ET)
     hi = lo + pd.Timedelta(hours=28)
     xs = alt.Scale(domain=[lo.isoformat(), hi.isoformat()])
-    y = alt.Y("crew_row:O", title=None, sort="ascending",
-              axis=alt.Axis(labels=False, ticks=False, domain=False))
+    y = alt.Y("crew_row:O", title=None, sort="ascending", axis=None)
     tip = [alt.Tooltip("flight:N", title="Flight"), alt.Tooltip("route:N", title="Route"),
            alt.Tooltip("sched_dep:T", title="Scheduled", format="%H:%M"),
            alt.Tooltip("sim_dep:T", title="Replayed", format="%H:%M"),
            alt.Tooltip("own_delay:Q", title="Own delay (min)"),
            alt.Tooltip("crew_wait:Q", title="Waited for crew (min)"),
-           alt.Tooltip("crew_caused:Q", title="Crew-caused incl. knock-on (min)")]
-    sched = alt.Chart(d).mark_bar(color="#d2d2d7", height=4, cornerRadius=2, clip=True).encode(
+           alt.Tooltip("crew_caused:Q", title="Crew-caused, incl. knock-on (min)")]
+    sched = alt.Chart(d).mark_bar(color="#a7a397", opacity=0.55, height=3, clip=True).encode(
         x=alt.X("sched_dep:T", title=None, scale=xs,
-                axis=alt.Axis(format="%H:%M", tickCount=10, labelAngle=0, grid=True)),
+                axis=alt.Axis(format="%H:%M", tickCount=10, labelAngle=0, grid=True, domain=False, ticks=False)),
         x2="sched_arr:T", y=y, tooltip=tip)
-    sim = alt.Chart(d).mark_bar(height=10, cornerRadius=3, clip=True).encode(
+    sim = alt.Chart(d).mark_bar(height=9, cornerRadius=2, clip=True).encode(
         x=alt.X("sim_dep:T", scale=xs), x2="sim_arr:T", y=y, tooltip=tip,
-        color=alt.Color("impact:N", title=None,
-                        scale=alt.Scale(domain=list(IMPACT), range=list(IMPACT.values())),
-                        legend=alt.Legend(orient="top", direction="horizontal", symbolType="circle",
-                                          symbolSize=90, labelFontSize=12, padding=0, offset=4)))
+        color=alt.Color("impact:N", legend=None,
+                        scale=alt.Scale(domain=[n for n, _, _ in BANDS], range=[c for _, _, c in BANDS])))
     late = int((d.sim_arr > hi).sum())
-    return (sched + sim).properties(height=alt.Step(15)).configure(
-        font=FONT, background="transparent",
-    ).configure_view(stroke=None).configure_axis(
-        labelColor="#6e6e73", labelFontSize=11, gridColor="#ececf0", domainColor="#d2d2d7", tickColor="#d2d2d7",
-    ).configure_legend(labelColor="#1d1d1f"), late
+    chart = (sched + sim).properties(height=alt.Step(14)).configure(font=SANS, background="transparent") \
+        .configure_view(stroke=None).configure_axis(labelFontSize=11, gridOpacity=0.5)
+    return chart, late
+
+
+def clock(t: pd.Timestamp, day: date) -> str:
+    """HH:MM, with +Nd when the time falls on a later calendar day than the operating day."""
+    lag = (t.date() - day).days
+    return f"{t:%H:%M}" + (f' <span class="note">+{lag}d</span>' if lag > 0 else "")
+
+
+def held_table(legs: pd.DataFrame, day: date) -> str:
+    """Rules-only table of flights that waited for a late crew, worst first."""
+    held = legs[legs.crew_wait > 0].sort_values("crew_wait", ascending=False)
+    if held.empty:
+        return '<p class="note">No flight waited for a late crew on this day.</p>'
+    rows = []
+    for r in held.itertuples():
+        b = band(r.crew_caused)
+        rows.append(
+            f"<tr><td>{escape(r.flight)}</td><td>{escape(r.route)}</td>"
+            f'<td class="num">{clock(r.sched_dep, day)}</td><td class="num">{clock(r.sim_dep, day)}</td>'
+            f'<td class="num">{r.own_delay:,}</td><td class="num">{r.crew_wait:,}</td>'
+            f'<td class="num">{r.crew_caused:,}</td><td><span class="badge {BAND_CLASS[b]}">{b}</span></td></tr>')
+    return ('<div class="table-wrap"><table class="rules"><thead><tr><th>Flight</th><th>Route</th>'
+            '<th class="num">Scheduled</th><th class="num">Replayed</th><th class="num">Own delay, min</th>'
+            '<th class="num">Waited for crew, min</th><th class="num">Crew-caused, min</th><th>Band</th>'
+            f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div>')
 
 
 # --- Page --------------------------------------------------------------------------
 
+PLANE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+         'stroke-linejoin="round" aria-hidden="true"><path d="M2 16l20-7-20-7 4 7-4 7z"/><path d="M6 9h7"/></svg>')
 st.markdown(
-    '<p class="eyebrow">robust-crew · American Airlines at Charlotte</p>'
-    '<h1 class="title">Crew Explorer</h1>'
-    '<p class="lede">Replay a real day of 2023 operations through two crew schedules: the cheapest one, '
-    'and one that steers crews away from risky connections. See where late crews held up flights.</p>',
+    f'<div class="masthead"><a class="brand" href="{REPO}">{PLANE}Crew Explorer</a>'
+    f'<nav><a aria-current="page" href="#">Replay a day</a><a href="{REPO}#results">Results</a>'
+    f'<a href="{REPO}#limitations-honest-list">Method &amp; limits</a><a href="{REPO}">Source</a></nav></div>'
+    '<p class="disclaimer">Crew Explorer replays <strong>real 2023 American Airlines flights</strong> at Charlotte '
+    'through <strong>synthetic crew schedules</strong>. Crew rules are simplified from FAA Part 117. '
+    'It is a research model, <strong>not an operational or compliance tool</strong>.</p>',
     unsafe_allow_html=True,
 )
 
@@ -262,72 +363,82 @@ days = test_days()
 lams = soft_lambdas()
 best = selected_lambda()
 
-c1, c2, c3, c4 = st.columns([1.1, 2.2, 1.6, 0.9], vertical_alignment="bottom")
-season = c1.segmented_control("Season", ["Summer", "Winter"], default="Summer", key="season") or "Summer"
-window = "test_winter" if season == "Winter" else "test_summer"
-wd = days[days.split == window].sort_values("crew_delay_min", ascending=False)
-labels = {pd.Timestamp(r.date).date(): f"{pd.Timestamp(r.date):%a, %b %-d}  ·  {r.crew_delay_min / 60:,.0f} h baseline delay"
-          for r in wd.itertuples()}
-day = c2.selectbox("Day, worst first", list(labels), format_func=labels.get)
-mode = c3.segmented_control("Operations", ["Plan only", "With repair"], default="Plan only", key="mode") or "Plan only"
-repair = mode == "With repair"
-with c4.popover("Settings", width="stretch"):
-    lam = st.select_slider("Robustness weight λ", lams, value=best if best in lams else lams[0],
-                           help="Pay hours charged per expected disrupted leg. Higher buys more robustness with more crews.")
+hero_l, hero_r = st.columns([1.55, 1], gap="large", vertical_alignment="bottom")
+with hero_r:
+    season = st.segmented_control("Test window", ["Summer", "Winter"], default="Summer", key="season") or "Summer"
+    window = "test_winter" if season == "Winter" else "test_summer"
+    wd = days[days.split == window].sort_values("crew_delay_min", ascending=False)
+    labels = {pd.Timestamp(r.date).date(): f"{pd.Timestamp(r.date):%a %b %-d}  ·  {r.crew_delay_min / 60:,.0f} h delay"
+              for r in wd.itertuples()}
+    day = st.selectbox("Day, worst first", list(labels), format_func=labels.get)
+    mode = st.segmented_control("Operations", ["Plan only", "With day-of repair"], default="Plan only",
+                                key="mode") or "Plan only"
+    repair = mode != "Plan only"
+with hero_l:
+    st.markdown(
+        f'<p class="dateline">{season} 2023 test window · {day:%A, %B %-d}</p>'
+        '<h1 class="title">Crew schedule replay</h1>'
+        '<p class="lede">The same day of real flights, flown by two crew schedules: the <strong>cheapest</strong> '
+        'one, and a <strong>robust</strong> one that steers crews away from connections likely to break. '
+        'Late crews hold up the next flight; here is how often, and where.</p>',
+        unsafe_allow_html=True,
+    )
+
+with st.expander("Settings: robustness weight and filters"):
+    lam = st.select_slider("Robustness weight λ (pay hours per expected disrupted leg)", lams,
+                           value=best if best in lams else lams[0])
     if best is not None:
-        st.caption(f"λ = {best:g} was chosen on calibration days.")
-    only_affected = st.toggle("Only crews hit by delay", value=True)
+        st.markdown(f'<p class="note">λ = {best:g} was chosen on calibration days, before any test day was seen. '
+                    'Higher values buy more robustness with more crews.</p>', unsafe_allow_html=True)
+    only_affected = st.toggle("Show only crews that caused delay", value=True)
 
 base_legs, b = run(day, pairings_for(day, "baseline", None), repair)
 soft_legs, s = run(day, pairings_for(day, "soft", lam), repair)
 
-st.markdown(f'<div class="section">{day:%A, %B %-d, %Y}</div>'
-            f'<p class="note">Robust plan, compared with the cheapest plan on the same day'
-            f'{" · day-of repair on" if repair else ""}.</p>', unsafe_allow_html=True)
-
-cards = [
-    card("Broken connections", s["broken"], "", b["broken"]),
-    card("Crew-caused delay", s["delay"], "min", b["delay"]),
-    card("Crews", s["crews"], "", b["crews"]),
-    card("Duty overruns", s["duty"], "", b["duty"]),
-]
+stats = [stat(s["broken"], "broken crew connections", b["broken"]),
+         stat(s["delay"], "minutes of crew-caused delay", b["delay"]),
+         stat(s["crews"], "crews flying", b["crews"]),
+         stat(s["duty"], "duty-limit overruns", b["duty"])]
 if repair:
-    cards.append(card("Reserves called", s["reserves"], "", b["reserves"]))
-    cards.append(card("Swaps", s["swaps"], "", b["swaps"]))
-st.markdown(f'<div class="cards">{"".join(cards)}</div>' + insight(b, s, lam, repair), unsafe_allow_html=True)
+    stats += [stat(s["reserves"], "reserve crews called", b["reserves"]), stat(s["swaps"], "crew swaps", b["swaps"])]
+effect, cost = change_sentences(b, s, repair)
+st.markdown(
+    f'<ul class="stats">{"".join(stats)}</ul>'
+    '<h2 class="sec">What the robust plan changed</h2>'
+    f'<div class="changes"><div><h3>Disruption</h3><p>{escape(effect)}</p></div>'
+    f'<div><h3>Cost</h3><p>{escape(cost)}</p></div></div>',
+    unsafe_allow_html=True,
+)
 
-st.markdown('<div class="section">Crew timelines</div>'
-            '<p class="note">Each row is one crew’s day. Grey is the schedule; colour is the replay with real '
-            'delays, by how much delay the crew caused (including knock-on through the aircraft).</p>',
-            unsafe_allow_html=True)
-view = st.segmented_control("Schedule", ["Robust plan", "Cheapest plan"], default="Robust plan",
+st.markdown(
+    '<h2 class="sec">Crew timelines</h2>'
+    '<p class="note">Each row is one crew’s day. The thin grey line is the schedule; the bar is the same leg replayed '
+    'with the delays that actually happened, banded by how much delay that crew caused, counting knock-on through '
+    'the aircraft.</p>'
+    '<ul class="scale">'
+    + "".join(f'<li><span class="badge {BAND_CLASS[n]}">{n}</span>'
+              f'{"no crew-caused delay" if n == "None" else ("1–15 min" if n == "Minor" else ("16–60 min" if n == "Moderate" else "over 60 min"))}</li>'
+              for n, _, _ in BANDS)
+    + "</ul>",
+    unsafe_allow_html=True,
+)
+view = st.segmented_control("Schedule shown", ["Robust plan", "Cheapest plan"], default="Robust plan",
                             key="view", label_visibility="collapsed") or "Robust plan"
 legs = base_legs if view == "Cheapest plan" else soft_legs
 chart, late = gantt(legs, only_affected, day)
 st.altair_chart(chart, width="stretch")
 if late:
-    st.markdown(f'<p class="note">{late} leg{"s" if late != 1 else ""} finished after 08:00 the next morning '
-                'and run off the right edge.</p>',
-                unsafe_allow_html=True)
+    st.markdown(f'<p class="note">{plural(late, "leg")} finished after 08:00 the next morning and '
+                f'{"run" if late != 1 else "runs"} off the right edge.</p>', unsafe_allow_html=True)
 
-with st.expander("Flights that waited for a late crew"):
-    held = legs[legs.crew_wait > 0].sort_values("crew_wait", ascending=False)
-    if held.empty:
-        st.markdown('<p class="note">None on this day.</p>', unsafe_allow_html=True)
-    else:
-        show = held.assign(
-            scheduled=held.sched_dep.dt.strftime("%H:%M"), replayed=held.sim_dep.dt.strftime("%H:%M"),
-        )[["flight", "route", "scheduled", "replayed", "own_delay", "crew_wait", "crew_caused"]]
-        st.dataframe(
-            show, hide_index=True, width="stretch",
-            column_config={
-                "flight": "Flight", "route": "Route", "scheduled": "Scheduled", "replayed": "Replayed",
-                "own_delay": st.column_config.NumberColumn("Own delay", format="%d min"),
-                "crew_wait": st.column_config.NumberColumn("Waited for crew", format="%d min"),
-                "crew_caused": st.column_config.NumberColumn("Crew-caused, incl. knock-on", format="%d min"),
-            },
-        )
+st.markdown(f'<h2 class="sec">Flights that waited for a late crew</h2>'
+            f'<p class="note">{view}, worst first. Own delay is the flight’s delay before any crew effect.</p>'
+            + held_table(legs, day), unsafe_allow_html=True)
 
-st.markdown('<p class="note" style="margin-top:2.5rem">Crews are synthetic and the rules are simplified '
-            '(FAA Part 117 duty tables only). This is a research model, not a compliance claim.</p>',
-            unsafe_allow_html=True)
+st.markdown(
+    '<div class="foot"><p>Data: BTS Reporting Carrier On-Time Performance and Iowa Environmental Mesonet ASOS, '
+    '2022–2023. Schedules come from a CP-SAT set-partitioning model; break risk from a LightGBM model trained '
+    'only on earlier months.</p>'
+    f'<p><a href="{REPO}#limitations-honest-list">Method and limits</a> · <a href="{REPO}">Source on GitHub</a></p></div>',
+    unsafe_allow_html=True,
+)
