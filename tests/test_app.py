@@ -8,13 +8,20 @@ streamlit = pytest.importorskip("streamlit")
 
 
 @pytest.mark.skipif(not config.DB_PATH.exists(), reason="no local database built yet")
-def test_app_runs_in_both_windows_with_and_without_repair():
+def test_app_runs_in_both_seasons_with_and_without_repair():
     from streamlit.testing.v1 import AppTest
 
     at = AppTest.from_file(str(config.ROOT / "app" / "streamlit_app.py"), default_timeout=180).run()
     assert not at.exception
-    assert [m.label for m in at.metric][:4] == ["Crews", "Crew delay (min)", "Broken conn.", "Duty violations"]
-    at.toggle[0].set_value(True).run()  # repair on
-    assert not at.exception and "Reserves" in [m.label for m in at.metric]
-    at.radio[0].set_value("test_winter").run()
+    page = " ".join(m.value for m in at.markdown)
+    assert "Broken connections" in page and "Reserves called" not in page
+
+    at.session_state["mode"] = "With repair"
+    at.run()
+    assert not at.exception
+    assert "Reserves called" in " ".join(m.value for m in at.markdown)
+
+    at.session_state["season"] = "Winter"
+    at.session_state["view"] = "Cheapest plan"
+    at.run()
     assert not at.exception

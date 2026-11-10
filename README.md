@@ -137,7 +137,7 @@ uv sync --extra app
 uv run streamlit run app/streamlit_app.py
 ```
 
-Pick a test day (sorted by how much crew-caused delay the baseline suffered), a soft λ and whether to apply day-of repair. The app replays that day live and shows each crew's duty as a Gantt chart for the baseline and the robust plan: grey bars are the schedule, coloured bars the replay, coloured by crew-caused delay including knock-on through the aircraft. An expander lists every leg that waited for a late crew. It needs the local database built by the pipeline.
+Pick a season, a day (worst first) and whether day-of repair runs; the robustness weight λ sits under Settings. The app replays that day live, compares the robust plan with the cheapest plan in metric cards and one plain-language summary, and shows each crew's day as a timeline: grey is the schedule, colour the replay, by crew-caused delay including knock-on through the aircraft. A list shows every flight that waited for a late crew. Run it from the repository root so `.streamlit/config.toml` (light theme) applies; it needs the local database built by the pipeline.
 
 ## Evaluation design
 
