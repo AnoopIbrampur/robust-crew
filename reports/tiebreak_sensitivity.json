@@ -1,0 +1,31 @@
+{
+  "n_seeds": 5,
+  "windows": {
+    "test_summer": {
+      "days": 62,
+      "mean_crew_delay_by_seed": [
+        2394.5,
+        2488.3,
+        2483.2,
+        2570.8,
+        2370.2
+      ],
+      "min": 2370.2,
+      "max": 2570.8,
+      "max_cost_diff_pay_hours": 0.0
+    },
+    "test_winter": {
+      "days": 61,
+      "mean_crew_delay_by_seed": [
+        911.4,
+        936.8,
+        969.6,
+        898.3,
+        990.9
+      ],
+      "min": 898.3,
+      "max": 990.9,
+      "max_cost_diff_pay_hours": 0.0167
+    }
+  }
+}

@@ -229,9 +229,12 @@ def extra_findings(res: dict) -> list[str]:
             out.append(
                 f"- **Baseline tie-breaking ({split.replace('_', ' ')}):** re-solving the baseline with {tb['n_seeds']} "
                 f"different choices among cost-tied optima gives mean crew-caused delay between {w['min']:.0f} and "
-                f"{w['max']:.0f} min/day (selected soft plan: "
-                f"{res['all_days'][split]['soft']['crew_delay_min']['mean']:.0f}). Part of the cheap low-λ gain is "
-                "choosing well among schedules that cost the same.")
+                f"{w['max']:.0f} min/day (largest cost difference {w['max_cost_diff_pay_hours']:.2f} pay hours, "
+                f"i.e. equally cheap). The selected soft plan's {res['all_days'][split]['soft']['crew_delay_min']['mean']:.0f} "
+                + ("beats every one of them, so its gain is more than lucky tie-breaking; but part of the cheap "
+                   "low-λ gain is simply choosing well among schedules that cost the same."
+                   if res['all_days'][split]['soft']['crew_delay_min']['mean'] < w['min'] else
+                   "falls inside that range: the low-λ gain is mostly choosing among equally cheap schedules."))
     return out
 
 

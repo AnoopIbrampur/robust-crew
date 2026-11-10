@@ -31,7 +31,7 @@ def main() -> dict:
     out: dict = {"n_seeds": N_SEEDS, "windows": {}}
     for name, (a, b) in config.TEST_WINDOWS.items():
         per_seed = np.zeros(N_SEEDS)
-        cost_same = True
+        max_cost_diff = 0.0
         n = 0
         d = a
         while d <= b:
@@ -41,7 +41,7 @@ def main() -> dict:
             ref = solve(prob, "baseline")
             for s in range(N_SEEDS):
                 sol = solve(prob, "baseline", jitter_seed=s + 1)  # seed 0 is the default plan
-                cost_same &= abs(sol.cost - ref.cost) < 1e-6
+                max_cost_diff = max(max_cost_diff, abs(sol.cost - ref.cost))
                 ps = [[prob.legs[i].flight_id for i in prob.pairings[k].legs] for k in sol.chosen]
                 per_seed[s] += crew_caused_delay(replay(flights, ps), base)
             n += 1
@@ -50,7 +50,7 @@ def main() -> dict:
         out["windows"][name] = {
             "days": n, "mean_crew_delay_by_seed": [round(float(x), 1) for x in means],
             "min": round(float(means.min()), 1), "max": round(float(means.max()), 1),
-            "all_cost_tied_optima": bool(cost_same),
+            "max_cost_diff_pay_hours": round(max_cost_diff, 4),  # costs are rounded to 0.01 h in the objective
         }
     con.close()
     (config.REPORTS_DIR / "tiebreak_sensitivity.json").write_text(json.dumps(out, indent=2))
