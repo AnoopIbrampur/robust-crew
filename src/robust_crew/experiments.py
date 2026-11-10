@@ -44,10 +44,11 @@ MIN_HARD_FEASIBLE = 0.25
 N_WORST = 10
 N_BOOT = 10_000
 SEED = 0
-METRICS = ["crews_used", "cost", "crew_delay_min", "broken_connections", "duty_violations"]
+METRICS = ["crews_used", "cost", "crew_delay_min", "broken_connections", "crew_replacements", "duty_violations"]
 LABELS = {
     "crews_used": "Crews used", "cost": "Cost (pay hours)", "crew_delay_min": "Crew-caused delay (min)",
-    "broken_connections": "Broken crew connections", "duty_violations": "Duty-limit violations",
+    "broken_connections": "Broken crew connections",
+    "crew_replacements": "Crews replaced at duty limit", "duty_violations": "Duty overruns in the air",
 }
 
 

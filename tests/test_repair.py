@@ -66,3 +66,13 @@ def test_disabled_repair_matches_plain_replay():
     b = replay_with_repair(day(), PAIRINGS, enabled=False)
     assert a.sim_arr == b.sim_arr and a.crew_delay_at == b.crew_delay_at
     assert (a.broken_connections, a.duty_violations) == (b.broken_connections, b.duty_violations)
+
+
+def test_disabled_repair_matches_plain_replay_with_replacement():
+    flights = day()
+    flights[3] = SimFlight("A1", "BOS", "CLT", "N1", t(14, 40), t(16, 40), 600, 120, True, prev_id="A0")
+    a = replay(flights, PAIRINGS)
+    b = replay_with_repair(flights, PAIRINGS, enabled=False)
+    assert a.crew_replacements == b.crew_replacements == 1
+    assert a.sim_arr == b.sim_arr and a.crew_delay_at == b.crew_delay_at
+    assert (a.broken_connections, a.duty_violations) == (b.broken_connections, b.duty_violations)

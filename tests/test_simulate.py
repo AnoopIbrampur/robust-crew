@@ -57,14 +57,39 @@ def test_hand_computed_metrics():
     assert res.legs_orphaned == 0
 
 
-def test_duty_violation_when_delays_push_past_fdp():
+def test_crew_replaced_instead_of_going_past_fdp():
     flights = toy_day()
     flights[0] = replace(flights[0], own_dep_delay=150)  # F1 2.5 h late: everything slides
     res = replay(flights, PAIRING)
-    # F1 arr 16:30; F2 dep 17:00 arr 19:00; F3 dep 19:45 arr 21:15; F4 dep 21:45 arr 23:15.
-    # FDP = 23:15 - 11:00 = 12.25 h > 12 h.
+    # F1 arr 16:30; F2 dep 17:00 arr 19:00; F3 dep 19:45 arr 21:15.
+    # F4 would leave 21:45 and land (scheduled block 90) 23:15: FDP 12.25 h > 12 h limit,
+    # so the crew is replaced. F4 still leaves 21:45 (aircraft-bound), no duty violation.
+    assert res.crew_replacements == 1
     assert res.sim_arr["F4"] == t(23, 15)
+    assert res.duty_violations == 0
+
+
+def test_duty_violation_when_actual_block_overruns():
+    flights = toy_day()
+    flights[0] = replace(flights[0], own_dep_delay=120)
+    flights[3] = replace(flights[3], actual_block=120)  # F4 flies 30 min longer than scheduled
+    res = replay(flights, PAIRING)
+    # F4 leaves 21:15; by schedule it lands 22:45 (FDP 11.75 h, legal: no replacement),
+    # but it actually lands 23:15: FDP 12.25 h > 12 h.
+    assert res.crew_replacements == 0
     assert res.duty_violations == 1
+
+
+def test_crew_does_not_wait_days_for_an_extreme_inbound():
+    flights = toy_day()
+    flights[1] = replace(flights[1], actual_block=3000)  # F2 airborne 50 h (an extreme real delay)
+    res = replay(flights, PAIRING)
+    # Without the duty rule F3 would wait ~2 days for this crew. The crew is replaced:
+    # F3 leaves on schedule, and the replacement crew flies F3 -> F4 as planned.
+    assert res.crew_replacements == 1
+    assert res.sim_dep["F3"] == t(17, 30) and res.sim_dep["F4"] == t(19, 40)
+    assert res.crew_delay_at == {}
+    assert res.duty_violations == 1  # the original crew overran in the air on F2
 
 
 def test_short_scheduled_turn_is_not_penalised():
@@ -88,3 +113,14 @@ def test_no_crews_means_no_crew_delay():
     flights = toy_day()
     base = replay(flights, None)
     assert crew_caused_delay(base, base) == 0
+
+
+def test_rest_of_day_handed_off_after_replacement():
+    flights = toy_day()
+    flights[1] = replace(flights[1], own_dep_delay=3000)  # F2 itself leaves ~2 days late
+    res = replay(flights, PAIRING)
+    # The crew is replaced on F2 (it would pass its FDP). F3 and F4 go to replacement
+    # crews assumed ready, so they do not wait for whoever finally flies F2.
+    assert res.crew_replacements == 1
+    assert res.sim_dep["F3"] == t(17, 30) and res.crew_delay_at == {}
+    assert res.broken_connections == 2  # F1->F2 (F1 30 min late, as in toy_day) and F2->F3

@@ -32,6 +32,19 @@ completed leg; if the dropped leg breaks the station chain, the next leg gets
 no crew constraint (a reserve or repositioned crew is assumed) and is counted
 in ``legs_orphaned``.
 
+Crew replacement at the duty limit. A crew waits for its inbound only while
+it stays legal: if, when a leg is due to depart, flying it would take the
+crew past its flight-duty-period limit (judged with the leg's scheduled block,
+since the dispatcher cannot know the airborne time), the airline would not
+wait. The crew is replaced (counted in ``crew_replacements``): that leg and the
+rest of its pairing are handed to replacement crews assumed ready on time, so
+those legs wait only for their aircraft. (Handing them to a single stand-in
+crew that reports when the late leg finally leaves would let it hold the next
+leg legally for as long as the leg was late.) Without this rule a crew behind
+a flight delayed by days would hold its next leg for days. Replacement crews
+are not drawn from the reserve pool modelled in ``repair``, and their duty is
+not checked.
+
 Crew-caused propagated delay is measured against a counterfactual replay with
 no crew constraints (aircraft and own delays only): the sum over all flights
 of (arrival with crews - arrival without crews). It includes knock-on delay to
@@ -127,6 +140,18 @@ class ReplayResult:
     broken_connections: int
     duty_violations: int
     legs_orphaned: int
+    crew_replacements: int = 0
+
+
+def sched_block_min(f: SimFlight) -> float:
+    """Scheduled block time of a flight, minutes."""
+    return (f.sched_arr - f.sched_dep).total_seconds() / 60
+
+
+def must_replace(rules: CrewRules, report: datetime, legs_flown: int, dep: datetime, f: SimFlight) -> bool:
+    """Would a crew that reported at ``report`` and flew ``legs_flown`` legs go past its FDP flying ``f`` at ``dep``?"""
+    end = dep + timedelta(minutes=sched_block_min(f))
+    return (end - report).total_seconds() / 60 > rules.max_fdp_min(report, legs_flown + 1)
 
 
 def replay(
@@ -148,6 +173,11 @@ def replay(
                     orphaned += 1
 
     m = timedelta(minutes=1)
+    crew_of = {fid: c for c, p in enumerate(pairings or []) for fid in p if by_id[fid].completed}
+    report = [rules.report_time(by_id[p[0]].sched_dep) for p in (pairings or [])]
+    flown: list[list[str]] = [[] for _ in (pairings or [])]  # legs flown by each rostered crew
+    replaced: set[int] = set()
+
     sim_dep: dict[str, datetime] = {}
     sim_arr: dict[str, datetime] = {}
     crew_delay: dict[str, float] = {}
@@ -160,13 +190,20 @@ def replay(
         elif f.prev_actual_arr is not None:
             ready = max(ready, f.prev_actual_arr + f.turn_min * m)
         dep = ready
-        if f.flight_id in crew_prev:
-            a = by_id[crew_prev[f.flight_id]]
-            need = rules.min_connect_min(a.tail is not None and a.tail == f.tail)
-            crew_ready = sim_arr[a.flight_id] + need * m
-            if crew_ready > dep:
-                crew_delay[f.flight_id] = (crew_ready - dep).total_seconds() / 60
-                dep = crew_ready
+        c = crew_of.get(f.flight_id)
+        if c is not None and c not in replaced:
+            crew_ready = None
+            if f.flight_id in crew_prev:
+                a = by_id[crew_prev[f.flight_id]]
+                need = rules.min_connect_min(a.tail is not None and a.tail == f.tail)
+                crew_ready = sim_arr[a.flight_id] + need * m
+            if flown[c] and must_replace(rules, report[c], len(flown[c]), max(dep, crew_ready or dep), f):
+                replaced.add(c)  # the rest of this crew's day goes to replacement crews
+            else:
+                flown[c].append(f.flight_id)
+                if crew_ready is not None and crew_ready > dep:
+                    crew_delay[f.flight_id] = (crew_ready - dep).total_seconds() / 60
+                    dep = crew_ready
         sim_dep[f.flight_id] = dep
         sim_arr[f.flight_id] = dep + f.actual_block * m
 
@@ -181,12 +218,12 @@ def replay(
                 need = rules.min_connect_min(fa.tail is not None and fa.tail == fb.tail)
                 if sim_arr[a] + need * m > fb.sched_dep:
                     broken += 1
-            if done:
-                report = rules.report_time(by_id[p[0]].sched_dep)
-                fdp = (sim_arr[done[-1]] - report).total_seconds() / 60
-                if fdp > rules.max_fdp_min(report, len(done)):
+        for c, legs in enumerate(flown):
+            if legs:
+                fdp = (sim_arr[legs[-1]] - report[c]).total_seconds() / 60
+                if fdp > rules.max_fdp_min(report[c], len(legs)):
                     duty += 1
-    return ReplayResult(sim_dep, sim_arr, crew_delay, broken, duty, orphaned)
+    return ReplayResult(sim_dep, sim_arr, crew_delay, broken, duty, orphaned, len(replaced))
 
 
 def crew_caused_delay(with_crew: ReplayResult, without: ReplayResult) -> float:
@@ -228,6 +265,7 @@ def run_replays() -> tuple[pd.DataFrame, dict]:
                     "broken_connections": res.broken_connections,
                     "duty_violations": res.duty_violations,
                     "legs_orphaned": res.legs_orphaned,
+                    "crew_replacements": res.crew_replacements,
                     "planned_flights": len(planned),
                     "planned_flights_completed": sum(1 for f in flights if f.flight_id in planned and f.completed),
                 })
@@ -260,7 +298,7 @@ def _validation_rows(con, day: date, base: ReplayResult) -> pd.DataFrame:
 def summarize(results: pd.DataFrame) -> dict:
     """Mean metrics per split and planner variant, plus hard-vs-baseline on paired days."""
     metrics = ["crews", "cost", "crew_delay_min", "broken_connections", "duty_violations",
-               "flights_crew_delayed", "legs_orphaned"]
+               "flights_crew_delayed", "legs_orphaned", "crew_replacements"]
     ok = results[results.crew_delay_min.notna()]
     out: dict = {}
     for split, g in ok.groupby("split", sort=False):

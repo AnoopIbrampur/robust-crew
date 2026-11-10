@@ -13,6 +13,10 @@ Two mechanisms, evaluated separately and together against "no repair":
    A swap is preferred to a reserve when both leave no delay. The late crew's
    arrival is treated as known when the decision is made (it is airborne).
    Repairs happen only at the hub, where reserves and other crews are.
+   If no repair is possible and the crew would pass its FDP limit, it is
+   replaced exactly as in ``simulate.replay`` (``crew_replacements``); the
+   rest of its day is handed to replacement crews and listed last in
+   ``crews_flown``.
 
 2. MORNING RE-SOLVE (small CP-SAT). At ``OPS_CUTOFF_LOCAL`` the operations
    model's probabilities are known. Pairings whose crews have not reported
@@ -43,7 +47,7 @@ from robust_crew.optimize import (
     COST_SCALE, NUM_WORKERS, SEED, TIEBREAK_SEED, TIME_LIMIT_S, build_day_problem, tiebreak_weights,
 )
 from robust_crew.rules import DEFAULT_RULES, CrewRules
-from robust_crew.simulate import SimFlight, crew_caused_delay, load_day_flights, replay
+from robust_crew.simulate import SimFlight, crew_caused_delay, load_day_flights, must_replace, replay
 
 log = logging.getLogger(__name__)
 
@@ -66,6 +70,7 @@ class RepairResult:
     swaps: int = 0
     reserves_used: int = 0
     triggers: int = 0
+    crew_replacements: int = 0
     crews_flown: list[list[str]] = field(default_factory=list)
 
 
@@ -92,7 +97,9 @@ def replay_with_repair(
     flown: list[list[str]] = [[] for _ in pairings]
     owner: dict[str, int] = {fid: c for c, p in enumerate(plan) for fid in p}
     reserves_left = n_reserves
-    swaps = triggers = orphaned = 0
+    swaps = triggers = orphaned = replacements = 0
+    handed: list[list[str]] = []  # legs handed to replacement crews
+    broken_at_handoff = 0
 
     sim_dep: dict[str, datetime] = {}
     sim_arr: dict[str, datetime] = {}
@@ -188,6 +195,19 @@ def replay_with_repair(
                             owner[x] = new
                     c = owner[f.flight_id]
                     cr = crew_ready(c, f)
+            if flown[c] and must_replace(rules, report[c], len(flown[c]), max(ready, cr or ready), f):
+                # Same rule as simulate.replay: the rest of the day goes to replacement crews.
+                last = by_id[flown[c][-1]]
+                if last.dest == f.origin and sim_arr[last.flight_id] + rules.min_connect_min(
+                        last.tail is not None and last.tail == f.tail) * m > f.sched_dep:
+                    broken_at_handoff += 1  # the planned connection into f broke
+                i = plan[c].index(f.flight_id)
+                handed.append(plan[c][i:])
+                for x in plan[c][i:]:
+                    del owner[x]
+                plan[c] = plan[c][:i]
+                c = cr = None
+                replacements += 1
 
         dep = ready
         if c is not None and cr is not None and cr > dep:
@@ -198,8 +218,8 @@ def replay_with_repair(
         if c is not None:
             flown[c].append(f.flight_id)
 
-    broken = duty = 0
-    for c, legs in enumerate(flown):
+    broken, duty = broken_at_handoff, 0
+    for legs in flown + handed:  # planned connections, including those handed to replacements
         for a, b in zip(legs, legs[1:]):
             fa, fb = by_id[a], by_id[b]
             if fa.dest != fb.origin:
@@ -207,12 +227,13 @@ def replay_with_repair(
             need = rules.min_connect_min(fa.tail is not None and fa.tail == fb.tail)
             if sim_arr[a] + need * m > fb.sched_dep:
                 broken += 1
+    for c, legs in enumerate(flown):
         if legs:
             fdp = (sim_arr[legs[-1]] - report[c]).total_seconds() / 60
             if fdp > rules.max_fdp_min(report[c], len(legs)):
                 duty += 1
     return RepairResult(sim_arr, crew_delay, broken, duty, orphaned, swaps,
-                        n_reserves - reserves_left, triggers, [x for x in flown if x])
+                        n_reserves - reserves_left, triggers, replacements, [x for x in flown if x] + handed)
 
 
 # --- Morning re-solve ----------------------------------------------------------------
@@ -314,6 +335,7 @@ def run() -> pd.DataFrame:
                 else:
                     r = replay(flights, ps)
                     extra = {"swaps": 0, "reserves_used": 0, "triggers": 0}
+                extra["crew_replacements"] = r.crew_replacements
                 rows.append({
                     "date": day, "split": config.split_of(day), "planner": pr.planner, "param": pr.param,
                     "repair": mode, "crews_planned": pr.crews, "cost": pr.cost,
@@ -332,7 +354,7 @@ def run() -> pd.DataFrame:
 def summarize(df: pd.DataFrame) -> dict:
     """Mean metrics per split, planner variant and repair mode."""
     metrics = ["crews_used", "crew_delay_min", "broken_connections", "duty_violations",
-               "swaps", "reserves_used", "triggers"]
+               "swaps", "reserves_used", "triggers", "crew_replacements"]
     out: dict = {}
     for split, g in df.groupby("split", sort=False):
         rows = []

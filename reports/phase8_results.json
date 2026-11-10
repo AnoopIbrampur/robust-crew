@@ -1,59 +1,59 @@
 {
   "selection": {
-    "best_soft_lambda": 2.0,
+    "best_soft_lambda": 4.0,
     "best_hard_theta": 0.5,
     "soft_candidates": [
       {
         "lambda": 0.5,
         "cost_increase": 0.00013596853250374963,
-        "delay_reduction": 293.8524590163936
+        "delay_reduction": 129.96721311475414
       },
       {
         "lambda": 1.0,
         "cost_increase": 0.0004483069789635863,
-        "delay_reduction": 359.7540983606559
+        "delay_reduction": 144.73770491803282
       },
       {
         "lambda": 2.0,
         "cost_increase": 0.004057265764655593,
-        "delay_reduction": 384.2295081967213
+        "delay_reduction": 172.63934426229514
       },
       {
         "lambda": 4.0,
         "cost_increase": 0.019550362324486814,
-        "delay_reduction": 366.5901639344263
+        "delay_reduction": 228.68852459016398
       },
       {
         "lambda": 8.0,
         "cost_increase": 0.055094399434706176,
-        "delay_reduction": 700.6557377049181
+        "delay_reduction": 317.78688524590166
       },
       {
         "lambda": 16.0,
         "cost_increase": 0.13059804038928968,
-        "delay_reduction": 867.9180327868853
+        "delay_reduction": 401.4098360655738
       },
       {
         "lambda": 32.0,
         "cost_increase": 0.34187883131862207,
-        "delay_reduction": 1312.737704918033
+        "delay_reduction": 429.09836065573774
       },
       {
         "lambda": 64.0,
         "cost_increase": 0.5037478327279747,
-        "delay_reduction": 1477.6065573770493
+        "delay_reduction": 439.29508196721315
       }
     ],
     "hard_candidates": [
       {
         "theta": 0.4,
         "feasible_share": 0.3770491803278688,
-        "paired_delay_reduction": -32.043478260869506
+        "paired_delay_reduction": -10.69565217391306
       },
       {
         "theta": 0.5,
         "feasible_share": 0.5737704918032787,
-        "paired_delay_reduction": 64.82857142857142
+        "paired_delay_reduction": -4.857142857142833
       }
     ]
   },
@@ -86,10 +86,10 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 2447.68,
+          "mean": 711.42,
           "ci": [
-            1728.33,
-            3342.08
+            594.58,
+            837.74
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -98,10 +98,22 @@
           ]
         },
         "broken_connections": {
-          "mean": 44.73,
+          "mean": 44.18,
           "ci": [
-            40.37,
-            49.37
+            39.87,
+            48.77
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "crew_replacements": {
+          "mean": 10.4,
+          "ci": [
+            9.1,
+            11.79
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -110,10 +122,10 @@
           ]
         },
         "duty_violations": {
-          "mean": 11.5,
+          "mean": 2.47,
           "ci": [
-            9.79,
-            13.31
+            1.84,
+            3.16
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -125,148 +137,172 @@
       "soft": {
         "days": 62,
         "crews_used": {
-          "mean": 111.47,
+          "mean": 115.26,
           "ci": [
-            109.97,
-            112.77
+            113.56,
+            116.81
           ],
-          "diff_vs_baseline": 0.11,
+          "diff_vs_baseline": 3.9,
           "diff_ci": [
-            0.03,
-            0.21
+            3.5,
+            4.31
           ]
         },
         "cost": {
-          "mean": 1179.13,
+          "mean": 1198.79,
           "ci": [
-            1158.1,
-            1198.02
+            1176.14,
+            1218.58
           ],
-          "diff_vs_baseline": 2.2,
+          "diff_vs_baseline": 21.86,
           "diff_ci": [
-            1.8,
-            2.66
+            19.88,
+            23.85
           ]
         },
         "crew_delay_min": {
-          "mean": 2173.52,
+          "mean": 376.16,
           "ci": [
-            1463.35,
-            3079.15
+            301.8,
+            458.61
           ],
-          "diff_vs_baseline": -274.16,
+          "diff_vs_baseline": -335.26,
           "diff_ci": [
-            -487.65,
-            -33.38
+            -410.61,
+            -263.97
           ]
         },
         "broken_connections": {
-          "mean": 38.6,
+          "mean": 35.23,
           "ci": [
-            34.58,
-            43.05
+            31.44,
+            39.26
           ],
-          "diff_vs_baseline": -6.13,
+          "diff_vs_baseline": -8.95,
           "diff_ci": [
-            -6.98,
-            -5.29
+            -10.02,
+            -7.9
+          ]
+        },
+        "crew_replacements": {
+          "mean": 10.65,
+          "ci": [
+            9.24,
+            12.13
+          ],
+          "diff_vs_baseline": 0.24,
+          "diff_ci": [
+            -0.27,
+            0.74
           ]
         },
         "duty_violations": {
-          "mean": 11.85,
+          "mean": 2.35,
           "ci": [
-            10.1,
-            13.68
+            1.76,
+            3.08
           ],
-          "diff_vs_baseline": 0.35,
+          "diff_vs_baseline": -0.11,
           "diff_ci": [
-            -0.23,
-            0.94
+            -0.58,
+            0.34
           ]
         }
       },
       "soft_repair": {
         "days": 62,
         "crews_used": {
-          "mean": 113.82,
+          "mean": 117.13,
           "ci": [
-            112.21,
-            115.26
+            115.29,
+            118.76
           ],
-          "diff_vs_baseline": 2.47,
+          "diff_vs_baseline": 5.77,
           "diff_ci": [
-            2.11,
-            2.79
+            5.21,
+            6.34
           ]
         },
         "cost": {
-          "mean": 1179.13,
+          "mean": 1198.79,
           "ci": [
-            1157.88,
-            1197.74
+            1176.99,
+            1218.24
           ],
-          "diff_vs_baseline": 2.2,
+          "diff_vs_baseline": 21.86,
           "diff_ci": [
-            1.79,
-            2.67
+            19.9,
+            23.84
           ]
         },
         "crew_delay_min": {
-          "mean": 441.05,
+          "mean": 124.73,
           "ci": [
-            274.71,
-            629.05
+            87.15,
+            169.34
           ],
-          "diff_vs_baseline": -2006.63,
+          "diff_vs_baseline": -586.69,
           "diff_ci": [
-            -2906.07,
-            -1306.63
+            -689.39,
+            -489.05
           ]
         },
         "broken_connections": {
-          "mean": 33.94,
+          "mean": 31.69,
           "ci": [
-            30.02,
-            38.08
+            28.13,
+            35.65
           ],
-          "diff_vs_baseline": -10.79,
+          "diff_vs_baseline": -12.48,
           "diff_ci": [
-            -11.9,
-            -9.69
+            -13.81,
+            -11.16
+          ]
+        },
+        "crew_replacements": {
+          "mean": 9.58,
+          "ci": [
+            8.27,
+            10.95
+          ],
+          "diff_vs_baseline": -0.82,
+          "diff_ci": [
+            -1.27,
+            -0.34
           ]
         },
         "duty_violations": {
-          "mean": 10.82,
+          "mean": 2.34,
           "ci": [
-            9.11,
-            12.63
+            1.74,
+            3.06
           ],
-          "diff_vs_baseline": -0.68,
+          "diff_vs_baseline": -0.13,
           "diff_ci": [
-            -1.24,
-            -0.14
+            -0.61,
+            0.32
           ]
         }
       },
       "baseline_repair": {
         "days": 62,
         "crews_used": {
-          "mean": 114.42,
+          "mean": 114.21,
           "ci": [
-            112.89,
-            115.79
+            112.63,
+            115.63
           ],
-          "diff_vs_baseline": 3.06,
+          "diff_vs_baseline": 2.85,
           "diff_ci": [
-            2.79,
-            3.32
+            2.56,
+            3.13
           ]
         },
         "cost": {
           "mean": 1176.93,
           "ci": [
-            1155.61,
-            1195.7
+            1155.87,
+            1195.61
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -275,102 +311,126 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 534.74,
+          "mean": 223.24,
           "ci": [
-            343.71,
-            752.58
+            151.61,
+            313.1
           ],
-          "diff_vs_baseline": -1912.94,
+          "diff_vs_baseline": -488.18,
           "diff_ci": [
-            -2786.45,
-            -1257.37
+            -569.63,
+            -410.16
           ]
         },
         "broken_connections": {
-          "mean": 37.81,
+          "mean": 37.85,
           "ci": [
-            33.77,
-            42.18
+            33.76,
+            42.13
           ],
-          "diff_vs_baseline": -6.92,
+          "diff_vs_baseline": -6.32,
           "diff_ci": [
-            -7.68,
-            -6.19
+            -7.08,
+            -5.6
+          ]
+        },
+        "crew_replacements": {
+          "mean": 9.29,
+          "ci": [
+            8.06,
+            10.63
+          ],
+          "diff_vs_baseline": -1.11,
+          "diff_ci": [
+            -1.34,
+            -0.89
           ]
         },
         "duty_violations": {
-          "mean": 10.15,
+          "mean": 2.23,
           "ci": [
-            8.55,
-            11.85
+            1.65,
+            2.9
           ],
-          "diff_vs_baseline": -1.35,
+          "diff_vs_baseline": -0.24,
           "diff_ci": [
-            -1.58,
-            -1.13
+            -0.39,
+            -0.11
           ]
         }
       },
       "soft_repair_vs_baseline_repair": {
         "days": 62,
         "crews_used": {
-          "mean": 113.82,
+          "mean": 117.13,
           "ci": [
-            112.27,
-            115.24
+            115.31,
+            118.76
           ],
-          "diff_vs_baseline": -0.6,
+          "diff_vs_baseline": 2.92,
           "diff_ci": [
-            -0.87,
-            -0.34
+            2.47,
+            3.39
           ]
         },
         "cost": {
-          "mean": 1179.13,
+          "mean": 1198.79,
           "ci": [
-            1157.81,
-            1197.9
+            1176.69,
+            1217.88
           ],
-          "diff_vs_baseline": 2.2,
+          "diff_vs_baseline": 21.86,
           "diff_ci": [
-            1.81,
-            2.67
+            19.88,
+            23.85
           ]
         },
         "crew_delay_min": {
-          "mean": 441.05,
+          "mean": 124.73,
           "ci": [
-            274.69,
-            640.0
+            86.64,
+            168.13
           ],
-          "diff_vs_baseline": -93.69,
+          "diff_vs_baseline": -98.52,
           "diff_ci": [
-            -209.47,
-            14.08
+            -151.42,
+            -54.71
           ]
         },
         "broken_connections": {
-          "mean": 33.94,
+          "mean": 31.69,
           "ci": [
-            30.08,
-            38.13
+            28.1,
+            35.44
           ],
-          "diff_vs_baseline": -3.87,
+          "diff_vs_baseline": -6.16,
           "diff_ci": [
-            -4.6,
-            -3.18
+            -7.03,
+            -5.31
+          ]
+        },
+        "crew_replacements": {
+          "mean": 9.58,
+          "ci": [
+            8.29,
+            10.97
+          ],
+          "diff_vs_baseline": 0.29,
+          "diff_ci": [
+            -0.18,
+            0.76
           ]
         },
         "duty_violations": {
-          "mean": 10.82,
+          "mean": 2.34,
           "ci": [
-            9.16,
-            12.65
+            1.74,
+            3.06
           ],
-          "diff_vs_baseline": 0.68,
+          "diff_vs_baseline": 0.11,
           "diff_ci": [
-            0.15,
-            1.19
+            -0.32,
+            0.55
           ]
         }
       },
@@ -379,8 +439,8 @@
         "crews_used": {
           "mean": 111.66,
           "ci": [
-            109.34,
-            113.62
+            109.38,
+            113.56
           ],
           "diff_vs_baseline": 0.16,
           "diff_ci": [
@@ -391,49 +451,61 @@
         "cost": {
           "mean": 1179.16,
           "ci": [
-            1144.31,
-            1208.81
+            1143.57,
+            1209.15
           ],
           "diff_vs_baseline": 0.79,
           "diff_ci": [
             0.17,
-            1.67
+            1.6
           ]
         },
         "crew_delay_min": {
-          "mean": 2425.62,
+          "mean": 602.28,
           "ci": [
-            1296.79,
-            3956.95
+            493.72,
+            709.85
           ],
-          "diff_vs_baseline": 29.84,
+          "diff_vs_baseline": -35.47,
           "diff_ci": [
-            -91.35,
-            166.44
+            -111.94,
+            29.75
           ]
         },
         "broken_connections": {
-          "mean": 42.28,
+          "mean": 41.66,
           "ci": [
-            35.81,
-            49.44
+            35.25,
+            49.0
           ],
-          "diff_vs_baseline": 0.75,
+          "diff_vs_baseline": 0.66,
           "diff_ci": [
-            -0.12,
-            1.59
+            -0.16,
+            1.47
+          ]
+        },
+        "crew_replacements": {
+          "mean": 9.75,
+          "ci": [
+            8.12,
+            11.47
+          ],
+          "diff_vs_baseline": -0.03,
+          "diff_ci": [
+            -0.5,
+            0.44
           ]
         },
         "duty_violations": {
-          "mean": 10.5,
+          "mean": 1.88,
           "ci": [
-            8.56,
-            12.72
+            1.25,
+            2.59
           ],
-          "diff_vs_baseline": -0.34,
+          "diff_vs_baseline": -0.41,
           "diff_ci": [
             -0.91,
-            0.16
+            0.03
           ]
         }
       },
@@ -445,8 +517,8 @@
         "crews_used": {
           "mean": 106.02,
           "ci": [
-            101.61,
-            109.9
+            101.41,
+            109.89
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -457,8 +529,8 @@
         "cost": {
           "mean": 1136.56,
           "ci": [
-            1086.47,
-            1181.16
+            1087.05,
+            1179.69
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -467,10 +539,10 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 1043.48,
+          "mean": 324.9,
           "ci": [
-            611.99,
-            1606.43
+            244.44,
+            418.82
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -479,10 +551,22 @@
           ]
         },
         "broken_connections": {
-          "mean": 26.31,
+          "mean": 26.08,
           "ci": [
-            23.18,
-            29.66
+            22.93,
+            29.39
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "crew_replacements": {
+          "mean": 4.25,
+          "ci": [
+            3.43,
+            5.23
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -491,10 +575,10 @@
           ]
         },
         "duty_violations": {
-          "mean": 4.51,
+          "mean": 1.34,
           "ci": [
-            3.43,
-            5.77
+            0.93,
+            1.82
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -506,148 +590,172 @@
       "soft": {
         "days": 61,
         "crews_used": {
-          "mean": 106.34,
+          "mean": 108.85,
           "ci": [
-            101.92,
-            110.3
+            104.31,
+            112.82
           ],
-          "diff_vs_baseline": 0.33,
+          "diff_vs_baseline": 2.84,
           "diff_ci": [
-            0.21,
-            0.44
+            2.31,
+            3.36
           ]
         },
         "cost": {
-          "mean": 1139.32,
+          "mean": 1152.46,
           "ci": [
-            1090.86,
-            1183.43
+            1100.59,
+            1196.35
           ],
-          "diff_vs_baseline": 2.76,
+          "diff_vs_baseline": 15.9,
           "diff_ci": [
-            2.23,
-            3.3
+            13.41,
+            18.54
           ]
         },
         "crew_delay_min": {
-          "mean": 848.18,
+          "mean": 165.02,
           "ci": [
-            506.38,
-            1240.24
+            120.65,
+            216.13
           ],
-          "diff_vs_baseline": -195.3,
+          "diff_vs_baseline": -159.89,
           "diff_ci": [
-            -523.1,
-            59.93
+            -243.15,
+            -97.28
           ]
         },
         "broken_connections": {
-          "mean": 20.8,
+          "mean": 19.33,
           "ci": [
-            18.28,
-            23.57
+            17.13,
+            21.74
           ],
-          "diff_vs_baseline": -5.51,
+          "diff_vs_baseline": -6.75,
           "diff_ci": [
-            -6.52,
-            -4.52
+            -8.0,
+            -5.57
+          ]
+        },
+        "crew_replacements": {
+          "mean": 4.89,
+          "ci": [
+            3.97,
+            5.89
+          ],
+          "diff_vs_baseline": 0.64,
+          "diff_ci": [
+            0.23,
+            1.07
           ]
         },
         "duty_violations": {
-          "mean": 5.07,
+          "mean": 1.48,
           "ci": [
-            3.98,
-            6.3
+            1.1,
+            1.89
           ],
-          "diff_vs_baseline": 0.56,
+          "diff_vs_baseline": 0.13,
           "diff_ci": [
-            0.16,
-            0.97
+            -0.15,
+            0.41
           ]
         }
       },
       "soft_repair": {
         "days": 61,
         "crews_used": {
-          "mean": 107.49,
+          "mean": 109.57,
           "ci": [
-            103.1,
-            111.48
+            104.95,
+            113.61
           ],
-          "diff_vs_baseline": 1.48,
+          "diff_vs_baseline": 3.56,
           "diff_ci": [
-            1.15,
-            1.82
+            2.98,
+            4.16
           ]
         },
         "cost": {
-          "mean": 1139.32,
+          "mean": 1152.46,
           "ci": [
-            1087.5,
-            1183.5
+            1101.21,
+            1195.89
           ],
-          "diff_vs_baseline": 2.76,
+          "diff_vs_baseline": 15.9,
           "diff_ci": [
-            2.24,
-            3.3
+            13.41,
+            18.49
           ]
         },
         "crew_delay_min": {
-          "mean": 183.7,
+          "mean": 69.82,
           "ci": [
-            106.33,
-            282.92
+            49.31,
+            94.02
           ],
-          "diff_vs_baseline": -859.77,
+          "diff_vs_baseline": -255.08,
           "diff_ci": [
-            -1393.87,
-            -436.85
+            -342.85,
+            -180.93
           ]
         },
         "broken_connections": {
-          "mean": 18.57,
+          "mean": 17.7,
           "ci": [
-            16.34,
-            20.95
+            15.64,
+            19.85
           ],
-          "diff_vs_baseline": -7.74,
+          "diff_vs_baseline": -8.38,
           "diff_ci": [
-            -9.0,
-            -6.51
+            -9.82,
+            -7.02
+          ]
+        },
+        "crew_replacements": {
+          "mean": 4.52,
+          "ci": [
+            3.67,
+            5.48
+          ],
+          "diff_vs_baseline": 0.28,
+          "diff_ci": [
+            -0.15,
+            0.72
           ]
         },
         "duty_violations": {
-          "mean": 4.62,
+          "mean": 1.44,
           "ci": [
-            3.59,
-            5.85
+            1.07,
+            1.85
           ],
-          "diff_vs_baseline": 0.11,
+          "diff_vs_baseline": 0.1,
           "diff_ci": [
-            -0.33,
-            0.54
+            -0.18,
+            0.38
           ]
         }
       },
       "baseline_repair": {
         "days": 61,
         "crews_used": {
-          "mean": 107.49,
+          "mean": 107.38,
           "ci": [
-            102.97,
+            102.84,
             111.36
           ],
-          "diff_vs_baseline": 1.48,
+          "diff_vs_baseline": 1.36,
           "diff_ci": [
-            1.1,
-            1.87
+            1.0,
+            1.72
           ]
         },
         "cost": {
           "mean": 1136.56,
           "ci": [
-            1088.12,
-            1179.8
+            1086.77,
+            1180.53
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -656,102 +764,126 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 310.11,
+          "mean": 117.38,
           "ci": [
-            157.47,
-            527.25
+            82.49,
+            160.0
           ],
-          "diff_vs_baseline": -733.36,
+          "diff_vs_baseline": -207.52,
           "diff_ci": [
-            -1244.73,
-            -350.5
+            -281.72,
+            -145.52
           ]
         },
         "broken_connections": {
-          "mean": 22.9,
+          "mean": 22.92,
           "ci": [
-            20.13,
-            25.85
+            20.18,
+            25.89
           ],
-          "diff_vs_baseline": -3.41,
+          "diff_vs_baseline": -3.16,
           "diff_ci": [
-            -4.23,
-            -2.62
+            -3.9,
+            -2.46
+          ]
+        },
+        "crew_replacements": {
+          "mean": 3.69,
+          "ci": [
+            2.93,
+            4.61
+          ],
+          "diff_vs_baseline": -0.56,
+          "diff_ci": [
+            -0.82,
+            -0.33
           ]
         },
         "duty_violations": {
-          "mean": 4.07,
+          "mean": 1.33,
           "ci": [
-            3.1,
-            5.25
+            0.93,
+            1.8
           ],
-          "diff_vs_baseline": -0.44,
+          "diff_vs_baseline": -0.02,
           "diff_ci": [
-            -0.7,
-            -0.23
+            -0.07,
+            0.03
           ]
         }
       },
       "soft_repair_vs_baseline_repair": {
         "days": 61,
         "crews_used": {
-          "mean": 107.49,
+          "mean": 109.57,
           "ci": [
-            103.05,
-            111.44
+            105.1,
+            113.54
           ],
-          "diff_vs_baseline": 0.0,
+          "diff_vs_baseline": 2.2,
           "diff_ci": [
-            -0.23,
-            0.21
+            1.7,
+            2.7
           ]
         },
         "cost": {
-          "mean": 1139.32,
+          "mean": 1152.46,
           "ci": [
-            1088.67,
-            1182.48
+            1101.35,
+            1196.29
           ],
-          "diff_vs_baseline": 2.76,
+          "diff_vs_baseline": 15.9,
           "diff_ci": [
-            2.24,
-            3.29
+            13.35,
+            18.5
           ]
         },
         "crew_delay_min": {
-          "mean": 183.7,
+          "mean": 69.82,
           "ci": [
-            104.54,
-            283.56
+            49.61,
+            93.54
           ],
-          "diff_vs_baseline": -126.41,
+          "diff_vs_baseline": -47.56,
           "diff_ci": [
-            -316.05,
-            -22.26
+            -76.33,
+            -25.1
           ]
         },
         "broken_connections": {
-          "mean": 18.57,
+          "mean": 17.7,
           "ci": [
-            16.34,
-            20.98
+            15.67,
+            19.93
           ],
-          "diff_vs_baseline": -4.33,
+          "diff_vs_baseline": -5.21,
           "diff_ci": [
-            -5.18,
-            -3.52
+            -6.25,
+            -4.23
+          ]
+        },
+        "crew_replacements": {
+          "mean": 4.52,
+          "ci": [
+            3.66,
+            5.51
+          ],
+          "diff_vs_baseline": 0.84,
+          "diff_ci": [
+            0.39,
+            1.3
           ]
         },
         "duty_violations": {
-          "mean": 4.62,
+          "mean": 1.44,
           "ci": [
-            3.59,
-            5.8
+            1.07,
+            1.85
           ],
-          "diff_vs_baseline": 0.56,
+          "diff_vs_baseline": 0.11,
           "diff_ci": [
-            0.18,
-            0.95
+            -0.16,
+            0.38
           ]
         }
       },
@@ -760,8 +892,8 @@
         "crews_used": {
           "mean": 105.67,
           "ci": [
-            96.56,
-            113.56
+            96.37,
+            113.41
           ],
           "diff_vs_baseline": 0.07,
           "diff_ci": [
@@ -772,32 +904,32 @@
         "cost": {
           "mean": 1120.35,
           "ci": [
-            1020.55,
-            1206.69
+            1019.61,
+            1205.72
           ],
           "diff_vs_baseline": 0.45,
           "diff_ci": [
             0.02,
-            1.05
+            1.07
           ]
         },
         "crew_delay_min": {
-          "mean": 898.48,
+          "mean": 255.33,
           "ci": [
-            429.8,
-            1514.64
+            185.26,
+            332.56
           ],
-          "diff_vs_baseline": -212.15,
+          "diff_vs_baseline": -13.7,
           "diff_ci": [
-            -716.71,
-            59.04
+            -50.74,
+            17.3
           ]
         },
         "broken_connections": {
-          "mean": 21.22,
+          "mean": 21.0,
           "ci": [
-            18.0,
-            24.56
+            17.74,
+            24.33
           ],
           "diff_vs_baseline": 0.33,
           "diff_ci": [
@@ -805,16 +937,28 @@
             0.89
           ]
         },
-        "duty_violations": {
+        "crew_replacements": {
           "mean": 3.37,
           "ci": [
-            2.18,
-            4.89
+            2.41,
+            4.41
           ],
-          "diff_vs_baseline": -0.07,
+          "diff_vs_baseline": -0.15,
           "diff_ci": [
-            -0.33,
-            0.19
+            -0.37,
+            0.07
+          ]
+        },
+        "duty_violations": {
+          "mean": 0.93,
+          "ci": [
+            0.44,
+            1.59
+          ],
+          "diff_vs_baseline": 0.04,
+          "diff_ci": [
+            -0.11,
+            0.22
           ]
         }
       },
@@ -840,7 +984,7 @@
         "cost": {
           "mean": 1160.35,
           "ci": [
-            1128.97,
+            1128.1,
             1191.57
           ],
           "diff_vs_baseline": 0.0,
@@ -850,10 +994,10 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 2032.6,
+          "mean": 690.4,
           "ci": [
-            1291.68,
-            2808.3
+            501.59,
+            906.9
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -862,10 +1006,22 @@
           ]
         },
         "broken_connections": {
-          "mean": 62.2,
+          "mean": 61.8,
           "ci": [
-            52.0,
-            74.9
+            51.5,
+            74.8
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "crew_replacements": {
+          "mean": 15.9,
+          "ci": [
+            12.1,
+            20.2
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -874,10 +1030,10 @@
           ]
         },
         "duty_violations": {
-          "mean": 20.4,
+          "mean": 5.2,
           "ci": [
-            15.4,
-            25.6
+            3.0,
+            7.7
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -889,148 +1045,172 @@
       "soft": {
         "days": 10,
         "crews_used": {
-          "mean": 109.7,
+          "mean": 114.1,
           "ci": [
-            107.0,
-            112.2
+            111.2,
+            117.1
           ],
-          "diff_vs_baseline": 0.0,
+          "diff_vs_baseline": 4.4,
           "diff_ci": [
-            0.0,
-            0.0
+            3.7,
+            5.2
           ]
         },
         "cost": {
-          "mean": 1161.98,
+          "mean": 1184.47,
           "ci": [
-            1129.92,
-            1193.98
+            1151.88,
+            1216.89
           ],
-          "diff_vs_baseline": 1.63,
+          "diff_vs_baseline": 24.12,
           "diff_ci": [
-            1.17,
-            2.13
+            20.22,
+            28.46
           ]
         },
         "crew_delay_min": {
-          "mean": 2307.9,
+          "mean": 366.6,
           "ci": [
-            1264.49,
-            3436.2
+            210.1,
+            547.4
           ],
-          "diff_vs_baseline": 275.3,
+          "diff_vs_baseline": -323.8,
           "diff_ci": [
-            -412.4,
-            1339.91
+            -437.9,
+            -214.7
           ]
         },
         "broken_connections": {
-          "mean": 56.5,
+          "mean": 52.5,
           "ci": [
-            46.8,
-            68.2
+            43.5,
+            63.3
           ],
-          "diff_vs_baseline": -5.7,
+          "diff_vs_baseline": -9.3,
           "diff_ci": [
-            -7.9,
-            -3.6
+            -12.1,
+            -6.9
+          ]
+        },
+        "crew_replacements": {
+          "mean": 16.1,
+          "ci": [
+            12.8,
+            19.6
+          ],
+          "diff_vs_baseline": 0.2,
+          "diff_ci": [
+            -1.0,
+            1.3
           ]
         },
         "duty_violations": {
-          "mean": 20.9,
+          "mean": 6.0,
           "ci": [
-            15.9,
-            26.0
+            3.7,
+            9.1
           ],
-          "diff_vs_baseline": 0.5,
+          "diff_vs_baseline": 0.8,
           "diff_ci": [
-            -1.4,
-            2.3
+            -0.5,
+            2.2
           ]
         }
       },
       "soft_repair": {
         "days": 10,
         "crews_used": {
-          "mean": 112.0,
+          "mean": 116.0,
           "ci": [
-            108.8,
-            114.9
+            112.8,
+            119.3
           ],
-          "diff_vs_baseline": 2.3,
+          "diff_vs_baseline": 6.3,
           "diff_ci": [
-            1.4,
-            3.2
+            5.1,
+            7.6
           ]
         },
         "cost": {
-          "mean": 1161.98,
+          "mean": 1184.47,
           "ci": [
-            1129.76,
-            1193.37
+            1151.59,
+            1218.11
           ],
-          "diff_vs_baseline": 1.63,
+          "diff_vs_baseline": 24.12,
           "diff_ci": [
-            1.15,
-            2.13
+            20.16,
+            28.41
           ]
         },
         "crew_delay_min": {
-          "mean": 695.3,
+          "mean": 166.8,
           "ci": [
-            302.8,
-            1131.4
+            71.1,
+            292.91
           ],
-          "diff_vs_baseline": -1337.3,
+          "diff_vs_baseline": -523.6,
           "diff_ci": [
-            -2268.61,
-            -565.79
+            -705.61,
+            -357.1
           ]
         },
         "broken_connections": {
-          "mean": 52.2,
+          "mean": 49.1,
           "ci": [
-            43.0,
-            63.6
+            40.5,
+            59.3
           ],
-          "diff_vs_baseline": -10.0,
+          "diff_vs_baseline": -12.7,
           "diff_ci": [
-            -12.8,
-            -7.7
+            -16.3,
+            -9.8
+          ]
+        },
+        "crew_replacements": {
+          "mean": 14.6,
+          "ci": [
+            11.2,
+            18.3
+          ],
+          "diff_vs_baseline": -1.3,
+          "diff_ci": [
+            -2.4,
+            0.0
           ]
         },
         "duty_violations": {
-          "mean": 20.0,
+          "mean": 6.0,
           "ci": [
-            14.9,
-            25.1
+            3.7,
+            9.1
           ],
-          "diff_vs_baseline": -0.4,
+          "diff_vs_baseline": 0.8,
           "diff_ci": [
-            -2.2,
-            1.3
+            -0.6,
+            2.2
           ]
         }
       },
       "baseline_repair": {
         "days": 10,
         "crews_used": {
-          "mean": 113.1,
+          "mean": 112.8,
           "ci": [
-            110.2,
-            115.8
+            109.8,
+            115.5
           ],
-          "diff_vs_baseline": 3.4,
+          "diff_vs_baseline": 3.1,
           "diff_ci": [
-            3.0,
-            3.8
+            2.6,
+            3.6
           ]
         },
         "cost": {
           "mean": 1160.35,
           "ci": [
-            1128.44,
-            1191.42
+            1128.17,
+            1190.7
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -1039,102 +1219,126 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 517.1,
+          "mean": 221.5,
           "ci": [
-            246.3,
-            822.01
+            121.8,
+            332.5
           ],
-          "diff_vs_baseline": -1515.5,
+          "diff_vs_baseline": -468.9,
           "diff_ci": [
-            -2359.0,
-            -791.2
+            -622.5,
+            -331.6
           ]
         },
         "broken_connections": {
-          "mean": 55.4,
+          "mean": 55.7,
           "ci": [
-            45.8,
+            46.4,
             67.6
           ],
-          "diff_vs_baseline": -6.8,
+          "diff_vs_baseline": -6.1,
           "diff_ci": [
-            -8.1,
-            -5.4
+            -7.5,
+            -4.8
+          ]
+        },
+        "crew_replacements": {
+          "mean": 14.7,
+          "ci": [
+            11.1,
+            18.6
+          ],
+          "diff_vs_baseline": -1.2,
+          "diff_ci": [
+            -1.6,
+            -0.7
           ]
         },
         "duty_violations": {
-          "mean": 18.7,
+          "mean": 4.8,
           "ci": [
-            13.8,
-            24.0
+            2.6,
+            7.3
           ],
-          "diff_vs_baseline": -1.7,
+          "diff_vs_baseline": -0.4,
           "diff_ci": [
-            -2.1,
-            -1.3
+            -0.8,
+            0.0
           ]
         }
       },
       "soft_repair_vs_baseline_repair": {
         "days": 10,
         "crews_used": {
-          "mean": 112.0,
+          "mean": 116.0,
           "ci": [
-            108.8,
-            115.0
+            112.9,
+            119.3
           ],
-          "diff_vs_baseline": -1.1,
+          "diff_vs_baseline": 3.2,
           "diff_ci": [
-            -2.0,
-            -0.3
+            1.9,
+            4.5
           ]
         },
         "cost": {
-          "mean": 1161.98,
+          "mean": 1184.47,
           "ci": [
-            1130.03,
-            1193.38
+            1151.64,
+            1217.18
           ],
-          "diff_vs_baseline": 1.63,
+          "diff_vs_baseline": 24.12,
           "diff_ci": [
-            1.15,
-            2.13
+            20.24,
+            28.33
           ]
         },
         "crew_delay_min": {
-          "mean": 695.3,
+          "mean": 166.8,
           "ci": [
-            299.5,
-            1128.91
+            70.5,
+            289.1
           ],
-          "diff_vs_baseline": 178.2,
+          "diff_vs_baseline": -54.7,
           "diff_ci": [
-            -89.1,
-            516.8
+            -135.7,
+            12.7
           ]
         },
         "broken_connections": {
-          "mean": 52.2,
+          "mean": 49.1,
           "ci": [
-            42.8,
-            62.9
+            40.7,
+            59.5
           ],
-          "diff_vs_baseline": -3.2,
+          "diff_vs_baseline": -6.6,
           "diff_ci": [
-            -5.4,
-            -1.0
+            -9.7,
+            -3.9
+          ]
+        },
+        "crew_replacements": {
+          "mean": 14.6,
+          "ci": [
+            11.2,
+            18.2
+          ],
+          "diff_vs_baseline": -0.1,
+          "diff_ci": [
+            -1.0,
+            0.9
           ]
         },
         "duty_violations": {
-          "mean": 20.0,
+          "mean": 6.0,
           "ci": [
-            14.9,
-            25.2
+            3.7,
+            9.1
           ],
-          "diff_vs_baseline": 1.3,
+          "diff_vs_baseline": 1.2,
           "diff_ci": [
-            -0.5,
-            3.0
+            -0.3,
+            2.6
           ]
         }
       },
@@ -1165,39 +1369,51 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 3027.33,
+          "mean": 684.0,
           "ci": [
-            1981.0,
-            4200.0
+            448.0,
+            994.0
           ],
-          "diff_vs_baseline": -167.0,
+          "diff_vs_baseline": 66.0,
           "diff_ci": [
-            -783.0,
+            -80.0,
             168.0
           ]
         },
         "broken_connections": {
-          "mean": 72.67,
+          "mean": 72.0,
           "ci": [
-            50.0,
+            49.0,
             115.0
           ],
           "diff_vs_baseline": 2.0,
           "diff_ci": [
-            -3.0,
+            -2.0,
             5.0
           ]
         },
-        "duty_violations": {
-          "mean": 18.67,
+        "crew_replacements": {
+          "mean": 15.67,
           "ci": [
-            12.0,
-            30.0
+            11.0,
+            23.0
           ],
           "diff_vs_baseline": -1.67,
           "diff_ci": [
             -3.0,
             -1.0
+          ]
+        },
+        "duty_violations": {
+          "mean": 3.67,
+          "ci": [
+            1.0,
+            7.0
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            -2.0,
+            2.0
           ]
         }
       },
@@ -1210,7 +1426,7 @@
           "mean": 112.2,
           "ci": [
             104.0,
-            123.3
+            123.2
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -1221,8 +1437,8 @@
         "cost": {
           "mean": 1212.07,
           "ci": [
-            1127.28,
-            1315.95
+            1128.53,
+            1319.69
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -1231,10 +1447,10 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 2668.5,
+          "mean": 771.9,
           "ci": [
-            813.09,
-            5218.07
+            433.27,
+            1153.6
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -1243,10 +1459,22 @@
           ]
         },
         "broken_connections": {
-          "mean": 45.0,
+          "mean": 44.5,
           "ci": [
-            34.0,
-            54.5
+            33.9,
+            54.0
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "crew_replacements": {
+          "mean": 8.5,
+          "ci": [
+            5.2,
+            12.5
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -1255,10 +1483,10 @@
           ]
         },
         "duty_violations": {
-          "mean": 10.4,
+          "mean": 3.2,
           "ci": [
-            5.9,
-            15.7
+            1.5,
+            5.2
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -1270,148 +1498,172 @@
       "soft": {
         "days": 10,
         "crews_used": {
-          "mean": 112.5,
+          "mean": 116.2,
           "ci": [
-            104.5,
-            123.6
+            108.5,
+            126.2
           ],
-          "diff_vs_baseline": 0.3,
+          "diff_vs_baseline": 4.0,
           "diff_ci": [
-            0.0,
-            0.6
+            2.7,
+            5.3
           ]
         },
         "cost": {
-          "mean": 1214.94,
+          "mean": 1234.31,
           "ci": [
-            1132.77,
-            1322.54
+            1156.12,
+            1336.16
           ],
-          "diff_vs_baseline": 2.88,
+          "diff_vs_baseline": 22.24,
           "diff_ci": [
-            1.3,
-            4.66
+            15.06,
+            29.46
           ]
         },
         "crew_delay_min": {
-          "mean": 1419.9,
+          "mean": 295.3,
           "ci": [
-            412.39,
-            2654.52
+            164.2,
+            492.4
           ],
-          "diff_vs_baseline": -1248.6,
+          "diff_vs_baseline": -476.6,
           "diff_ci": [
-            -2866.2,
-            -183.6
+            -881.5,
+            -156.5
           ]
         },
         "broken_connections": {
-          "mean": 36.7,
+          "mean": 33.1,
           "ci": [
-            28.8,
-            43.9
+            26.0,
+            39.1
           ],
-          "diff_vs_baseline": -8.3,
+          "diff_vs_baseline": -11.4,
           "diff_ci": [
-            -11.9,
-            -4.6
+            -15.8,
+            -6.7
+          ]
+        },
+        "crew_replacements": {
+          "mean": 9.7,
+          "ci": [
+            6.7,
+            13.2
+          ],
+          "diff_vs_baseline": 1.2,
+          "diff_ci": [
+            0.1,
+            2.4
           ]
         },
         "duty_violations": {
-          "mean": 10.9,
+          "mean": 3.1,
           "ci": [
-            7.2,
-            15.5
+            1.9,
+            4.5
           ],
-          "diff_vs_baseline": 0.5,
+          "diff_vs_baseline": -0.1,
           "diff_ci": [
-            -0.7,
-            1.6
+            -1.0,
+            0.6
           ]
         }
       },
       "soft_repair": {
         "days": 10,
         "crews_used": {
-          "mean": 115.0,
+          "mean": 118.0,
           "ci": [
-            106.7,
-            125.9
+            110.2,
+            127.6
           ],
-          "diff_vs_baseline": 2.8,
+          "diff_vs_baseline": 5.8,
           "diff_ci": [
-            1.7,
-            3.9
+            4.1,
+            7.3
           ]
         },
         "cost": {
-          "mean": 1214.94,
+          "mean": 1234.31,
           "ci": [
-            1131.98,
-            1324.73
+            1154.92,
+            1337.48
           ],
-          "diff_vs_baseline": 2.88,
+          "diff_vs_baseline": 22.24,
           "diff_ci": [
-            1.31,
-            4.59
+            15.04,
+            29.4
           ]
         },
         "crew_delay_min": {
-          "mean": 211.9,
+          "mean": 93.8,
           "ci": [
-            84.9,
-            383.9
+            51.9,
+            140.5
           ],
-          "diff_vs_baseline": -2456.6,
+          "diff_vs_baseline": -678.1,
           "diff_ci": [
-            -5040.5,
-            -626.6
+            -1038.91,
+            -367.19
           ]
         },
         "broken_connections": {
-          "mean": 32.3,
+          "mean": 29.7,
           "ci": [
-            25.1,
-            38.8
+            22.7,
+            35.7
           ],
-          "diff_vs_baseline": -12.7,
+          "diff_vs_baseline": -14.8,
           "diff_ci": [
-            -16.7,
-            -8.5
+            -19.7,
+            -9.7
+          ]
+        },
+        "crew_replacements": {
+          "mean": 8.4,
+          "ci": [
+            5.4,
+            11.9
+          ],
+          "diff_vs_baseline": -0.1,
+          "diff_ci": [
+            -1.3,
+            1.3
           ]
         },
         "duty_violations": {
-          "mean": 9.5,
+          "mean": 3.0,
           "ci": [
-            5.6,
-            14.3
+            1.8,
+            4.5
           ],
-          "diff_vs_baseline": -0.9,
+          "diff_vs_baseline": -0.2,
           "diff_ci": [
-            -2.3,
-            0.3
+            -1.0,
+            0.5
           ]
         }
       },
       "baseline_repair": {
         "days": 10,
         "crews_used": {
-          "mean": 115.0,
+          "mean": 114.8,
           "ci": [
-            106.8,
-            125.5
+            106.6,
+            125.4
           ],
-          "diff_vs_baseline": 2.8,
+          "diff_vs_baseline": 2.6,
           "diff_ci": [
-            1.6,
-            4.0
+            1.5,
+            3.6
           ]
         },
         "cost": {
           "mean": 1212.07,
           "ci": [
-            1128.54,
-            1323.58
+            1128.78,
+            1322.61
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -1420,102 +1672,126 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 873.3,
+          "mean": 271.7,
           "ci": [
-            212.59,
-            1955.0
+            130.4,
+            448.7
           ],
-          "diff_vs_baseline": -1795.2,
+          "diff_vs_baseline": -500.2,
           "diff_ci": [
-            -4236.34,
-            -299.7
+            -801.0,
+            -235.78
           ]
         },
         "broken_connections": {
           "mean": 39.1,
           "ci": [
             29.7,
-            47.6
+            47.5
           ],
-          "diff_vs_baseline": -5.9,
+          "diff_vs_baseline": -5.4,
           "diff_ci": [
-            -8.3,
-            -3.4
+            -7.5,
+            -3.1
+          ]
+        },
+        "crew_replacements": {
+          "mean": 7.2,
+          "ci": [
+            4.0,
+            11.0
+          ],
+          "diff_vs_baseline": -1.3,
+          "diff_ci": [
+            -2.3,
+            -0.4
           ]
         },
         "duty_violations": {
-          "mean": 9.0,
+          "mean": 3.1,
           "ci": [
-            4.8,
-            14.1
+            1.3,
+            5.2
           ],
-          "diff_vs_baseline": -1.4,
+          "diff_vs_baseline": -0.1,
           "diff_ci": [
-            -2.6,
-            -0.4
+            -0.3,
+            0.0
           ]
         }
       },
       "soft_repair_vs_baseline_repair": {
         "days": 10,
         "crews_used": {
-          "mean": 115.0,
+          "mean": 118.0,
           "ci": [
-            106.9,
-            125.7
+            110.4,
+            128.0
           ],
-          "diff_vs_baseline": 0.0,
+          "diff_vs_baseline": 3.2,
           "diff_ci": [
-            -0.8,
-            0.7
+            2.1,
+            4.3
           ]
         },
         "cost": {
-          "mean": 1214.94,
+          "mean": 1234.31,
           "ci": [
-            1131.91,
-            1322.41
+            1154.6,
+            1333.04
           ],
-          "diff_vs_baseline": 2.88,
+          "diff_vs_baseline": 22.24,
           "diff_ci": [
-            1.33,
-            4.63
+            15.14,
+            29.5
           ]
         },
         "crew_delay_min": {
-          "mean": 211.9,
+          "mean": 93.8,
           "ci": [
-            82.8,
-            376.11
+            51.8,
+            139.1
           ],
-          "diff_vs_baseline": -661.4,
+          "diff_vs_baseline": -177.9,
           "diff_ci": [
-            -1735.4,
-            -42.4
+            -314.1,
+            -67.6
           ]
         },
         "broken_connections": {
-          "mean": 32.3,
+          "mean": 29.7,
           "ci": [
-            24.9,
-            38.9
+            22.9,
+            35.8
           ],
-          "diff_vs_baseline": -6.8,
+          "diff_vs_baseline": -9.4,
           "diff_ci": [
-            -9.5,
-            -4.1
+            -13.0,
+            -5.9
+          ]
+        },
+        "crew_replacements": {
+          "mean": 8.4,
+          "ci": [
+            5.3,
+            12.1
+          ],
+          "diff_vs_baseline": 1.2,
+          "diff_ci": [
+            -0.1,
+            2.6
           ]
         },
         "duty_violations": {
-          "mean": 9.5,
+          "mean": 3.0,
           "ci": [
-            5.6,
-            14.4
+            1.8,
+            4.5
           ],
-          "diff_vs_baseline": 0.5,
+          "diff_vs_baseline": -0.1,
           "diff_ci": [
-            -0.6,
-            1.7
+            -1.0,
+            0.6
           ]
         }
       },
@@ -1546,21 +1822,21 @@
           ]
         },
         "crew_delay_min": {
-          "mean": 2920.0,
+          "mean": 537.0,
           "ci": [
             260.0,
-            5580.0
+            814.0
           ],
-          "diff_vs_baseline": -3208.5,
+          "diff_vs_baseline": -108.5,
           "diff_ci": [
-            -6516.0,
+            -316.0,
             99.0
           ]
         },
         "broken_connections": {
-          "mean": 33.5,
+          "mean": 32.5,
           "ci": [
-            24.0,
+            22.0,
             43.0
           ],
           "diff_vs_baseline": 1.0,
@@ -1569,11 +1845,23 @@
             5.0
           ]
         },
-        "duty_violations": {
-          "mean": 12.5,
+        "crew_replacements": {
+          "mean": 9.0,
           "ci": [
             7.0,
-            18.0
+            11.0
+          ],
+          "diff_vs_baseline": -1.0,
+          "diff_ci": [
+            -2.0,
+            0.0
+          ]
+        },
+        "duty_violations": {
+          "mean": 4.0,
+          "ci": [
+            0.0,
+            8.0
           ],
           "diff_vs_baseline": -0.5,
           "diff_ci": [
@@ -1615,119 +1903,15 @@
     "test_summer": {
       "baseline|none": {
         "crew_delay_min": {
-          "mean": 2447.68,
+          "mean": 711.42,
           "ci": [
-            1721.25,
-            3348.1
+            595.44,
+            840.22
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
             0.0,
             0.0
-          ]
-        },
-        "crews_used": {
-          "mean": 111.35,
-          "ci": [
-            109.87,
-            112.66
-          ],
-          "diff_vs_baseline": 0.0,
-          "diff_ci": [
-            0.0,
-            0.0
-          ]
-        },
-        "broken_connections": {
-          "mean": 44.73,
-          "ci": [
-            40.35,
-            49.42
-          ],
-          "diff_vs_baseline": 0.0,
-          "diff_ci": [
-            0.0,
-            0.0
-          ]
-        },
-        "duty_violations": {
-          "mean": 11.5,
-          "ci": [
-            9.77,
-            13.34
-          ],
-          "diff_vs_baseline": 0.0,
-          "diff_ci": [
-            0.0,
-            0.0
-          ]
-        },
-        "swaps": 0.0,
-        "reserves_used": 0.0
-      },
-      "baseline|reactive": {
-        "crew_delay_min": {
-          "mean": 534.74,
-          "ci": [
-            349.57,
-            752.5
-          ],
-          "diff_vs_baseline": -1912.94,
-          "diff_ci": [
-            -2769.73,
-            -1259.07
-          ]
-        },
-        "crews_used": {
-          "mean": 114.42,
-          "ci": [
-            112.87,
-            115.81
-          ],
-          "diff_vs_baseline": 3.06,
-          "diff_ci": [
-            2.79,
-            3.32
-          ]
-        },
-        "broken_connections": {
-          "mean": 37.81,
-          "ci": [
-            33.77,
-            42.18
-          ],
-          "diff_vs_baseline": -6.92,
-          "diff_ci": [
-            -7.68,
-            -6.18
-          ]
-        },
-        "duty_violations": {
-          "mean": 10.15,
-          "ci": [
-            8.58,
-            11.9
-          ],
-          "diff_vs_baseline": -1.35,
-          "diff_ci": [
-            -1.58,
-            -1.13
-          ]
-        },
-        "swaps": 2.23,
-        "reserves_used": 3.06
-      },
-      "baseline|morning": {
-        "crew_delay_min": {
-          "mean": 2375.27,
-          "ci": [
-            1654.85,
-            3273.32
-          ],
-          "diff_vs_baseline": -72.4,
-          "diff_ci": [
-            -214.05,
-            128.71
           ]
         },
         "crews_used": {
@@ -1743,324 +1927,10 @@
           ]
         },
         "broken_connections": {
-          "mean": 39.95,
+          "mean": 44.18,
           "ci": [
-            35.77,
-            44.31
-          ],
-          "diff_vs_baseline": -4.77,
-          "diff_ci": [
-            -5.58,
-            -3.98
-          ]
-        },
-        "duty_violations": {
-          "mean": 12.68,
-          "ci": [
-            10.9,
-            14.53
-          ],
-          "diff_vs_baseline": 1.18,
-          "diff_ci": [
-            0.65,
-            1.69
-          ]
-        },
-        "swaps": 0.0,
-        "reserves_used": 0.0
-      },
-      "baseline|morning+reactive": {
-        "crew_delay_min": {
-          "mean": 502.0,
-          "ci": [
-            316.38,
-            718.49
-          ],
-          "diff_vs_baseline": -1945.68,
-          "diff_ci": [
-            -2782.36,
-            -1288.96
-          ]
-        },
-        "crews_used": {
-          "mean": 114.13,
-          "ci": [
-            112.56,
-            115.53
-          ],
-          "diff_vs_baseline": 2.77,
-          "diff_ci": [
-            2.47,
-            3.06
-          ]
-        },
-        "broken_connections": {
-          "mean": 34.5,
-          "ci": [
-            30.69,
-            38.53
-          ],
-          "diff_vs_baseline": -10.23,
-          "diff_ci": [
-            -11.31,
-            -9.16
-          ]
-        },
-        "duty_violations": {
-          "mean": 11.4,
-          "ci": [
-            9.71,
-            13.19
-          ],
-          "diff_vs_baseline": -0.1,
-          "diff_ci": [
-            -0.58,
-            0.37
-          ]
-        },
-        "swaps": 1.05,
-        "reserves_used": 2.77
-      },
-      "soft|none": {
-        "crew_delay_min": {
-          "mean": 2173.52,
-          "ci": [
-            1450.13,
-            3078.38
-          ],
-          "diff_vs_baseline": -274.16,
-          "diff_ci": [
-            -490.24,
-            -35.24
-          ]
-        },
-        "crews_used": {
-          "mean": 111.47,
-          "ci": [
-            109.98,
-            112.77
-          ],
-          "diff_vs_baseline": 0.11,
-          "diff_ci": [
-            0.03,
-            0.21
-          ]
-        },
-        "broken_connections": {
-          "mean": 38.6,
-          "ci": [
-            34.44,
-            42.98
-          ],
-          "diff_vs_baseline": -6.13,
-          "diff_ci": [
-            -6.97,
-            -5.31
-          ]
-        },
-        "duty_violations": {
-          "mean": 11.85,
-          "ci": [
-            10.1,
-            13.74
-          ],
-          "diff_vs_baseline": 0.35,
-          "diff_ci": [
-            -0.24,
-            0.94
-          ]
-        },
-        "swaps": 0.0,
-        "reserves_used": 0.0
-      },
-      "soft|reactive": {
-        "crew_delay_min": {
-          "mean": 441.05,
-          "ci": [
-            275.85,
-            632.41
-          ],
-          "diff_vs_baseline": -2006.63,
-          "diff_ci": [
-            -2894.9,
-            -1312.14
-          ]
-        },
-        "crews_used": {
-          "mean": 113.82,
-          "ci": [
-            112.23,
-            115.26
-          ],
-          "diff_vs_baseline": 2.47,
-          "diff_ci": [
-            2.13,
-            2.81
-          ]
-        },
-        "broken_connections": {
-          "mean": 33.94,
-          "ci": [
-            30.13,
-            38.11
-          ],
-          "diff_vs_baseline": -10.79,
-          "diff_ci": [
-            -11.9,
-            -9.69
-          ]
-        },
-        "duty_violations": {
-          "mean": 10.82,
-          "ci": [
-            9.16,
-            12.6
-          ],
-          "diff_vs_baseline": -0.68,
-          "diff_ci": [
-            -1.24,
-            -0.15
-          ]
-        },
-        "swaps": 1.0,
-        "reserves_used": 2.35
-      },
-      "soft|morning": {
-        "crew_delay_min": {
-          "mean": 2112.92,
-          "ci": [
-            1418.87,
-            3000.59
-          ],
-          "diff_vs_baseline": -334.76,
-          "diff_ci": [
-            -571.99,
-            -79.29
-          ]
-        },
-        "crews_used": {
-          "mean": 111.47,
-          "ci": [
-            109.98,
-            112.79
-          ],
-          "diff_vs_baseline": 0.11,
-          "diff_ci": [
-            0.03,
-            0.21
-          ]
-        },
-        "broken_connections": {
-          "mean": 38.74,
-          "ci": [
-            34.63,
-            43.05
-          ],
-          "diff_vs_baseline": -5.98,
-          "diff_ci": [
-            -6.9,
-            -5.1
-          ]
-        },
-        "duty_violations": {
-          "mean": 12.31,
-          "ci": [
-            10.42,
-            14.26
-          ],
-          "diff_vs_baseline": 0.81,
-          "diff_ci": [
-            0.08,
-            1.52
-          ]
-        },
-        "swaps": 0.0,
-        "reserves_used": 0.0
-      },
-      "soft|morning+reactive": {
-        "crew_delay_min": {
-          "mean": 424.53,
-          "ci": [
-            268.72,
-            607.94
-          ],
-          "diff_vs_baseline": -2023.15,
-          "diff_ci": [
-            -2894.95,
-            -1334.62
-          ]
-        },
-        "crews_used": {
-          "mean": 113.92,
-          "ci": [
-            112.35,
-            115.34
-          ],
-          "diff_vs_baseline": 2.56,
-          "diff_ci": [
-            2.23,
-            2.9
-          ]
-        },
-        "broken_connections": {
-          "mean": 33.98,
-          "ci": [
-            30.15,
-            38.05
-          ],
-          "diff_vs_baseline": -10.74,
-          "diff_ci": [
-            -11.86,
-            -9.65
-          ]
-        },
-        "duty_violations": {
-          "mean": 11.21,
-          "ci": [
-            9.4,
-            13.08
-          ],
-          "diff_vs_baseline": -0.29,
-          "diff_ci": [
-            -0.97,
-            0.35
-          ]
-        },
-        "swaps": 0.92,
-        "reserves_used": 2.45
-      }
-    },
-    "test_winter": {
-      "baseline|none": {
-        "crew_delay_min": {
-          "mean": 1043.48,
-          "ci": [
-            611.09,
-            1586.24
-          ],
-          "diff_vs_baseline": 0.0,
-          "diff_ci": [
-            0.0,
-            0.0
-          ]
-        },
-        "crews_used": {
-          "mean": 106.02,
-          "ci": [
-            101.51,
-            109.9
-          ],
-          "diff_vs_baseline": 0.0,
-          "diff_ci": [
-            0.0,
-            0.0
-          ]
-        },
-        "broken_connections": {
-          "mean": 26.31,
-          "ci": [
-            23.18,
-            29.75
+            39.89,
+            48.73
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -2069,10 +1939,10 @@
           ]
         },
         "duty_violations": {
-          "mean": 4.51,
+          "mean": 2.47,
           "ci": [
-            3.44,
-            5.82
+            1.85,
+            3.15
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -2085,74 +1955,74 @@
       },
       "baseline|reactive": {
         "crew_delay_min": {
-          "mean": 310.11,
+          "mean": 223.24,
           "ci": [
-            156.33,
-            534.82
+            152.21,
+            310.91
           ],
-          "diff_vs_baseline": -733.36,
+          "diff_vs_baseline": -488.18,
           "diff_ci": [
-            -1243.59,
-            -350.01
+            -570.12,
+            -408.48
           ]
         },
         "crews_used": {
-          "mean": 107.49,
+          "mean": 114.21,
           "ci": [
-            102.95,
-            111.46
+            112.63,
+            115.66
           ],
-          "diff_vs_baseline": 1.48,
+          "diff_vs_baseline": 2.85,
           "diff_ci": [
-            1.11,
-            1.85
+            2.58,
+            3.13
           ]
         },
         "broken_connections": {
-          "mean": 22.9,
+          "mean": 37.85,
           "ci": [
-            20.15,
-            25.89
+            33.87,
+            42.08
           ],
-          "diff_vs_baseline": -3.41,
+          "diff_vs_baseline": -6.32,
           "diff_ci": [
-            -4.23,
-            -2.64
+            -7.06,
+            -5.58
           ]
         },
         "duty_violations": {
-          "mean": 4.07,
+          "mean": 2.23,
           "ci": [
-            3.08,
-            5.23
+            1.65,
+            2.89
           ],
-          "diff_vs_baseline": -0.44,
+          "diff_vs_baseline": -0.24,
           "diff_ci": [
-            -0.7,
-            -0.23
+            -0.39,
+            -0.11
           ]
         },
-        "swaps": 1.08,
-        "reserves_used": 1.48
+        "swaps": 2.21,
+        "reserves_used": 2.85
       },
       "baseline|morning": {
         "crew_delay_min": {
-          "mean": 955.57,
+          "mean": 507.58,
           "ci": [
-            527.19,
-            1504.06
+            420.29,
+            599.24
           ],
-          "diff_vs_baseline": -87.9,
+          "diff_vs_baseline": -203.84,
           "diff_ci": [
-            -146.15,
-            -42.26
+            -277.47,
+            -138.9
           ]
         },
         "crews_used": {
-          "mean": 106.02,
+          "mean": 111.35,
           "ci": [
-            101.62,
-            109.95
+            109.89,
+            112.68
           ],
           "diff_vs_baseline": 0.0,
           "diff_ci": [
@@ -2161,27 +2031,27 @@
           ]
         },
         "broken_connections": {
-          "mean": 22.7,
+          "mean": 39.32,
           "ci": [
-            20.0,
-            25.56
+            35.32,
+            43.55
           ],
-          "diff_vs_baseline": -3.61,
+          "diff_vs_baseline": -4.85,
           "diff_ci": [
-            -4.38,
-            -2.82
+            -5.68,
+            -4.06
           ]
         },
         "duty_violations": {
-          "mean": 4.9,
+          "mean": 2.6,
           "ci": [
-            3.84,
-            6.16
+            1.95,
+            3.4
           ],
-          "diff_vs_baseline": 0.39,
+          "diff_vs_baseline": 0.13,
           "diff_ci": [
-            0.03,
-            0.75
+            -0.21,
+            0.48
           ]
         },
         "swaps": 0.0,
@@ -2189,103 +2059,103 @@
       },
       "baseline|morning+reactive": {
         "crew_delay_min": {
-          "mean": 281.18,
+          "mean": 149.76,
           "ci": [
-            129.28,
-            508.51
+            104.85,
+            204.58
           ],
-          "diff_vs_baseline": -762.3,
+          "diff_vs_baseline": -561.66,
           "diff_ci": [
-            -1282.17,
-            -383.02
+            -656.83,
+            -470.82
           ]
         },
         "crews_used": {
-          "mean": 107.34,
+          "mean": 113.87,
           "ci": [
-            102.82,
-            111.33
+            112.21,
+            115.34
           ],
-          "diff_vs_baseline": 1.33,
+          "diff_vs_baseline": 2.52,
           "diff_ci": [
-            0.98,
-            1.69
+            2.19,
+            2.82
           ]
         },
         "broken_connections": {
-          "mean": 20.21,
+          "mean": 34.56,
           "ci": [
-            17.89,
-            22.74
+            30.84,
+            38.52
           ],
-          "diff_vs_baseline": -6.1,
+          "diff_vs_baseline": -9.61,
           "diff_ci": [
-            -7.23,
-            -5.03
+            -10.71,
+            -8.56
           ]
         },
         "duty_violations": {
-          "mean": 4.3,
+          "mean": 2.5,
           "ci": [
-            3.31,
-            5.46
+            1.84,
+            3.31
           ],
-          "diff_vs_baseline": -0.21,
+          "diff_vs_baseline": 0.03,
           "diff_ci": [
-            -0.66,
-            0.2
+            -0.34,
+            0.42
           ]
         },
-        "swaps": 0.7,
-        "reserves_used": 1.33
+        "swaps": 1.05,
+        "reserves_used": 2.52
       },
       "soft|none": {
         "crew_delay_min": {
-          "mean": 848.18,
+          "mean": 376.16,
           "ci": [
-            511.1,
-            1239.95
+            299.27,
+            457.35
           ],
-          "diff_vs_baseline": -195.3,
+          "diff_vs_baseline": -335.26,
           "diff_ci": [
-            -525.31,
-            65.5
+            -411.34,
+            -262.53
           ]
         },
         "crews_used": {
-          "mean": 106.34,
+          "mean": 115.26,
           "ci": [
-            101.9,
-            110.26
+            113.6,
+            116.77
           ],
-          "diff_vs_baseline": 0.33,
+          "diff_vs_baseline": 3.9,
           "diff_ci": [
-            0.21,
-            0.44
+            3.5,
+            4.31
           ]
         },
         "broken_connections": {
-          "mean": 20.8,
+          "mean": 35.23,
           "ci": [
-            18.26,
-            23.49
+            31.47,
+            39.26
           ],
-          "diff_vs_baseline": -5.51,
+          "diff_vs_baseline": -8.95,
           "diff_ci": [
-            -6.52,
-            -4.54
+            -10.05,
+            -7.94
           ]
         },
         "duty_violations": {
-          "mean": 5.07,
+          "mean": 2.35,
           "ci": [
-            4.0,
-            6.31
+            1.76,
+            3.08
           ],
-          "diff_vs_baseline": 0.56,
+          "diff_vs_baseline": -0.11,
           "diff_ci": [
-            0.16,
-            0.97
+            -0.58,
+            0.34
           ]
         },
         "swaps": 0.0,
@@ -2293,103 +2163,103 @@
       },
       "soft|reactive": {
         "crew_delay_min": {
-          "mean": 183.7,
+          "mean": 124.73,
           "ci": [
-            106.88,
-            283.44
+            87.11,
+            169.44
           ],
-          "diff_vs_baseline": -859.77,
+          "diff_vs_baseline": -586.69,
           "diff_ci": [
-            -1394.18,
-            -437.75
+            -690.84,
+            -491.0
           ]
         },
         "crews_used": {
-          "mean": 107.49,
+          "mean": 117.13,
           "ci": [
-            103.0,
-            111.48
+            115.31,
+            118.77
           ],
-          "diff_vs_baseline": 1.48,
+          "diff_vs_baseline": 5.77,
           "diff_ci": [
-            1.15,
-            1.82
+            5.23,
+            6.32
           ]
         },
         "broken_connections": {
-          "mean": 18.57,
+          "mean": 31.69,
           "ci": [
-            16.33,
-            20.97
+            28.08,
+            35.53
           ],
-          "diff_vs_baseline": -7.74,
+          "diff_vs_baseline": -12.48,
           "diff_ci": [
-            -9.0,
-            -6.51
+            -13.84,
+            -11.21
           ]
         },
         "duty_violations": {
-          "mean": 4.62,
+          "mean": 2.34,
           "ci": [
-            3.59,
-            5.84
+            1.74,
+            3.08
           ],
-          "diff_vs_baseline": 0.11,
+          "diff_vs_baseline": -0.13,
           "diff_ci": [
-            -0.31,
-            0.54
+            -0.6,
+            0.34
           ]
         },
-        "swaps": 0.46,
-        "reserves_used": 1.15
+        "swaps": 0.85,
+        "reserves_used": 1.87
       },
       "soft|morning": {
         "crew_delay_min": {
-          "mean": 839.2,
+          "mean": 384.27,
           "ci": [
-            502.42,
-            1232.44
+            309.61,
+            467.37
           ],
-          "diff_vs_baseline": -204.28,
+          "diff_vs_baseline": -327.15,
           "diff_ci": [
-            -528.9,
-            55.24
+            -417.23,
+            -245.13
           ]
         },
         "crews_used": {
-          "mean": 106.34,
+          "mean": 115.26,
           "ci": [
-            101.92,
-            110.21
+            113.6,
+            116.73
           ],
-          "diff_vs_baseline": 0.33,
+          "diff_vs_baseline": 3.9,
           "diff_ci": [
-            0.21,
-            0.44
+            3.5,
+            4.31
           ]
         },
         "broken_connections": {
-          "mean": 20.85,
+          "mean": 35.21,
           "ci": [
-            18.36,
-            23.54
+            31.48,
+            39.26
           ],
-          "diff_vs_baseline": -5.46,
+          "diff_vs_baseline": -8.97,
           "diff_ci": [
-            -6.52,
-            -4.41
+            -10.05,
+            -7.94
           ]
         },
         "duty_violations": {
-          "mean": 5.46,
+          "mean": 2.53,
           "ci": [
-            4.28,
-            6.87
+            1.92,
+            3.31
           ],
-          "diff_vs_baseline": 0.95,
+          "diff_vs_baseline": 0.06,
           "diff_ci": [
-            0.54,
-            1.38
+            -0.39,
+            0.52
           ]
         },
         "swaps": 0.0,
@@ -2397,55 +2267,473 @@
       },
       "soft|morning+reactive": {
         "crew_delay_min": {
-          "mean": 185.0,
+          "mean": 115.5,
           "ci": [
-            108.85,
-            286.44
+            85.14,
+            150.0
           ],
-          "diff_vs_baseline": -858.48,
+          "diff_vs_baseline": -595.92,
           "diff_ci": [
-            -1388.87,
-            -434.6
+            -709.84,
+            -490.85
           ]
         },
         "crews_used": {
-          "mean": 107.51,
+          "mean": 117.0,
           "ci": [
-            103.15,
-            111.43
+            115.21,
+            118.6
           ],
-          "diff_vs_baseline": 1.49,
+          "diff_vs_baseline": 5.65,
           "diff_ci": [
-            1.18,
-            1.84
+            5.08,
+            6.21
           ]
         },
         "broken_connections": {
-          "mean": 18.7,
+          "mean": 31.9,
           "ci": [
-            16.46,
-            21.13
+            28.35,
+            35.65
           ],
-          "diff_vs_baseline": -7.61,
+          "diff_vs_baseline": -12.27,
           "diff_ci": [
-            -8.9,
-            -6.38
+            -13.65,
+            -10.97
           ]
         },
         "duty_violations": {
-          "mean": 4.95,
+          "mean": 2.5,
           "ci": [
-            3.82,
-            6.33
+            1.85,
+            3.31
           ],
-          "diff_vs_baseline": 0.44,
+          "diff_vs_baseline": 0.03,
           "diff_ci": [
-            0.0,
-            0.87
+            -0.44,
+            0.5
           ]
         },
-        "swaps": 0.48,
-        "reserves_used": 1.16
+        "swaps": 0.9,
+        "reserves_used": 1.74
+      }
+    },
+    "test_winter": {
+      "baseline|none": {
+        "crew_delay_min": {
+          "mean": 324.9,
+          "ci": [
+            244.26,
+            418.28
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "crews_used": {
+          "mean": 106.02,
+          "ci": [
+            101.67,
+            109.93
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "broken_connections": {
+          "mean": 26.08,
+          "ci": [
+            22.98,
+            29.41
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.34,
+          "ci": [
+            0.95,
+            1.8
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "swaps": 0.0,
+        "reserves_used": 0.0
+      },
+      "baseline|reactive": {
+        "crew_delay_min": {
+          "mean": 117.38,
+          "ci": [
+            81.93,
+            159.7
+          ],
+          "diff_vs_baseline": -207.52,
+          "diff_ci": [
+            -279.23,
+            -145.59
+          ]
+        },
+        "crews_used": {
+          "mean": 107.38,
+          "ci": [
+            102.74,
+            111.28
+          ],
+          "diff_vs_baseline": 1.36,
+          "diff_ci": [
+            1.0,
+            1.72
+          ]
+        },
+        "broken_connections": {
+          "mean": 22.92,
+          "ci": [
+            20.2,
+            25.87
+          ],
+          "diff_vs_baseline": -3.16,
+          "diff_ci": [
+            -3.9,
+            -2.46
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.33,
+          "ci": [
+            0.93,
+            1.8
+          ],
+          "diff_vs_baseline": -0.02,
+          "diff_ci": [
+            -0.08,
+            0.03
+          ]
+        },
+        "swaps": 1.08,
+        "reserves_used": 1.36
+      },
+      "baseline|morning": {
+        "crew_delay_min": {
+          "mean": 245.43,
+          "ci": [
+            180.93,
+            320.22
+          ],
+          "diff_vs_baseline": -79.48,
+          "diff_ci": [
+            -113.0,
+            -50.28
+          ]
+        },
+        "crews_used": {
+          "mean": 106.02,
+          "ci": [
+            101.57,
+            109.89
+          ],
+          "diff_vs_baseline": 0.0,
+          "diff_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "broken_connections": {
+          "mean": 22.49,
+          "ci": [
+            19.84,
+            25.34
+          ],
+          "diff_vs_baseline": -3.59,
+          "diff_ci": [
+            -4.38,
+            -2.8
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.28,
+          "ci": [
+            0.93,
+            1.67
+          ],
+          "diff_vs_baseline": -0.07,
+          "diff_ci": [
+            -0.3,
+            0.15
+          ]
+        },
+        "swaps": 0.0,
+        "reserves_used": 0.0
+      },
+      "baseline|morning+reactive": {
+        "crew_delay_min": {
+          "mean": 86.48,
+          "ci": [
+            61.41,
+            115.66
+          ],
+          "diff_vs_baseline": -238.43,
+          "diff_ci": [
+            -316.76,
+            -170.98
+          ]
+        },
+        "crews_used": {
+          "mean": 107.23,
+          "ci": [
+            102.75,
+            111.15
+          ],
+          "diff_vs_baseline": 1.21,
+          "diff_ci": [
+            0.89,
+            1.56
+          ]
+        },
+        "broken_connections": {
+          "mean": 20.26,
+          "ci": [
+            17.89,
+            22.84
+          ],
+          "diff_vs_baseline": -5.82,
+          "diff_ci": [
+            -6.9,
+            -4.77
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.25,
+          "ci": [
+            0.9,
+            1.64
+          ],
+          "diff_vs_baseline": -0.1,
+          "diff_ci": [
+            -0.31,
+            0.11
+          ]
+        },
+        "swaps": 0.7,
+        "reserves_used": 1.21
+      },
+      "soft|none": {
+        "crew_delay_min": {
+          "mean": 165.02,
+          "ci": [
+            120.8,
+            215.8
+          ],
+          "diff_vs_baseline": -159.89,
+          "diff_ci": [
+            -242.31,
+            -96.41
+          ]
+        },
+        "crews_used": {
+          "mean": 108.85,
+          "ci": [
+            104.33,
+            112.93
+          ],
+          "diff_vs_baseline": 2.84,
+          "diff_ci": [
+            2.33,
+            3.36
+          ]
+        },
+        "broken_connections": {
+          "mean": 19.33,
+          "ci": [
+            17.03,
+            21.72
+          ],
+          "diff_vs_baseline": -6.75,
+          "diff_ci": [
+            -8.02,
+            -5.56
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.48,
+          "ci": [
+            1.1,
+            1.9
+          ],
+          "diff_vs_baseline": 0.13,
+          "diff_ci": [
+            -0.15,
+            0.41
+          ]
+        },
+        "swaps": 0.0,
+        "reserves_used": 0.0
+      },
+      "soft|reactive": {
+        "crew_delay_min": {
+          "mean": 69.82,
+          "ci": [
+            49.64,
+            92.93
+          ],
+          "diff_vs_baseline": -255.08,
+          "diff_ci": [
+            -344.87,
+            -180.57
+          ]
+        },
+        "crews_used": {
+          "mean": 109.57,
+          "ci": [
+            104.9,
+            113.64
+          ],
+          "diff_vs_baseline": 3.56,
+          "diff_ci": [
+            2.97,
+            4.18
+          ]
+        },
+        "broken_connections": {
+          "mean": 17.7,
+          "ci": [
+            15.66,
+            19.93
+          ],
+          "diff_vs_baseline": -8.38,
+          "diff_ci": [
+            -9.82,
+            -7.03
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.44,
+          "ci": [
+            1.07,
+            1.87
+          ],
+          "diff_vs_baseline": 0.1,
+          "diff_ci": [
+            -0.16,
+            0.36
+          ]
+        },
+        "swaps": 0.41,
+        "reserves_used": 0.72
+      },
+      "soft|morning": {
+        "crew_delay_min": {
+          "mean": 172.84,
+          "ci": [
+            128.18,
+            225.46
+          ],
+          "diff_vs_baseline": -152.07,
+          "diff_ci": [
+            -226.3,
+            -95.33
+          ]
+        },
+        "crews_used": {
+          "mean": 108.85,
+          "ci": [
+            104.25,
+            112.77
+          ],
+          "diff_vs_baseline": 2.84,
+          "diff_ci": [
+            2.33,
+            3.38
+          ]
+        },
+        "broken_connections": {
+          "mean": 19.46,
+          "ci": [
+            17.21,
+            21.85
+          ],
+          "diff_vs_baseline": -6.62,
+          "diff_ci": [
+            -7.87,
+            -5.46
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.56,
+          "ci": [
+            1.15,
+            2.0
+          ],
+          "diff_vs_baseline": 0.21,
+          "diff_ci": [
+            -0.08,
+            0.51
+          ]
+        },
+        "swaps": 0.0,
+        "reserves_used": 0.0
+      },
+      "soft|morning+reactive": {
+        "crew_delay_min": {
+          "mean": 68.66,
+          "ci": [
+            47.82,
+            91.94
+          ],
+          "diff_vs_baseline": -256.25,
+          "diff_ci": [
+            -342.82,
+            -180.38
+          ]
+        },
+        "crews_used": {
+          "mean": 109.69,
+          "ci": [
+            105.08,
+            113.66
+          ],
+          "diff_vs_baseline": 3.67,
+          "diff_ci": [
+            3.07,
+            4.3
+          ]
+        },
+        "broken_connections": {
+          "mean": 17.84,
+          "ci": [
+            15.74,
+            20.02
+          ],
+          "diff_vs_baseline": -8.25,
+          "diff_ci": [
+            -9.7,
+            -6.87
+          ]
+        },
+        "duty_violations": {
+          "mean": 1.52,
+          "ci": [
+            1.11,
+            1.97
+          ],
+          "diff_vs_baseline": 0.18,
+          "diff_ci": [
+            -0.11,
+            0.48
+          ]
+        },
+        "swaps": 0.41,
+        "reserves_used": 0.84
       }
     }
   },
@@ -2458,8 +2746,8 @@
           "days": 62,
           "crews": 111.35483870967742,
           "cost": 1176.9338693548386,
-          "delay": 2447.6774193548385,
-          "broken": 44.725806451612904
+          "delay": 711.4193548387096,
+          "broken": 44.17741935483871
         },
         {
           "planner": "hard",
@@ -2467,8 +2755,8 @@
           "days": 28,
           "crews": 111.53571428571429,
           "cost": 1178.01785,
-          "delay": 2418.8928571428573,
-          "broken": 39.17857142857143
+          "delay": 671.1428571428571,
+          "broken": 38.642857142857146
         },
         {
           "planner": "hard",
@@ -2476,8 +2764,8 @@
           "days": 32,
           "crews": 111.65625,
           "cost": 1179.15936875,
-          "delay": 2425.625,
-          "broken": 42.28125
+          "delay": 602.28125,
+          "broken": 41.65625
         },
         {
           "planner": "soft",
@@ -2485,8 +2773,8 @@
           "days": 62,
           "crews": 111.35483870967742,
           "cost": 1177.1252612903222,
-          "delay": 2355.1290322580644,
-          "broken": 39.38709677419355
+          "delay": 502.14516129032256,
+          "broken": 38.75806451612903
         },
         {
           "planner": "soft",
@@ -2494,8 +2782,8 @@
           "days": 62,
           "crews": 111.35483870967742,
           "cost": 1177.5378999999998,
-          "delay": 2268.3064516129034,
-          "broken": 38.806451612903224
+          "delay": 497.2903225806452,
+          "broken": 38.20967741935484
         },
         {
           "planner": "soft",
@@ -2503,8 +2791,8 @@
           "days": 62,
           "crews": 111.46774193548387,
           "cost": 1179.134140322581,
-          "delay": 2173.516129032258,
-          "broken": 38.596774193548384
+          "delay": 459.83870967741933,
+          "broken": 37.95161290322581
         },
         {
           "planner": "soft",
@@ -2512,8 +2800,8 @@
           "days": 62,
           "crews": 115.25806451612904,
           "cost": 1198.7913967741933,
-          "delay": 1984.967741935484,
-          "broken": 35.83870967741935
+          "delay": 376.16129032258067,
+          "broken": 35.225806451612904
         },
         {
           "planner": "soft",
@@ -2521,8 +2809,8 @@
           "days": 62,
           "crews": 122.88709677419355,
           "cost": 1243.0389725806453,
-          "delay": 1615.0645161290322,
-          "broken": 32.38709677419355
+          "delay": 295.1290322580645,
+          "broken": 31.951612903225808
         },
         {
           "planner": "soft",
@@ -2530,8 +2818,8 @@
           "days": 62,
           "crews": 136.46774193548387,
           "cost": 1326.8935516129034,
-          "delay": 1173.5483870967741,
-          "broken": 29.903225806451612
+          "delay": 195.79032258064515,
+          "broken": 29.580645161290324
         },
         {
           "planner": "soft",
@@ -2539,8 +2827,8 @@
           "days": 62,
           "crews": 166.08064516129033,
           "cost": 1542.1884435483869,
-          "delay": 703.0483870967741,
-          "broken": 28.096774193548388
+          "delay": 155.3548387096774,
+          "broken": 27.951612903225808
         },
         {
           "planner": "soft",
@@ -2548,8 +2836,8 @@
           "days": 62,
           "crews": 187.01612903225808,
           "cost": 1720.0927516129032,
-          "delay": 290.51612903225805,
-          "broken": 27.403225806451612
+          "delay": 134.61290322580646,
+          "broken": 27.338709677419356
         }
       ],
       "reactive": [
@@ -2557,90 +2845,90 @@
           "planner": "baseline",
           "param": null,
           "days": 62,
-          "crews": 114.41935483870968,
+          "crews": 114.20967741935483,
           "cost": 1176.9338693548386,
-          "delay": 534.741935483871,
-          "broken": 37.806451612903224
+          "delay": 223.24193548387098,
+          "broken": 37.854838709677416
         },
         {
           "planner": "hard",
           "param": 0.4,
           "days": 28,
-          "crews": 114.53571428571429,
+          "crews": 114.28571428571429,
           "cost": 1178.01785,
-          "delay": 486.0,
-          "broken": 32.785714285714285
+          "delay": 135.10714285714286,
+          "broken": 32.82142857142857
         },
         {
           "planner": "hard",
           "param": 0.5,
           "days": 32,
-          "crews": 114.53125,
+          "crews": 114.375,
           "cost": 1179.15936875,
-          "delay": 572.03125,
-          "broken": 35.3125
+          "delay": 130.1875,
+          "broken": 35.28125
         },
         {
           "planner": "soft",
           "param": 0.5,
           "days": 62,
-          "crews": 113.8225806451613,
+          "crews": 113.58064516129032,
           "cost": 1177.1252612903222,
-          "delay": 463.14516129032256,
-          "broken": 34.41935483870968
+          "delay": 143.08064516129033,
+          "broken": 34.45161290322581
         },
         {
           "planner": "soft",
           "param": 1.0,
           "days": 62,
-          "crews": 113.80645161290323,
+          "crews": 113.56451612903226,
           "cost": 1177.5378999999998,
-          "delay": 454.9193548387097,
-          "broken": 34.08064516129032
+          "delay": 135.98387096774192,
+          "broken": 34.11290322580645
         },
         {
           "planner": "soft",
           "param": 2.0,
           "days": 62,
-          "crews": 113.8225806451613,
+          "crews": 113.54838709677419,
           "cost": 1179.134140322581,
-          "delay": 441.0483870967742,
-          "broken": 33.935483870967744
+          "delay": 141.74193548387098,
+          "broken": 34.03225806451613
         },
         {
           "planner": "soft",
           "param": 4.0,
           "days": 62,
-          "crews": 117.40322580645162,
+          "crews": 117.12903225806451,
           "cost": 1198.7913967741933,
-          "delay": 344.98387096774195,
-          "broken": 31.548387096774192
+          "delay": 124.7258064516129,
+          "broken": 31.693548387096776
         },
         {
           "planner": "soft",
           "param": 8.0,
           "days": 62,
-          "crews": 124.29032258064517,
+          "crews": 124.03225806451613,
           "cost": 1243.0389725806453,
-          "delay": 330.46774193548384,
-          "broken": 29.43548387096774
+          "delay": 113.90322580645162,
+          "broken": 29.596774193548388
         },
         {
           "planner": "soft",
           "param": 16.0,
           "days": 62,
-          "crews": 137.29032258064515,
+          "crews": 137.08064516129033,
           "cost": 1326.8935516129034,
-          "delay": 294.1290322580645,
-          "broken": 28.258064516129032
+          "delay": 112.40322580645162,
+          "broken": 28.403225806451612
         },
         {
           "planner": "soft",
           "param": 32.0,
           "days": 62,
-          "crews": 166.3548387096774,
+          "crews": 166.29032258064515,
           "cost": 1542.1884435483869,
-          "delay": 290.4516129032258,
+          "delay": 134.5483870967742,
           "broken": 27.580645161290324
         },
         {
@@ -2649,8 +2937,8 @@
           "days": 62,
           "crews": 187.03225806451613,
           "cost": 1720.0927516129032,
-          "delay": 289.85483870967744,
-          "broken": 27.370967741935484
+          "delay": 133.9516129032258,
+          "broken": 27.306451612903224
         }
       ]
     },
@@ -2662,8 +2950,8 @@
           "days": 10,
           "crews": 109.7,
           "cost": 1160.3466700000001,
-          "delay": 2032.6,
-          "broken": 62.2
+          "delay": 690.4,
+          "broken": 61.8
         },
         {
           "planner": "hard",
@@ -2671,8 +2959,8 @@
           "days": 2,
           "crews": 110.5,
           "cost": 1175.8166999999999,
-          "delay": 3231.5,
-          "broken": 50.0
+          "delay": 443.5,
+          "broken": 49.5
         },
         {
           "planner": "hard",
@@ -2680,8 +2968,8 @@
           "days": 3,
           "crews": 110.66666666666667,
           "cost": 1177.8555666666666,
-          "delay": 3027.3333333333335,
-          "broken": 72.66666666666667
+          "delay": 684.0,
+          "broken": 72.0
         },
         {
           "planner": "soft",
@@ -2689,8 +2977,8 @@
           "days": 10,
           "crews": 109.7,
           "cost": 1160.5083300000001,
-          "delay": 2307.1,
-          "broken": 57.1
+          "delay": 342.6,
+          "broken": 56.7
         },
         {
           "planner": "soft",
@@ -2698,8 +2986,8 @@
           "days": 10,
           "crews": 109.7,
           "cost": 1161.0216700000003,
-          "delay": 2282.6,
-          "broken": 56.1
+          "delay": 322.5,
+          "broken": 55.7
         },
         {
           "planner": "soft",
@@ -2707,8 +2995,8 @@
           "days": 10,
           "crews": 109.7,
           "cost": 1161.9783400000001,
-          "delay": 2307.9,
-          "broken": 56.5
+          "delay": 333.9,
+          "broken": 55.9
         },
         {
           "planner": "soft",
@@ -2716,8 +3004,8 @@
           "days": 10,
           "crews": 114.1,
           "cost": 1184.4666700000002,
-          "delay": 2083.2,
-          "broken": 52.9
+          "delay": 366.6,
+          "broken": 52.5
         },
         {
           "planner": "soft",
@@ -2725,8 +3013,8 @@
           "days": 10,
           "crews": 121.7,
           "cost": 1227.71833,
-          "delay": 1670.6,
-          "broken": 48.2
+          "delay": 340.2,
+          "broken": 47.8
         },
         {
           "planner": "soft",
@@ -2734,8 +3022,8 @@
           "days": 10,
           "crews": 133.7,
           "cost": 1301.69,
-          "delay": 958.7,
-          "broken": 44.8
+          "delay": 194.7,
+          "broken": 44.7
         },
         {
           "planner": "soft",
@@ -2743,7 +3031,7 @@
           "days": 10,
           "crews": 164.4,
           "cost": 1527.1950000000002,
-          "delay": 409.9,
+          "delay": 221.8,
           "broken": 42.3
         },
         {
@@ -2752,7 +3040,7 @@
           "days": 10,
           "crews": 183.7,
           "cost": 1691.52835,
-          "delay": 399.6,
+          "delay": 211.5,
           "broken": 42.0
         }
       ],
@@ -2761,82 +3049,82 @@
           "planner": "baseline",
           "param": null,
           "days": 10,
-          "crews": 113.1,
+          "crews": 112.8,
           "cost": 1160.3466700000001,
-          "delay": 517.1,
-          "broken": 55.4
+          "delay": 221.5,
+          "broken": 55.7
         },
         {
           "planner": "hard",
           "param": 0.4,
           "days": 2,
-          "crews": 113.5,
+          "crews": 112.5,
           "cost": 1175.8166999999999,
-          "delay": 620.5,
-          "broken": 44.0
+          "delay": 97.0,
+          "broken": 45.0
         },
         {
           "planner": "hard",
           "param": 0.5,
           "days": 3,
-          "crews": 114.0,
+          "crews": 113.33333333333333,
           "cost": 1177.8555666666666,
-          "delay": 876.0,
-          "broken": 64.0
+          "delay": 198.0,
+          "broken": 64.66666666666667
         },
         {
           "planner": "soft",
           "param": 0.5,
           "days": 10,
-          "crews": 112.3,
+          "crews": 111.9,
           "cost": 1160.5083300000001,
-          "delay": 611.0,
-          "broken": 52.3
+          "delay": 150.0,
+          "broken": 52.6
         },
         {
           "planner": "soft",
           "param": 1.0,
           "days": 10,
-          "crews": 112.2,
+          "crews": 111.8,
           "cost": 1161.0216700000003,
-          "delay": 652.5,
-          "broken": 52.0
+          "delay": 149.7,
+          "broken": 52.2
         },
         {
           "planner": "soft",
           "param": 2.0,
           "days": 10,
-          "crews": 112.0,
+          "crews": 111.6,
           "cost": 1161.9783400000001,
-          "delay": 695.3,
-          "broken": 52.2
+          "delay": 158.6,
+          "broken": 52.4
         },
         {
           "planner": "soft",
           "param": 4.0,
           "days": 10,
-          "crews": 116.4,
+          "crews": 116.0,
           "cost": 1184.4666700000002,
-          "delay": 430.4,
-          "broken": 48.8
+          "delay": 166.8,
+          "broken": 49.1
         },
         {
           "planner": "soft",
           "param": 8.0,
           "days": 10,
-          "crews": 123.3,
+          "crews": 122.9,
           "cost": 1227.71833,
-          "delay": 415.5,
-          "broken": 45.1
+          "delay": 161.7,
+          "broken": 45.4
         },
         {
           "planner": "soft",
           "param": 16.0,
           "days": 10,
-          "crews": 134.3,
+          "crews": 134.1,
           "cost": 1301.69,
-          "delay": 401.8,
-          "broken": 43.5
+          "delay": 157.0,
+          "broken": 43.7
         },
         {
           "planner": "soft",
@@ -2844,7 +3132,7 @@
           "days": 10,
           "crews": 164.4,
           "cost": 1527.1950000000002,
-          "delay": 399.6,
+          "delay": 211.5,
           "broken": 42.1
         },
         {
@@ -2853,7 +3141,7 @@
           "days": 10,
           "crews": 183.7,
           "cost": 1691.52835,
-          "delay": 399.6,
+          "delay": 211.5,
           "broken": 42.0
         }
       ]
@@ -2866,8 +3154,8 @@
           "days": 61,
           "crews": 106.01639344262296,
           "cost": 1136.5595606557379,
-          "delay": 1043.4754098360656,
-          "broken": 26.311475409836067
+          "delay": 324.9016393442623,
+          "broken": 26.081967213114755
         },
         {
           "planner": "hard",
@@ -2875,8 +3163,8 @@
           "days": 25,
           "crews": 105.92,
           "cost": 1122.302656,
-          "delay": 935.72,
-          "broken": 21.08
+          "delay": 276.4,
+          "broken": 20.84
         },
         {
           "planner": "hard",
@@ -2884,8 +3172,8 @@
           "days": 27,
           "crews": 105.66666666666667,
           "cost": 1120.3536962962962,
-          "delay": 898.4814814814815,
-          "broken": 21.22222222222222
+          "delay": 255.33333333333334,
+          "broken": 21.0
         },
         {
           "planner": "soft",
@@ -2893,8 +3181,8 @@
           "days": 61,
           "crews": 106.01639344262296,
           "cost": 1136.8114704918034,
-          "delay": 804.3770491803278,
-          "broken": 21.59016393442623
+          "delay": 218.1639344262295,
+          "broken": 21.37704918032787
         },
         {
           "planner": "soft",
@@ -2902,8 +3190,8 @@
           "days": 61,
           "crews": 106.01639344262296,
           "cost": 1137.241249180328,
-          "delay": 795.8032786885246,
-          "broken": 21.295081967213115
+          "delay": 213.86885245901638,
+          "broken": 21.081967213114755
         },
         {
           "planner": "soft",
@@ -2911,8 +3199,8 @@
           "days": 61,
           "crews": 106.34426229508196,
           "cost": 1139.318859016393,
-          "delay": 848.1803278688525,
-          "broken": 20.80327868852459
+          "delay": 204.63934426229508,
+          "broken": 20.557377049180328
         },
         {
           "planner": "soft",
@@ -2920,8 +3208,8 @@
           "days": 61,
           "crews": 108.85245901639344,
           "cost": 1152.4554606557376,
-          "delay": 747.0655737704918,
-          "broken": 19.540983606557376
+          "delay": 165.01639344262296,
+          "broken": 19.327868852459016
         },
         {
           "planner": "soft",
@@ -2929,8 +3217,8 @@
           "days": 61,
           "crews": 114.9672131147541,
           "cost": 1186.000818032787,
-          "delay": 638.0,
-          "broken": 17.901639344262296
+          "delay": 127.22950819672131,
+          "broken": 17.721311475409838
         },
         {
           "planner": "soft",
@@ -2938,8 +3226,8 @@
           "days": 61,
           "crews": 127.27868852459017,
           "cost": 1259.6166672131144,
-          "delay": 463.327868852459,
-          "broken": 16.80327868852459
+          "delay": 105.49180327868852,
+          "broken": 16.704918032786885
         },
         {
           "planner": "soft",
@@ -2947,8 +3235,8 @@
           "days": 61,
           "crews": 155.49180327868854,
           "cost": 1456.2366114754097,
-          "delay": 182.9016393442623,
-          "broken": 16.098360655737704
+          "delay": 90.93442622950819,
+          "broken": 16.065573770491802
         },
         {
           "planner": "soft",
@@ -2956,8 +3244,8 @@
           "days": 61,
           "crews": 173.44262295081967,
           "cost": 1600.766390163935,
-          "delay": 172.65573770491804,
-          "broken": 15.852459016393443
+          "delay": 90.50819672131148,
+          "broken": 15.819672131147541
         }
       ],
       "reactive": [
@@ -2965,82 +3253,82 @@
           "planner": "baseline",
           "param": null,
           "days": 61,
-          "crews": 107.49180327868852,
+          "crews": 107.37704918032787,
           "cost": 1136.5595606557379,
-          "delay": 310.11475409836066,
-          "broken": 22.901639344262296
+          "delay": 117.37704918032787,
+          "broken": 22.918032786885245
         },
         {
           "planner": "hard",
           "param": 0.4,
           "days": 25,
-          "crews": 107.12,
+          "crews": 106.96,
           "cost": 1122.302656,
-          "delay": 174.8,
-          "broken": 18.4
+          "delay": 97.8,
+          "broken": 18.52
         },
         {
           "planner": "hard",
           "param": 0.5,
           "days": 27,
-          "crews": 106.85185185185185,
+          "crews": 106.70370370370371,
           "cost": 1120.3536962962962,
-          "delay": 175.1851851851852,
-          "broken": 18.51851851851852
+          "delay": 101.85185185185185,
+          "broken": 18.62962962962963
         },
         {
           "planner": "soft",
           "param": 0.5,
           "days": 61,
-          "crews": 107.34426229508196,
+          "crews": 107.24590163934427,
           "cost": 1136.8114704918034,
-          "delay": 273.7049180327869,
-          "broken": 19.24590163934426
+          "delay": 81.62295081967213,
+          "broken": 19.262295081967213
         },
         {
           "planner": "soft",
           "param": 1.0,
           "days": 61,
-          "crews": 107.29508196721312,
+          "crews": 107.19672131147541,
           "cost": 1137.241249180328,
-          "delay": 272.2950819672131,
-          "broken": 19.0327868852459
+          "delay": 80.54098360655738,
+          "broken": 19.065573770491802
         },
         {
           "planner": "soft",
           "param": 2.0,
           "days": 61,
-          "crews": 107.49180327868852,
+          "crews": 107.36065573770492,
           "cost": 1139.318859016393,
-          "delay": 183.70491803278688,
-          "broken": 18.57377049180328
+          "delay": 77.65573770491804,
+          "broken": 18.639344262295083
         },
         {
           "planner": "soft",
           "param": 4.0,
           "days": 61,
-          "crews": 109.72131147540983,
+          "crews": 109.57377049180327,
           "cost": 1152.4554606557376,
-          "delay": 178.55737704918033,
-          "broken": 17.62295081967213
+          "delay": 69.81967213114754,
+          "broken": 17.704918032786885
         },
         {
           "planner": "soft",
           "param": 8.0,
           "days": 61,
-          "crews": 115.59016393442623,
+          "crews": 115.45901639344262,
           "cost": 1186.000818032787,
-          "delay": 170.7704918032787,
-          "broken": 16.688524590163933
+          "delay": 62.967213114754095,
+          "broken": 16.75409836065574
         },
         {
           "planner": "soft",
           "param": 16.0,
           "days": 61,
-          "crews": 127.62295081967213,
+          "crews": 127.55737704918033,
           "cost": 1259.6166672131144,
-          "delay": 169.39344262295083,
-          "broken": 16.147540983606557
+          "delay": 72.29508196721312,
+          "broken": 16.18032786885246
         },
         {
           "planner": "soft",
@@ -3048,8 +3336,8 @@
           "days": 61,
           "crews": 155.5737704918033,
           "cost": 1456.2366114754097,
-          "delay": 169.0655737704918,
-          "broken": 15.901639344262295
+          "delay": 81.29508196721312,
+          "broken": 15.868852459016393
         },
         {
           "planner": "soft",
@@ -3057,8 +3345,8 @@
           "days": 61,
           "crews": 173.45901639344262,
           "cost": 1600.766390163935,
-          "delay": 168.78688524590163,
-          "broken": 15.819672131147541
+          "delay": 86.63934426229508,
+          "broken": 15.78688524590164
         }
       ]
     },
@@ -3070,8 +3358,8 @@
           "days": 10,
           "crews": 112.2,
           "cost": 1212.065,
-          "delay": 2668.5,
-          "broken": 45.0
+          "delay": 771.9,
+          "broken": 44.5
         },
         {
           "planner": "hard",
@@ -3079,8 +3367,8 @@
           "days": 2,
           "crews": 138.0,
           "cost": 1454.2667000000001,
-          "delay": 2702.0,
-          "broken": 34.5
+          "delay": 646.5,
+          "broken": 34.0
         },
         {
           "planner": "hard",
@@ -3088,8 +3376,8 @@
           "days": 2,
           "crews": 138.0,
           "cost": 1454.2667000000001,
-          "delay": 2920.0,
-          "broken": 33.5
+          "delay": 537.0,
+          "broken": 32.5
         },
         {
           "planner": "soft",
@@ -3097,8 +3385,8 @@
           "days": 10,
           "crews": 112.2,
           "cost": 1212.39165,
-          "delay": 1419.9,
-          "broken": 38.2
+          "delay": 464.1,
+          "broken": 37.9
         },
         {
           "planner": "soft",
@@ -3106,8 +3394,8 @@
           "days": 10,
           "crews": 112.2,
           "cost": 1212.8233200000002,
-          "delay": 1453.8,
-          "broken": 37.3
+          "delay": 450.5,
+          "broken": 37.0
         },
         {
           "planner": "soft",
@@ -3115,8 +3403,8 @@
           "days": 10,
           "crews": 112.5,
           "cost": 1214.94166,
-          "delay": 1419.9,
-          "broken": 36.7
+          "delay": 413.7,
+          "broken": 36.4
         },
         {
           "planner": "soft",
@@ -3124,8 +3412,8 @@
           "days": 10,
           "crews": 116.2,
           "cost": 1234.3050000000003,
-          "delay": 1317.2,
-          "broken": 33.4
+          "delay": 295.3,
+          "broken": 33.1
         },
         {
           "planner": "soft",
@@ -3133,8 +3421,8 @@
           "days": 10,
           "crews": 124.4,
           "cost": 1279.3533400000001,
-          "delay": 1009.4,
-          "broken": 29.9
+          "delay": 245.9,
+          "broken": 29.6
         },
         {
           "planner": "soft",
@@ -3142,7 +3430,7 @@
           "days": 10,
           "crews": 138.3,
           "cost": 1363.33167,
-          "delay": 266.4,
+          "delay": 174.6,
           "broken": 27.5
         },
         {
@@ -3151,7 +3439,7 @@
           "days": 10,
           "crews": 168.8,
           "cost": 1577.70833,
-          "delay": 207.0,
+          "delay": 109.2,
           "broken": 26.5
         },
         {
@@ -3160,7 +3448,7 @@
           "days": 10,
           "crews": 185.4,
           "cost": 1712.17166,
-          "delay": 152.8,
+          "delay": 94.7,
           "broken": 25.6
         }
       ],
@@ -3169,28 +3457,28 @@
           "planner": "baseline",
           "param": null,
           "days": 10,
-          "crews": 115.0,
+          "crews": 114.8,
           "cost": 1212.065,
-          "delay": 873.3,
+          "delay": 271.7,
           "broken": 39.1
         },
         {
           "planner": "hard",
           "param": 0.4,
           "days": 2,
-          "crews": 140.0,
+          "crews": 139.5,
           "cost": 1454.2667000000001,
           "delay": 122.0,
-          "broken": 29.0
+          "broken": 29.5
         },
         {
           "planner": "hard",
           "param": 0.5,
           "days": 2,
-          "crews": 140.0,
+          "crews": 139.5,
           "cost": 1454.2667000000001,
           "delay": 119.0,
-          "broken": 28.5
+          "broken": 29.0
         },
         {
           "planner": "soft",
@@ -3198,8 +3486,8 @@
           "days": 10,
           "crews": 114.8,
           "cost": 1212.39165,
-          "delay": 754.0,
-          "broken": 33.9
+          "delay": 152.3,
+          "broken": 33.7
         },
         {
           "planner": "soft",
@@ -3207,35 +3495,35 @@
           "days": 10,
           "crews": 114.7,
           "cost": 1212.8233200000002,
-          "delay": 751.1,
-          "broken": 32.9
+          "delay": 156.4,
+          "broken": 32.8
         },
         {
           "planner": "soft",
           "param": 2.0,
           "days": 10,
-          "crews": 115.0,
+          "crews": 114.9,
           "cost": 1214.94166,
-          "delay": 211.9,
-          "broken": 32.3
+          "delay": 140.5,
+          "broken": 32.4
         },
         {
           "planner": "soft",
           "param": 4.0,
           "days": 10,
-          "crews": 118.2,
+          "crews": 118.0,
           "cost": 1234.3050000000003,
-          "delay": 181.2,
-          "broken": 29.5
+          "delay": 93.8,
+          "broken": 29.7
         },
         {
           "planner": "soft",
           "param": 8.0,
           "days": 10,
-          "crews": 125.6,
+          "crews": 125.4,
           "cost": 1279.3533400000001,
-          "delay": 155.0,
-          "broken": 27.5
+          "delay": 69.9,
+          "broken": 27.6
         },
         {
           "planner": "soft",
@@ -3243,7 +3531,7 @@
           "days": 10,
           "crews": 139.0,
           "cost": 1363.33167,
-          "delay": 153.6,
+          "delay": 81.4,
           "broken": 26.2
         },
         {
@@ -3252,7 +3540,7 @@
           "days": 10,
           "crews": 169.1,
           "cost": 1577.70833,
-          "delay": 152.8,
+          "delay": 80.6,
           "broken": 25.8
         },
         {
@@ -3261,7 +3549,7 @@
           "days": 10,
           "crews": 185.4,
           "cost": 1712.17166,
-          "delay": 152.8,
+          "delay": 94.7,
           "broken": 25.6
         }
       ]
@@ -3274,53 +3562,53 @@
   "morning_resolve_effect": {
     "test_summer": {
       "baseline": {
-        "mean": 2375.27,
+        "mean": 507.58,
         "ci": [
-          1653.7,
-          3247.86
+          423.64,
+          599.84
         ],
-        "diff_vs_baseline": -72.4,
+        "diff_vs_baseline": -203.84,
         "diff_ci": [
-          -213.63,
-          122.0
+          -277.62,
+          -136.9
         ]
       },
       "soft": {
-        "mean": 2112.92,
+        "mean": 384.27,
         "ci": [
-          1424.64,
-          3003.44
+          309.11,
+          464.71
         ],
-        "diff_vs_baseline": -60.6,
+        "diff_vs_baseline": 8.11,
         "diff_ci": [
-          -173.84,
-          23.19
+          -31.94,
+          48.58
         ]
       }
     },
     "test_winter": {
       "baseline": {
-        "mean": 955.57,
+        "mean": 245.43,
         "ci": [
-          535.98,
-          1487.63
+          179.41,
+          321.02
         ],
-        "diff_vs_baseline": -87.9,
+        "diff_vs_baseline": -79.48,
         "diff_ci": [
-          -148.38,
-          -42.54
+          -112.69,
+          -50.11
         ]
       },
       "soft": {
-        "mean": 839.2,
+        "mean": 172.84,
         "ci": [
-          492.01,
-          1233.95
+          127.49,
+          225.05
         ],
-        "diff_vs_baseline": -8.98,
+        "diff_vs_baseline": 7.82,
         "diff_ci": [
-          -25.74,
-          8.53
+          -2.07,
+          18.97
         ]
       }
     }
@@ -3332,27 +3620,27 @@
       ],
       "days": 60,
       "soft": {
-        "mean": 862.32,
+        "mean": 167.77,
         "ci": [
-          523.67,
-          1249.64
+          123.25,
+          219.38
         ],
-        "diff_vs_baseline": -198.55,
+        "diff_vs_baseline": -162.55,
         "diff_ci": [
-          -542.72,
-          65.94
+          -246.5,
+          -99.75
         ]
       },
       "soft_repair": {
-        "mean": 186.77,
+        "mean": 70.98,
         "ci": [
-          108.78,
-          289.93
+          50.67,
+          94.63
         ],
-        "diff_vs_baseline": -128.52,
+        "diff_vs_baseline": -48.35,
         "diff_ci": [
-          -320.38,
-          -22.95
+          -78.08,
+          -25.42
         ]
       }
     }
@@ -3363,27 +3651,27 @@
       "test_summer": {
         "days": 62,
         "mean_crew_delay_by_seed": [
-          2394.5,
-          2488.3,
-          2483.2,
-          2570.8,
-          2370.2
+          734.2,
+          735.4,
+          735.0,
+          697.2,
+          731.8
         ],
-        "min": 2370.2,
-        "max": 2570.8,
+        "min": 697.2,
+        "max": 735.4,
         "max_cost_diff_pay_hours": 0.0
       },
       "test_winter": {
         "days": 61,
         "mean_crew_delay_by_seed": [
-          911.4,
-          936.8,
-          969.6,
-          898.3,
-          990.9
+          308.1,
+          325.3,
+          336.0,
+          304.1,
+          309.5
         ],
-        "min": 898.3,
-        "max": 990.9,
+        "min": 304.1,
+        "max": 336.0,
         "max_cost_diff_pay_hours": 0.0167
       }
     }

@@ -232,8 +232,8 @@ def run(day: date, pairings: list[list[str]], repair: bool):
         first = legs.groupby("crew").sched_dep.min().sort_values()
         legs["crew_row"] = legs.crew.map({c: i + 1 for i, c in enumerate(first.index)})
     m = {
-        "crews": len(crews), "delay": round(crew_caused_delay(res, base)),
-        "broken": res.broken_connections, "duty": res.duty_violations,
+        "crews": len(pairings) + reserves, "delay": round(crew_caused_delay(res, base)),
+        "broken": res.broken_connections, "duty": res.duty_violations, "replaced": res.crew_replacements,
         "swaps": swaps, "reserves": reserves,
     }
     return legs, m
@@ -398,7 +398,8 @@ soft_legs, s = run(day, pairings_for(day, "soft", lam), repair)
 stats = [stat(s["broken"], "broken crew connections", b["broken"]),
          stat(s["delay"], "minutes of crew-caused delay", b["delay"]),
          stat(s["crews"], "crews flying", b["crews"]),
-         stat(s["duty"], "duty-limit overruns", b["duty"])]
+         stat(s["replaced"], "crews replaced at the duty limit", b["replaced"]),
+         stat(s["duty"], "duty-limit overruns in the air", b["duty"])]
 if repair:
     stats += [stat(s["reserves"], "reserve crews called", b["reserves"]), stat(s["swaps"], "crew swaps", b["swaps"])]
 effect, cost = change_sentences(b, s, repair)
