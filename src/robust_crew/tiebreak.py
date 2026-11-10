@@ -40,7 +40,7 @@ def main() -> dict:
             base = replay(flights, None)
             ref = solve(prob, "baseline")
             for s in range(N_SEEDS):
-                sol = solve(prob, "baseline", jitter_seed=s)
+                sol = solve(prob, "baseline", jitter_seed=s + 1)  # seed 0 is the default plan
                 cost_same &= abs(sol.cost - ref.cost) < 1e-6
                 ps = [[prob.legs[i].flight_id for i in prob.pairings[k].legs] for k in sol.chosen]
                 per_seed[s] += crew_caused_delay(replay(flights, ps), base)

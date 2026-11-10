@@ -160,7 +160,10 @@ def select_plannable_set(
     st1 = solver.Solve(model)
     best = int(round(solver.ObjectiveValue()))
     model.Add(covered == best)
-    model.Minimize(sum(int(round(p.cost * 100)) * x[k] for k, p in enumerate(result.pairings)))
+    from robust_crew.optimize import TIEBREAK_SEED, tiebreak_weights
+
+    w = tiebreak_weights({k: int(round(p.cost * 100)) for k, p in enumerate(result.pairings)}, TIEBREAK_SEED)
+    model.Minimize(sum(w[k] * x[k] for k in w))
     st2 = solver.Solve(model)
     chosen = {i for k, p in enumerate(result.pairings) if solver.Value(x[k]) for i in p.legs}
     for i in rows:
@@ -194,7 +197,7 @@ def _solver(time_limit_s: float, seed: int):
     s = cp_model.CpSolver()
     s.parameters.max_time_in_seconds = time_limit_s
     s.parameters.random_seed = seed
-    s.parameters.num_workers = 1  # deterministic
+    s.parameters.num_workers = 8
     return s
 
 

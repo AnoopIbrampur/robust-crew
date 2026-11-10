@@ -50,7 +50,8 @@ LAMBDAS = [0.5, 1, 2, 4, 8, 16, 32, 64]  # pay hours per expected disrupted leg
 THETAS = [0.5, 0.4, 0.3, 0.25, 0.2, 0.15, 0.1]
 TIME_LIMIT_S = 30.0
 SEED = 0
-NUM_WORKERS = 1  # single worker: CP-SAT is only deterministic with one search worker
+NUM_WORKERS = 8
+TIEBREAK_SEED = 0  # fixed tie-break: makes the optimum unique, so any proven-optimal solve is reproducible
 COST_SCALE = 100  # CP-SAT needs integers: objective in 1/100 pay-hour units
 DEFAULT_P = None  # connections with no risk score: fail loudly (see DayProblem)
 
@@ -116,13 +117,26 @@ def build_day_problem(con: duckdb.DuckDBPyConnection, day: date) -> DayProblem:
     return DayProblem(day, legs, sorted(plannable), pairings, risk, max_p, exp_b)
 
 
+def tiebreak_weights(weight: dict[int, int], seed: int) -> dict[int, int]:
+    """Scale integer weights by 10_000 and add a seeded perturbation < 50 per pairing.
+
+    Even 200 chosen pairings add < 10_000, i.e. less than one original cost unit,
+    so only exact cost ties are reordered; the optimum becomes unique, so a
+    proven-optimal solution is the same whatever the number of search workers.
+    """
+    import random
+
+    rng = random.Random(seed)
+    return {k: w * 10_000 + rng.randrange(50) for k, w in sorted(weight.items())}
+
+
 def solve(problem: DayProblem, planner: str, param: float | None = None,
-          jitter_seed: int | None = None) -> Solution:
+          jitter_seed: int = TIEBREAK_SEED) -> Solution:
     """Solve one planner variant. ``planner`` in {'baseline', 'soft', 'hard'}.
 
-    ``jitter_seed`` adds a tiny random perturbation (< 0.01 pay hour) to each
-    pairing's cost, which picks a different schedule among cost-tied optima;
-    used only to measure how much the baseline's arbitrary tie-breaking matters.
+    ``jitter_seed`` selects the tie-break among cost-tied optima (see
+    ``tiebreak_weights``); other seeds are used only to measure how much the
+    baseline's choice among equally cheap schedules matters.
     """
     t0 = time.perf_counter()
     allowed = list(range(len(problem.pairings)))
@@ -143,13 +157,7 @@ def solve(problem: DayProblem, planner: str, param: float | None = None,
     for v in rows.values():
         model.AddExactlyOne(v)
     weight = {k: round(COST_SCALE * (problem.pairings[k].cost + lam * problem.risk[k])) for k in allowed}
-    if jitter_seed is not None:
-        import random
-
-        rng = random.Random(jitter_seed)
-        # Scale by 10_000 and add < 50 per pairing: even 200 chosen pairings add < 10_000,
-        # i.e. less than one original cost unit, so only exact cost ties are reordered.
-        weight = {k: w * 10_000 + rng.randrange(50) for k, w in weight.items()}
+    weight = tiebreak_weights(weight, jitter_seed)
     model.Minimize(sum(weight[k] * x[k] for k in allowed))
 
     solver = cp_model.CpSolver()
@@ -166,7 +174,7 @@ def solve(problem: DayProblem, planner: str, param: float | None = None,
         sol.cost = round(sum(problem.pairings[k].cost for k in chosen), 4)
         sol.risk = round(sum(problem.risk[k] for k in chosen), 4)
         sol.exp_breaks = round(sum(problem.exp_breaks[k] for k in chosen), 4)
-        scale = COST_SCALE * (10_000 if jitter_seed is not None else 1)
+        scale = COST_SCALE * 10_000
         sol.objective = solver.ObjectiveValue() / scale
         sol.bound = solver.BestObjectiveBound() / scale
         sol.gap = round((sol.objective - sol.bound) / max(abs(sol.objective), 1e-9), 6)

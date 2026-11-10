@@ -39,7 +39,9 @@ from ortools.sat.python import cp_model
 from robust_crew import config
 from robust_crew.delay_model import OPS_CUTOFF_LOCAL
 from robust_crew.ingest import connect
-from robust_crew.optimize import COST_SCALE, NUM_WORKERS, SEED, TIME_LIMIT_S, build_day_problem
+from robust_crew.optimize import (
+    COST_SCALE, NUM_WORKERS, SEED, TIEBREAK_SEED, TIME_LIMIT_S, build_day_problem, tiebreak_weights,
+)
 from robust_crew.rules import DEFAULT_RULES, CrewRules
 from robust_crew.simulate import SimFlight, crew_caused_delay, load_day_flights, replay
 
@@ -262,7 +264,8 @@ def morning_resolve(
     for v in rows.values():
         model.AddExactlyOne(v)
     model.Add(sum(x) <= len(released))
-    model.Minimize(sum(round(COST_SCALE * (c + lam * r)) * x[k] for k, (_, c, r) in enumerate(cands)))
+    w = tiebreak_weights({k: round(COST_SCALE * (c + lam * r)) for k, (_, c, r) in enumerate(cands)}, TIEBREAK_SEED)
+    model.Minimize(sum(w[k] * x[k] for k in w))
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = TIME_LIMIT_S
     solver.parameters.random_seed = SEED
