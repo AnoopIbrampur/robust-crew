@@ -7,8 +7,9 @@ acclimated time zone (the base's). Everything else (connection minimums, the
 report/release buffers, max legs, max sit) is a simplified planning
 convention.
 
-This is a simplified model INSPIRED BY Part 117. It omits rest requirements,
-cumulative limits, augmentation, deadheads, reserve rules, extensions and
+This is a simplified model INSPIRED BY Part 117. Multi-day pairings use the
+10-hour rest before a duty; it omits other rest requirements, cumulative limits
+(which do not bind on a two-day pairing), augmentation, deadheads, reserve rules, extensions and
 every contractual rule. It is not a claim of legal compliance.
 """
 
@@ -57,12 +58,18 @@ class CrewRules:
     max_legs: int = 6
     max_sit_min: int = 240  # planning convention: longest sit between legs
     max_duty_min: int | None = None  # optional extra cap on report->release
+    min_rest_min: int = 600  # Part 117 rest before a duty: 10 consecutive hours (multi-day pairings)
     fdp_table: list = field(default_factory=lambda: PART117_TABLE_B)
     flight_time_table: list = field(default_factory=lambda: PART117_TABLE_A)
 
     def min_connect_min(self, same_tail: bool) -> int:
         """Minimum crew connection time for a same- or different-aircraft connection."""
         return self.min_connect_same_tail_min if same_tail else self.min_connect_change_tail_min
+
+    @property
+    def min_layover_min(self) -> int:
+        """Shortest block-in to block-out at an overnight station: release + rest + report."""
+        return self.release_buffer_min + self.min_rest_min + self.report_buffer_min
 
     def _local_hhmm(self, t: datetime) -> int:
         lt = t.astimezone(ZoneInfo(self.base_tz))

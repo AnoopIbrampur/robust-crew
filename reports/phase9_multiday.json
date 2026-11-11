@@ -1,0 +1,330 @@
+{
+  "block_days": 2,
+  "overnight_cost_hours": 3.0,
+  "min_layover_min": 690,
+  "lambdas": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "selection": {
+    "rule": "largest CALIB delay reduction with cost <= +2%",
+    "candidates": [
+      {
+        "lambda": 1,
+        "cost_increase": 0.0052,
+        "within_cap": true,
+        "delay_reduction": 409.8
+      },
+      {
+        "lambda": 2,
+        "cost_increase": 0.02,
+        "within_cap": true,
+        "delay_reduction": 618.7
+      },
+      {
+        "lambda": 4,
+        "cost_increase": 0.0374,
+        "within_cap": false,
+        "delay_reduction": 751.8
+      },
+      {
+        "lambda": 8,
+        "cost_increase": 0.0597,
+        "within_cap": false,
+        "delay_reduction": 786.2
+      },
+      {
+        "lambda": 16,
+        "cost_increase": 0.1065,
+        "within_cap": false,
+        "delay_reduction": 946.4
+      }
+    ],
+    "best_soft_lambda": 2
+  },
+  "solver": {
+    "blocks": 91,
+    "solves": 546,
+    "optimal": 508,
+    "soft_optimal": 453,
+    "soft_solves": 455,
+    "max_seconds": 148.09,
+    "det_time_limit": 300.0,
+    "baseline_cost_gap_min_max": 156,
+    "baseline_cost_gap_min_mean": 13.8
+  },
+  "coverage": {
+    "calib": {
+      "blocks": 30,
+      "mean_legs": 1311.2,
+      "plannable_share_one_day": 0.5693,
+      "plannable_share_two_day": 0.6725,
+      "mean_extra_legs_planned": 134.7,
+      "baseline_overnights": 109.6,
+      "mean_duty_columns": 24304.0
+    },
+    "test_summer": {
+      "blocks": 31,
+      "mean_legs": 1326.9,
+      "plannable_share_one_day": 0.5687,
+      "plannable_share_two_day": 0.6712,
+      "mean_extra_legs_planned": 134.6,
+      "baseline_overnights": 112.0,
+      "mean_duty_columns": 21349.0
+    },
+    "test_winter": {
+      "blocks": 30,
+      "mean_legs": 1274.9,
+      "plannable_share_one_day": 0.55,
+      "plannable_share_two_day": 0.6672,
+      "mean_extra_legs_planned": 147.1,
+      "baseline_overnights": 109.3,
+      "mean_duty_columns": 17546.0
+    }
+  },
+  "test": {
+    "test_summer": {
+      "blocks": 31,
+      "crews": {
+        "baseline": 172.32,
+        "baseline_ci": [
+          168.61,
+          175.58
+        ],
+        "soft": 186.16,
+        "diff": 13.84,
+        "diff_ci": [
+          12.77,
+          14.65
+        ]
+      },
+      "duties": {
+        "baseline": 284.32,
+        "baseline_ci": [
+          280.97,
+          287.42
+        ],
+        "soft": 298.16,
+        "diff": 13.84,
+        "diff_ci": [
+          12.77,
+          14.65
+        ]
+      },
+      "overnights": {
+        "baseline": 112.0,
+        "baseline_ci": [
+          110.68,
+          113.39
+        ],
+        "soft": 112.0,
+        "diff": 0.0,
+        "diff_ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "cost": {
+        "baseline": 2973.54,
+        "baseline_ci": [
+          2918.04,
+          3019.66
+        ],
+        "soft": 3029.44,
+        "diff": 55.9,
+        "diff_ci": [
+          51.71,
+          59.13
+        ]
+      },
+      "crew_delay_min": {
+        "baseline": 2199.32,
+        "baseline_ci": [
+          1855.77,
+          2568.27
+        ],
+        "soft": 1507.58,
+        "diff": -691.74,
+        "diff_ci": [
+          -1009.17,
+          -379.61
+        ]
+      },
+      "broken_connections": {
+        "baseline": 113.26,
+        "baseline_ci": [
+          100.84,
+          126.0
+        ],
+        "soft": 81.84,
+        "diff": -31.42,
+        "diff_ci": [
+          -35.39,
+          -27.48
+        ]
+      },
+      "rest_breaks": {
+        "baseline": 11.29,
+        "baseline_ci": [
+          9.58,
+          13.1
+        ],
+        "soft": 11.45,
+        "diff": 0.16,
+        "diff_ci": [
+          -0.26,
+          0.61
+        ]
+      },
+      "crew_replacements": {
+        "baseline": 41.39,
+        "baseline_ci": [
+          36.58,
+          46.52
+        ],
+        "soft": 34.06,
+        "diff": -7.32,
+        "diff_ci": [
+          -9.23,
+          -5.45
+        ]
+      },
+      "duty_violations": {
+        "baseline": 8.32,
+        "baseline_ci": [
+          6.65,
+          10.19
+        ],
+        "soft": 7.35,
+        "diff": -0.97,
+        "diff_ci": [
+          -1.97,
+          0.03
+        ]
+      }
+    },
+    "test_winter": {
+      "blocks": 30,
+      "crews": {
+        "baseline": 172.13,
+        "baseline_ci": [
+          165.5,
+          179.0
+        ],
+        "soft": 180.5,
+        "diff": 8.37,
+        "diff_ci": [
+          7.33,
+          9.3
+        ]
+      },
+      "duties": {
+        "baseline": 281.4,
+        "baseline_ci": [
+          274.6,
+          288.33
+        ],
+        "soft": 289.77,
+        "diff": 8.37,
+        "diff_ci": [
+          7.33,
+          9.3
+        ]
+      },
+      "overnights": {
+        "baseline": 109.27,
+        "baseline_ci": [
+          106.97,
+          111.6
+        ],
+        "soft": 109.27,
+        "diff": 0.0,
+        "diff_ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "cost": {
+        "baseline": 2937.04,
+        "baseline_ci": [
+          2851.22,
+          3020.79
+        ],
+        "soft": 2970.93,
+        "diff": 33.89,
+        "diff_ci": [
+          29.85,
+          37.45
+        ]
+      },
+      "crew_delay_min": {
+        "baseline": 1251.53,
+        "baseline_ci": [
+          960.12,
+          1591.87
+        ],
+        "soft": 658.97,
+        "diff": -592.57,
+        "diff_ci": [
+          -783.97,
+          -419.37
+        ]
+      },
+      "broken_connections": {
+        "baseline": 70.03,
+        "baseline_ci": [
+          60.73,
+          81.63
+        ],
+        "soft": 43.13,
+        "diff": -26.9,
+        "diff_ci": [
+          -31.73,
+          -22.67
+        ]
+      },
+      "rest_breaks": {
+        "baseline": 5.43,
+        "baseline_ci": [
+          4.03,
+          7.17
+        ],
+        "soft": 5.5,
+        "diff": 0.07,
+        "diff_ci": [
+          -0.47,
+          0.6
+        ]
+      },
+      "crew_replacements": {
+        "baseline": 16.37,
+        "baseline_ci": [
+          13.5,
+          19.7
+        ],
+        "soft": 15.27,
+        "diff": -1.1,
+        "diff_ci": [
+          -2.67,
+          0.37
+        ]
+      },
+      "duty_violations": {
+        "baseline": 4.8,
+        "baseline_ci": [
+          3.47,
+          6.37
+        ],
+        "soft": 4.93,
+        "diff": 0.13,
+        "diff_ci": [
+          -0.67,
+          0.93
+        ]
+      }
+    }
+  }
+}

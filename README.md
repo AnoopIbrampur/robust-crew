@@ -97,6 +97,50 @@ Days: 10; hard feasible on 2 (20%).
 
 **Reading the results.** All numbers above are generated; this paragraph only says how to read them. Robust planning on its own cuts broken connections and crew-caused delay; the λ chosen on calibration days buys this with a few more crews, within the +2% pay-hour cap set before testing. Day-of repair (swapping crews and calling reserves) is the bigger lever: it removes most crew-caused delay whatever the plan. Whether robust planning still adds to repair is answered by the paired table at the end of the details: it keeps cutting broken connections, and a smaller amount of delay on top of what repair removes. A crew that would run past its duty limit is replaced rather than waited for, so those replacements are counted as their own row; the robust plan does not reduce them and in winter has slightly more, a cost the delay totals do not show. The hard-constraint planner does not work well here, and the operations-feature machinery (morning model and re-solve) adds little (see limitations).
 
+## Two-day pairings (Phase 9)
+
+One-day pairings must leave and return to CLT on the same duty day, so evening departures to a spoke and early-morning arrivals from one can never be planned. `multiday.py` lets a crew fly out to a spoke, rest there (Part 117's 10 hours, i.e. at least 11.5 h from block-in to block-out with report and release), and fly back the next day. Days are planned in non-overlapping two-day blocks so every planner still covers exactly the same flights; pairings do not cross a block boundary.
+
+Joining every outbound duty with every compatible return gives 1-4 million pairings per block, too many to solve. Cost and risk are sums over duties, so the solver picks duties instead (about 20-40 thousand per block) and per-spoke counting constraints guarantee the chosen outbound and return duties can be paired with legal rest; a first-in-first-out matching then rebuilds the pairings (tested, as is the duty enumeration against brute force). Each overnight costs 3 pay hours (hotel and per diem, a convention). Connections that only multi-day duties use are scored by the same trained planning model, without refitting. The planner ignores the risk of a rest being cut short; the replay enforces the rest and counts it. Day-of repair is not modelled for two-day pairings, so these are no-repair replays.
+
+<!-- MULTIDAY:START -->
+Blocks of 2 days; λ chosen on calibration blocks: **2** (largest CALIB delay reduction with cost <= +2%). 453 of 455 soft-robust solves are proven optimal; the cheapest plan's cost-tie plateau usually is not, so it comes from CP-SAT's deterministic search: its cost is on average 14 and at most 156 minutes of pay credit above the solver's proven lower bound per block (508 of 546 solves proven optimal overall). Crews and duties count pairings and crew-days; overnights are identical across planners because the plannable set fixes which flights need one.
+
+| Window | Blocks | Plannable flights, one-day | Plannable flights, two-day | Extra flights planned per block | Overnights per block (baseline) |
+|---|---|---|---|---|---|
+| calib | 30 | 56.9% | 67.2% | 135 | 110 |
+| test summer | 31 | 56.9% | 67.1% | 135 | 112 |
+| test winter | 30 | 55.0% | 66.7% | 147 | 109 |
+
+**test summer**, per 2-day block, cheapest vs soft-robust (paired Δ, 95% bootstrap over blocks):
+
+| Metric | Cheapest | Soft robust | Δ |
+|---|---|---|---|
+| Crews (pairings) | 172.3 | 186.2 | +13.8 [+12.8, +14.7] |
+| Crew duties | 284.3 | 298.2 | +13.8 [+12.8, +14.7] |
+| Overnights | 112.0 | 112.0 | +0.0 [+0.0, +0.0] |
+| Cost (pay hours) | 2973.5 | 3029.4 | +55.9 [+51.7, +59.1] |
+| Crew-caused delay (min) | 2199.3 | 1507.6 | -691.7 [-1009.2, -379.6] |
+| Broken crew connections | 113.3 | 81.8 | -31.4 [-35.4, -27.5] |
+| Rest cut short | 11.3 | 11.4 | +0.2 [-0.3, +0.6] |
+| Crews replaced at duty limit | 41.4 | 34.1 | -7.3 [-9.2, -5.5] |
+| Duty overruns in the air | 8.3 | 7.3 | -1.0 [-2.0, +0.0] |
+
+**test winter**, per 2-day block, cheapest vs soft-robust (paired Δ, 95% bootstrap over blocks):
+
+| Metric | Cheapest | Soft robust | Δ |
+|---|---|---|---|
+| Crews (pairings) | 172.1 | 180.5 | +8.4 [+7.3, +9.3] |
+| Crew duties | 281.4 | 289.8 | +8.4 [+7.3, +9.3] |
+| Overnights | 109.3 | 109.3 | +0.0 [+0.0, +0.0] |
+| Cost (pay hours) | 2937.0 | 2970.9 | +33.9 [+29.9, +37.5] |
+| Crew-caused delay (min) | 1251.5 | 659.0 | -592.6 [-784.0, -419.4] |
+| Broken crew connections | 70.0 | 43.1 | -26.9 [-31.7, -22.7] |
+| Rest cut short | 5.4 | 5.5 | +0.1 [-0.5, +0.6] |
+| Crews replaced at duty limit | 16.4 | 15.3 | -1.1 [-2.7, +0.4] |
+| Duty overruns in the air | 4.8 | 4.9 | +0.1 [-0.7, +0.9] |
+<!-- MULTIDAY:END -->
+
 ## Approach
 
 ```mermaid
@@ -160,7 +204,7 @@ The original plan had one Nov-Dec 2023 test window. Phase 1 showed it was unusua
 ## Limitations (honest list)
 
 - **Synthetic crews, simplified rules.** No rest, cumulative or contractual rules; no deadheads; reserves are idealised airport standby at the hub. In the replay a crew that would pass its Table B duty limit is replaced (counted), never extended; replacements are assumed available.
-- **One-day pairings only.** Evening departures and early-morning arrivals at CLT need an overnight at the outstation, so a large share of CLT flights cannot be planned at all (per-day shares and reasons in `reports/phase3_pairings.json`). Each day's plannable set is the largest set that can be covered exactly once, and every planner covers that same set.
+- **One-day pairings in the main results; two-day pairings in Phase 9 only.** The headline experiments use one-day pairings, so evening departures and early-morning arrivals at CLT cannot be planned (per-day shares in `reports/phase3_pairings.json`). Phase 9 adds two-day pairings with an outstation overnight, in non-overlapping two-day blocks: flights at block edges are still unplannable, there is no day-of repair for them, pairings are at most two days, and the rest rule is Part 117's 10 hours only.
 - **Actual, not planned, aircraft.** BTS `Tail_Number` is the aircraft that flew, including day-of swaps. Most of the break model's lift over simple baselines comes from aircraft-rotation features, so it leans on actual tails ≈ planned tails (`python -m robust_crew.ablation_tail` reports the model without them).
 - **Probabilities drift with the season.** Calibrated on May-June, the model under-predicts breaks in the stormy summer and over-predicts in the calm winter; ranking holds up.
 - **The hard-robust planner mostly fails.** Forbidding risky connections outright leaves no exact cover on most days, even after exempting legs that have no low-risk option; it is evaluated only on its feasible days, where it gains little. Soft penalties are the better tool here.

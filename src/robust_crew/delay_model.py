@@ -126,8 +126,8 @@ def build_route_stats(con: duckdb.DuckDBPyConnection) -> None:
 
 # --- Features ------------------------------------------------------------------------
 
-def load_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
-    """One row per labelled connection with planning + operations features and split."""
+def load_features(con: duckdb.DuckDBPyConnection, table: str = "connections") -> pd.DataFrame:
+    """One row per labelled connection in ``table`` with planning + operations features and split."""
     gt_tot = ", ".join(f"sum(n_gt{t}) AS t_gt{t}" for t in EXCEED_THRESHOLDS)
     gt_oof = ", ".join(
         f"""CASE WHEN c.split = 'train'
@@ -148,7 +148,7 @@ def load_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
              fi.origin_tz, fi.dest_tz, fj.sched_dep_utc AS j_dep_utc,
              (fi.Cancelled OR fi.Diverted OR fj.Cancelled) AS excluded,
              timezone('America/New_York', c.FlightDate + TIME '{OPS_CUTOFF_LOCAL}') AS cutoff_utc
-      FROM connections c
+      FROM {table} c
       JOIN flights fi ON fi.flight_id = c.i_id
       JOIN flights fj ON fj.flight_id = c.j_id
     ),
@@ -166,7 +166,7 @@ def load_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
              avg(f.DepDelay) FILTER (WHERE f.Reporting_Airline = '{config.CARRIER}') AS aa_dep_delay_sofar
       FROM (SELECT DISTINCT FlightDate,
                    timezone('America/New_York', FlightDate + TIME '{OPS_CUTOFF_LOCAL}') AS cutoff_utc
-            FROM connections) d
+            FROM {table}) d
       JOIN flights f ON f.FlightDate = d.FlightDate AND f.actual_dep_utc < d.cutoff_utc
       GROUP BY d.FlightDate
     ),

@@ -10,7 +10,8 @@ from __future__ import annotations
 import logging
 
 from robust_crew import (
-    ablation_tail, delay_model, experiments, ingest, network, optimize, pairings, quality, repair, simulate, tiebreak,
+    ablation_tail, delay_model, demo_extract, experiments, ingest, multiday, network, optimize, pairings, quality,
+    repair, simulate, tiebreak,
 )
 
 
@@ -36,6 +37,8 @@ def main() -> None:
     repair.main()  # Phase 7
     tiebreak.main()  # baseline tie-break sensitivity
     experiments.main()  # Phase 8: figures, tables, README results block
+    multiday.main()  # Phase 9: two-day pairings, README multi-day block
+    demo_extract.main()  # small database the hosted explorer runs on
 
 
 if __name__ == "__main__":

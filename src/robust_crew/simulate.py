@@ -88,12 +88,17 @@ class SimFlight:
     turn_min: float = MIN_TURN_MIN
 
 
-def load_day_flights(con: duckdb.DuckDBPyConnection, day: date) -> list[SimFlight]:
-    """All of the carrier's flights that day, sorted by scheduled departure."""
+def load_day_flights(con: duckdb.DuckDBPyConnection, day: date, n_days: int = 1) -> list[SimFlight]:
+    """All of the carrier's flights on ``day`` (and the next ``n_days - 1`` days), by scheduled departure.
+
+    A tail's previous leg inside the loaded days is linked (simulated arrival);
+    one before them uses its actual arrival.
+    """
+    end = day + timedelta(days=n_days - 1)
     rows = con.execute(
         """
         WITH day AS (
-          SELECT * FROM flights WHERE Reporting_Airline = ? AND FlightDate = ?
+          SELECT * FROM flights WHERE Reporting_Airline = ? AND FlightDate BETWEEN ? AND ?
         ),
         tailprev AS (  -- previous non-cancelled leg of the tail by schedule, any date
           SELECT f.flight_id, f.Tail_Number,
@@ -101,7 +106,7 @@ def load_day_flights(con: duckdb.DuckDBPyConnection, day: date) -> list[SimFligh
                  lag(f.FlightDate) OVER w AS prev_date, lag(f.actual_arr_utc) OVER w AS prev_actual_arr,
                  lag(f.sched_arr_utc) OVER w AS prev_sched_arr
           FROM flights f
-          WHERE f.Reporting_Airline = ? AND f.FlightDate BETWEEN ? - 1 AND ?
+          WHERE f.Reporting_Airline = ? AND f.FlightDate BETWEEN CAST(? AS DATE) - 1 AND ?
             AND f.Tail_Number IS NOT NULL AND NOT f.Cancelled
           WINDOW w AS (PARTITION BY f.Tail_Number ORDER BY f.sched_dep_utc, f.flight_id)
         )
@@ -116,11 +121,11 @@ def load_day_flights(con: duckdb.DuckDBPyConnection, day: date) -> list[SimFligh
         FROM day d LEFT JOIN tailprev tp ON tp.flight_id = d.flight_id
         ORDER BY d.sched_dep_utc, d.flight_id
         """,
-        [config.CARRIER, day, config.CARRIER, day, day],
+        [config.CARRIER, day, end, config.CARRIER, day, end],
     ).fetchall()
     out = []
     for (fid, o, de, tail, sdep, sarr, own, block, done, prev_id, prev_date, prev_arr, turn) in rows:
-        same_day = prev_id is not None and prev_date == day
+        same_day = prev_id is not None and day <= prev_date <= end
         out.append(SimFlight(
             fid, o, de, tail, sdep, sarr, float(own), float(block), bool(done),
             prev_id=prev_id if same_day else None,
@@ -141,6 +146,8 @@ class ReplayResult:
     duty_violations: int
     legs_orphaned: int
     crew_replacements: int = 0
+    rest_breaks: int = 0  # multi-day: a late arrival cut into the next duty's rest
+    rest_delay_min: float = 0.0  # multi-day: delay at the first leg after a rest, waiting on it
 
 
 def sched_block_min(f: SimFlight) -> float:
@@ -158,8 +165,17 @@ def replay(
     flights: list[SimFlight],
     pairings: list[list[str]] | None,
     rules: CrewRules = DEFAULT_RULES,
+    duty_of: dict[str, int] | None = None,
 ) -> ReplayResult:
-    """Replay one day. ``pairings`` lists each crew's flight ids in order (None: no crews)."""
+    """Replay one day (or block). ``pairings`` lists each crew's flight ids in order (None: no crews).
+
+    ``duty_of`` maps a flight to its duty number within a multi-day pairing
+    (omitted: every pairing is a single duty). Between duties the crew rests:
+    it is ready ``rules.min_layover_min`` after its last arrival, its next duty
+    is measured from its actual report, and a late inbound eating into the
+    rest counts as a rest break (``rest_breaks``), not a broken connection.
+    """
+    duty_of = duty_of or {}
     by_id = {f.flight_id: f for f in flights}
     crew_prev: dict[str, str] = {}  # flight -> previous completed leg of the same crew
     orphaned = 0
@@ -173,9 +189,10 @@ def replay(
                     orphaned += 1
 
     m = timedelta(minutes=1)
+    rest_link = {b: duty_of.get(b, 0) != duty_of.get(a, 0) for b, a in crew_prev.items()}
     crew_of = {fid: c for c, p in enumerate(pairings or []) for fid in p if by_id[fid].completed}
-    report = [rules.report_time(by_id[p[0]].sched_dep) for p in (pairings or [])]
-    flown: list[list[str]] = [[] for _ in (pairings or [])]  # legs flown by each rostered crew
+    # Duties actually flown by each rostered crew: (report time, legs).
+    duties: list[list[tuple[datetime, list[str]]]] = [[] for _ in (pairings or [])]
     replaced: set[int] = set()
 
     sim_dep: dict[str, datetime] = {}
@@ -195,19 +212,29 @@ def replay(
             crew_ready = None
             if f.flight_id in crew_prev:
                 a = by_id[crew_prev[f.flight_id]]
-                need = rules.min_connect_min(a.tail is not None and a.tail == f.tail)
+                need = (rules.min_layover_min if rest_link[f.flight_id]
+                        else rules.min_connect_min(a.tail is not None and a.tail == f.tail))
                 crew_ready = sim_arr[a.flight_id] + need * m
-            if flown[c] and must_replace(rules, report[c], len(flown[c]), max(dep, crew_ready or dep), f):
-                replaced.add(c)  # the rest of this crew's day goes to replacement crews
+            new_duty = not duties[c] or duty_of.get(f.flight_id, 0) != duty_of.get(duties[c][-1][1][-1], 0)
+            if new_duty:
+                # First duty: report for the pairing's first planned leg (even if it was cancelled).
+                rep = rules.report_time(by_id[pairings[c][0]].sched_dep if not duties[c] else f.sched_dep)
+                if duties[c]:  # after a rest: report no earlier than rest allows
+                    last = duties[c][-1][1][-1]
+                    rep = max(rep, sim_arr[last] + (rules.release_buffer_min + rules.min_rest_min) * m)
+                duties[c].append((rep, []))
+            rep, legs = duties[c][-1]
+            if legs and must_replace(rules, rep, len(legs), max(dep, crew_ready or dep), f):
+                replaced.add(c)  # the rest of this crew's pairing goes to replacement crews
             else:
-                flown[c].append(f.flight_id)
+                legs.append(f.flight_id)
                 if crew_ready is not None and crew_ready > dep:
                     crew_delay[f.flight_id] = (crew_ready - dep).total_seconds() / 60
                     dep = crew_ready
         sim_dep[f.flight_id] = dep
         sim_arr[f.flight_id] = dep + f.actual_block * m
 
-    broken = duty = 0
+    broken = duty = rest_breaks = 0
     if pairings:
         for p in pairings:
             done = [fid for fid in p if by_id[fid].completed]
@@ -215,15 +242,21 @@ def replay(
                 if crew_prev.get(b) != a:
                     continue
                 fa, fb = by_id[a], by_id[b]
+                if rest_link[b]:
+                    rest_breaks += sim_arr[a] + rules.min_layover_min * m > fb.sched_dep
+                    continue
                 need = rules.min_connect_min(fa.tail is not None and fa.tail == fb.tail)
                 if sim_arr[a] + need * m > fb.sched_dep:
                     broken += 1
-        for c, legs in enumerate(flown):
-            if legs:
-                fdp = (sim_arr[legs[-1]] - report[c]).total_seconds() / 60
-                if fdp > rules.max_fdp_min(report[c], len(legs)):
-                    duty += 1
-    return ReplayResult(sim_dep, sim_arr, crew_delay, broken, duty, orphaned, len(replaced))
+        for crew_duties in duties:
+            for rep, legs in crew_duties:
+                if legs:
+                    fdp = (sim_arr[legs[-1]] - rep).total_seconds() / 60
+                    if fdp > rules.max_fdp_min(rep, len(legs)):
+                        duty += 1
+    rest_delay = sum(v for fid, v in crew_delay.items() if rest_link.get(fid))
+    return ReplayResult(sim_dep, sim_arr, crew_delay, broken, duty, orphaned, len(replaced),
+                        rest_breaks, round(rest_delay, 1))
 
 
 def crew_caused_delay(with_crew: ReplayResult, without: ReplayResult) -> float:
