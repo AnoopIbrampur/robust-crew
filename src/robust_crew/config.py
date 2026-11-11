@@ -81,6 +81,7 @@ RAW_DIR = DATA_DIR / "raw"
 BTS_RAW_DIR = RAW_DIR / "bts"
 WEATHER_RAW_DIR = RAW_DIR / "weather"
 DB_PATH = DATA_DIR / "robust_crew.duckdb"
+DEMO_DB_PATH = ROOT / "app" / "demo.duckdb"  # small committed extract the hosted explorer runs on
 REPORTS_DIR = ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
 

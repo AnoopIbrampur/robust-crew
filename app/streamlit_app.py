@@ -5,15 +5,22 @@ type, space and hairlines rather than boxes; colour is reserved for disruption a
 colour has a text label beside it. Light and dark follow the system setting
 (.streamlit/config.toml).
 
-Run from the repository root after the pipeline has built data/robust_crew.duckdb:
+Run from the repository root:
 
     uv sync --extra app
     uv run streamlit run app/streamlit_app.py
+
+It uses the full pipeline database (data/robust_crew.duckdb) when present, otherwise the
+small committed extract app/demo.duckdb (built by ``python -m robust_crew.demo_extract``),
+which is what the hosted copy runs on.
 """
 
 from __future__ import annotations
 
 import json
+import os
+import sys
+from pathlib import Path
 from datetime import date, datetime
 from html import escape
 from zoneinfo import ZoneInfo
@@ -23,10 +30,15 @@ import duckdb
 import pandas as pd
 import streamlit as st
 
-from robust_crew import config
+try:
+    from robust_crew import config
+except ModuleNotFoundError:  # hosted without the package installed: use the source tree
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+    from robust_crew import config
 from robust_crew.repair import replay_with_repair
 from robust_crew.simulate import crew_caused_delay, load_day_flights, replay
 
+DB = Path(os.environ.get("CREW_EXPLORER_DB") or (config.DB_PATH if config.DB_PATH.exists() else config.DEMO_DB_PATH))
 ET = ZoneInfo("America/New_York")
 REPO = "https://github.com/AnoopIbrampur/robust-crew"
 SANS = "Public Sans, system-ui, -apple-system, Segoe UI, sans-serif"
@@ -158,7 +170,7 @@ table.rules { border-collapse: collapse; width: 100%; font-size: var(--t-sm); li
 
 @st.cache_resource
 def db() -> duckdb.DuckDBPyConnection:
-    con = duckdb.connect(str(config.DB_PATH), read_only=True)
+    con = duckdb.connect(str(DB), read_only=True)
     con.execute("SET TimeZone = 'UTC'")
     return con
 
@@ -355,7 +367,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-if not config.DB_PATH.exists():
+if not DB.exists():
     st.error("No database found. Run `uv run python -m robust_crew.pipeline` first.")
     st.stop()
 

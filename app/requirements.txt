@@ -1,0 +1,16 @@
+# Streamlit Community Cloud installs from this file (entrypoint directory first).
+# The app imports the robust_crew package from ../src, so its runtime deps are listed here.
+streamlit>=1.40
+altair>=5
+duckdb>=2.0  # demo.duckdb is written in the 2.0 storage format
+pandas>=2.2
+numpy>=1.26
+polars>=1.0
+pyarrow>=15
+requests>=2.31
+airportsdata>=20240316
+pytz>=2024.1
+ortools>=9.10
+lightgbm>=4.3
+scikit-learn>=1.4
+matplotlib>=3.8

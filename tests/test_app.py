@@ -25,3 +25,17 @@ def test_app_runs_in_both_seasons_with_and_without_repair():
     at.session_state["view"] = "Cheapest plan"
     at.run()
     assert not at.exception
+
+
+@pytest.mark.skipif(not config.DEMO_DB_PATH.exists(), reason="no demo extract")
+def test_app_runs_on_the_committed_demo_extract(monkeypatch):
+    from streamlit.testing.v1 import AppTest
+
+    monkeypatch.setenv("CREW_EXPLORER_DB", str(config.DEMO_DB_PATH))
+    at = AppTest.from_file(str(config.ROOT / "app" / "streamlit_app.py"), default_timeout=180).run()
+    assert not at.exception
+    assert "broken crew connections" in " ".join(m.value for m in at.markdown)
+    at.session_state["mode"] = "With day-of repair"
+    at.session_state["season"] = "Winter"
+    at.run()
+    assert not at.exception

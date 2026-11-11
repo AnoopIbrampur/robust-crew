@@ -141,7 +141,9 @@ uv sync --extra app
 uv run streamlit run app/streamlit_app.py
 ```
 
-Styled after [DrugSupply Watch](https://anoopibrampur.github.io/drugsupply-watch/) (Newsreader and Public Sans, paper-and-ink palette, light and dark). Pick a season, a day (worst first) and whether day-of repair runs; the robustness weight λ sits under Settings. The app replays that day live, compares the robust plan with the cheapest plan in a row of key numbers and a short plain-language summary, and shows each crew's day as a timeline: grey is the schedule, colour the replay, by crew-caused delay including knock-on through the aircraft. A list shows every flight that waited for a late crew. Run it from the repository root so `.streamlit/config.toml` (theme and fonts) applies; it needs the local database built by the pipeline.
+Styled after [DrugSupply Watch](https://anoopibrampur.github.io/drugsupply-watch/) (Newsreader and Public Sans, paper-and-ink palette, light and dark). Pick a season, a day (worst first) and whether day-of repair runs; the robustness weight λ sits under Settings. The app replays that day live, compares the robust plan with the cheapest plan in a row of key numbers and a short plain-language summary, and shows each crew's day as a timeline: grey is the schedule, colour the replay, by crew-caused delay including knock-on through the aircraft. A list shows every flight that waited for a late crew. Run it from the repository root so `.streamlit/config.toml` (theme and fonts) applies. It uses the full pipeline database when present, otherwise `app/demo.duckdb`, a 14 MB committed extract of the test days (built by `python -m robust_crew.demo_extract`), so it runs straight after cloning.
+
+**Hosting it on Streamlit Community Cloud** (free): at [share.streamlit.io](https://share.streamlit.io) choose *Create app*, point it at this repository, branch `main`, main file `app/streamlit_app.py`, and pick Python 3.11 under advanced settings. It installs `app/requirements.txt` and runs on the extract.
 
 ## Evaluation design
 
